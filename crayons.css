@@ -28,3 +28,9 @@ body {
     min-width: 280px;
     width: 37vw;    
 }
+
+@media only screen and (max-width: 600px) {
+    body {
+        background: green;
+    }
+}
