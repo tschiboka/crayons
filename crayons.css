@@ -1,4 +1,11 @@
+:root {
+    --backgroundColor: #c8c8ff;
+    --grey: #282c34;
+    --sheet-white: #eee;
+}
+
 body {
+    background: var(--backgroundColor);
     height: 100%;
     padding: 0;
     width: 100%;
@@ -7,26 +14,32 @@ body {
 #container {
     border: 1px outset black;
     border-radius: 5px;
-    background: #282c34;
+    box-shadow: 5px 5px 4px rgba(0 ,0 ,0 ,0.9);
+    background: var(--grey);
     display: block;
-    height: 55vh;    
+    height: 260px;    
     margin: auto;
-    margin-top: 5%;
-    min-height: 200px;
-    min-width: 300px;
-    width: 40vw;    
+    margin-top: 5%;    
+    position: relative;
+    width: 500px;    
 }
 
 #sheet {
     border: 1px inset black;    
-    background: #eee;
-    display: block;
-    height: 52vh;    
-    margin: auto;    
-    margin-top: 1.5vh;
-    min-height: 190px;
-    min-width: 280px;
-    width: 37vw;    
+    background: var(--sheet-white);    
+    height: 240px;    
+    margin-left: 20px;    
+    margin-top: 9px;  
+    width: 400px;    
+}
+
+.pencil {
+    border: 1px solid black;
+    height: 25px;
+    left: -40px;
+    top: 5px;
+    position: absolute;
+    width: 80px;
 }
 
 @media only screen and (max-width: 600px) {
