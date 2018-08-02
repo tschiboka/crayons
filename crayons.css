@@ -5,7 +5,8 @@ body {
 }
 
 #container {
-    border: 1px solid black;
+    border: 1px outset black;
+    border-radius: 5px;
     background: #282c34;
     display: block;
     height: 55vh;    
@@ -14,4 +15,16 @@ body {
     min-height: 200px;
     min-width: 300px;
     width: 40vw;    
+}
+
+#sheet {
+    border: 1px inset black;    
+    background: #eee;
+    display: block;
+    height: 52vh;    
+    margin: auto;    
+    margin-top: 1.5vh;
+    min-height: 190px;
+    min-width: 280px;
+    width: 37vw;    
 }
