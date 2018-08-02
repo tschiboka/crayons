@@ -8,8 +8,10 @@ body {
     border: 1px solid black;
     background: #282c34;
     display: block;
-    height: 300px;    
+    height: 55vh;    
     margin: auto;
     margin-top: 5%;
-    width: 400px;    
+    min-height: 200px;
+    min-width: 300px;
+    width: 40vw;    
 }
