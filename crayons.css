@@ -33,13 +33,72 @@ body {
     width: 400px;    
 }
 
-.pencil {
-    border: 1px solid black;
+.pencil {    
+    background: red;
     height: 25px;
-    left: -40px;
-    top: 5px;
+    left: -60px;
     position: absolute;
-    width: 80px;
+    top: 5px;
+    width: 100px;
+}
+
+.pencil-shaft {    
+    background: yellow;   
+    height: 100%;
+    right: 0;    
+    position: absolute;    
+    width: 75px;
+}
+
+.pencil-side-top {
+    background: green;   
+    border-bottom-left-radius: 50px;
+    height: 30%;
+    right: 0;    
+    position: absolute;   
+    width: 100%;    
+}
+
+.pencil-side-middle {
+    background: green;   
+    border-radius: 5px 0 0 5px;
+    height: 40%;
+    top: 30%;    
+    right: 0;    
+    position: absolute;     
+    width: 100%;       
+}
+
+.pencil-side-bottom {
+    background: green;
+    border-top-left-radius: 50px;
+    bottom: 0;
+    height: 30%;
+    right: 0;    
+    position: absolute; 
+    width: 100%;           
+}
+
+.pencil-bright-side {    
+    background: white;   
+    border-bottom-left-radius: 50px;
+    height: 30%;
+    opacity: 0.2;
+    right: 0;
+    top: 0;   
+    position: absolute;   
+    width: 100%;      
+}
+
+.pencil-dark-side {    
+    background: black;   
+    border-top-left-radius: 50px;
+    bottom: 0;
+    height: 30%;
+    opacity: 0.2;
+    right: 0;    
+    position: absolute;   
+    width: 100%;      
 }
 
 @media only screen and (max-width: 600px) {
