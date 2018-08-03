@@ -4,6 +4,7 @@
     --sheet-white: #eee;
     --pencil-tip-color: #b1a79e;
     --pencil-tip-reflection: rgba(250,250,250,0.5);
+    --icon-color: #1a97e1;
 }
 
 body {
@@ -242,6 +243,48 @@ body {
     position: absolute;
     top: 10px;
     width: 40px;
+}
+
+
+#palette-icon {    
+    border: 2px solid var(--icon-color);
+    border-radius: 3px;
+    left: -50px;
+    height: 26px;
+    position: absolute;
+    top: 41px;
+    width: 38px;
+}
+
+#palette-icon-line {    
+    border: 1px solid var(--icon-color);
+    border-radius: 1px;
+    left: 3px;
+    height: 0px;
+    position: absolute;
+    top: 47%;
+    width: 30px;
+}
+
+.palette-icon-circle {
+    border: 2px solid var(--icon-color);
+    background: var(--icon-color);
+    border-radius: 50%;    
+    height: 3px;
+    position: absolute;
+    top: 4px;
+    width: 3px;
+}
+
+#palette-icon-circle1 { left: 4px; top: 2px; }
+#palette-icon-circle2 { left: 16px; top: 2px; }
+#palette-icon-circle3 { left: 28px; top: 2px; }
+#palette-icon-circle4 { left: 4px; top: 17px; }
+#palette-icon-circle5 { left: 16px; top: 17px; }
+#palette-icon-circle6 { left: 28px; top: 17px; }
+
+#palette-icon:hover {
+    background: white;
 }
 
 @media only screen and (max-width: 600px) {
