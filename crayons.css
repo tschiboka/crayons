@@ -3,7 +3,7 @@
     --grey: #282c34;
     --sheet-white: #eee;
     --pencil-tip-color: #b1a79e;
-    --pencil-tip-reflection: rgba(250,250,250,0.7);
+    --pencil-tip-reflection: rgba(250,250,250,0.5);
 }
 
 body {
@@ -38,8 +38,7 @@ body {
 .pencil {            
     height: 20px;
     left: -60px;
-    position: absolute;
-    top: 10px;
+    position: absolute;    
     width: 100px;
     z-index: -1;
 }
@@ -77,12 +76,11 @@ body {
     width: 100%;           
 }
 
-.pencil-color-green { background: green; }
 .pencil-bright-side {    
     background: white;   
     border-bottom-left-radius: 50px;
     height: 30%;
-    opacity: 0.2;
+    opacity: 0.4;
     right: 0;
     top: 0;   
     position: absolute;   
@@ -94,7 +92,7 @@ body {
     border-top-left-radius: 50px;
     bottom: 0;
     height: 30%;
-    opacity: 0.2;
+    opacity: 0.4;
     right: 0;    
     position: absolute;   
     width: 100%;      
@@ -109,8 +107,7 @@ body {
     width: 33%;
 }
 
-.pencil-lead {
-    background: green;
+.pencil-lead {    
     clip-path: polygon(0% 50%, 65% 0%, 100% 0%, 100% 100%, 65% 100%);
     border-radius: 50%;
     height: 33%;
@@ -142,6 +139,39 @@ body {
     width: 25%;
 
 }
+
+.pencil-color-red { background: red; }
+#pencil-red { top: 10px; }
+
+.pencil-color-pink {background: pink; }
+#pencil-pink { top: 32px; }
+
+.pencil-color-orange {background: orange; }
+#pencil-orange { top: 54px; }
+
+.pencil-color-yellow {background: yellow; }
+#pencil-yellow { top: 76px; }
+
+.pencil-color-purple {background:purple; }
+#pencil-purple { top: 98px; }
+
+.pencil-color-green {background:green; }
+#pencil-green { top: 120px; }
+
+.pencil-color-blue {background:blue; }
+#pencil-blue { top: 142px; }
+
+.pencil-color-brown {background:brown; }
+#pencil-brown { top: 164px; }
+
+.pencil-color-white {background:white; }
+#pencil-white { top: 186px; }
+
+.pencil-color-gray {background:gray; }
+#pencil-gray { top: 208px; }
+
+.pencil-color-black {background:black; }
+#pencil-black { top: 230px; }
 
 @media only screen and (max-width: 600px) {
     body {
