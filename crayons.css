@@ -16,7 +16,7 @@ body {
 #container {    
     display: block;
     margin: auto;
-    margin-top: 5%;    
+    margin-top: 5%;     
 }
 
 #window-box {
@@ -26,18 +26,20 @@ body {
     background: var(--grey);  
     display: block;
     margin: auto;  
-    height: 260px;               
-    position: relative;
+    height: 320px; 
+    left: 60px; 
+    position: absolute;    
+    top: 0;             
     width: 500px;    
 }
 
 #sheet {
     border: 1px inset black;    
     background: var(--sheet-white);    
-    height: 240px;    
-    margin-left: 20px;    
-    margin-top: 9px;  
-    width: 400px;    
+    height: 300px;    
+    margin-left: 10px;    
+    margin-top: 10px;  
+    width: 380px;    
 }
 
 .pencil {            
@@ -106,6 +108,7 @@ body {
 .pencil-tip {
     background: var(--pencil-tip-color);
     clip-path: polygon(0% 50%, 65% 0%, 100% 0%, 100% 100%, 65% 100%);
+    -webkit-clip-path: polygon(0% 50%, 65% 0%, 100% 0%, 100% 100%, 65% 100%);
     height: 100%;
     left: 0;
     position: absolute;
@@ -114,6 +117,7 @@ body {
 
 .pencil-lead {    
     clip-path: polygon(0% 50%, 65% 0%, 100% 0%, 100% 100%, 65% 100%);
+    -webkit-clip-path: polygon(0% 50%, 65% 0%, 100% 0%, 100% 100%, 65% 100%);
     border-radius: 50%;
     height: 33%;
     left: 0;    
@@ -122,8 +126,7 @@ body {
     width: 12%;
 }
 
-.pencil-tip-reflection {
-   /* background: var(--pencil-tip-reflection);*/
+.pencil-tip-reflection {    
     /* IE10+ */ 
     background-image: -ms-linear-gradient(bottom right, rgba(250,250,250,0.1) 40%, var(--pencil-tip-reflection) 100%);    
     /* Mozilla Firefox */ 
@@ -146,40 +149,103 @@ body {
 }
 
 .pencil-color-red { background: red; }
-#pencil-red { top: 10px; }
+#pencil-red { top: 80px; }
 
 .pencil-color-pink {background: pink; }
-#pencil-pink { top: 32px; }
+#pencil-pink { top: 102px; }
 
 .pencil-color-orange {background: orange; }
-#pencil-orange { top: 54px; }
+#pencil-orange { top: 124px; }
 
 .pencil-color-yellow {background: yellow; }
-#pencil-yellow { top: 76px; }
+#pencil-yellow { top: 146px; }
 
 .pencil-color-purple {background:purple; }
-#pencil-purple { top: 98px; }
+#pencil-purple { top: 168px; }
 
 .pencil-color-green {background:green; }
-#pencil-green { top: 120px; }
+#pencil-green { top: 190px; }
 
 .pencil-color-blue {background:blue; }
-#pencil-blue { top: 142px; }
+#pencil-blue { top: 212px; }
 
 .pencil-color-brown {background:brown; }
-#pencil-brown { top: 164px; }
+#pencil-brown { top: 234px; }
 
 .pencil-color-white {background:white; }
-#pencil-white { top: 186px; }
+#pencil-white { top: 256px; }
 
 .pencil-color-gray {background:gray; }
-#pencil-gray { top: 208px; }
+#pencil-gray { top: 278px; }
 
 .pencil-color-black {background:black; }
-#pencil-black { top: 230px; }
+#pencil-black { top: 300px; }
+
+.pencil-pseudo {     
+    height: 20px;    
+    left: -38px;
+    width: 38px;
+    position: absolute;    
+}
+
+#red-pencil-pseudo    { top: 80px;  }
+#pink-pencil-pseudo   { top: 102px; }
+#orange-pencil-pseudo { top: 124px; }
+#yellow-pencil-pseudo { top: 146px; }
+#purple-pencil-pseudo { top: 168px; }
+#green-pencil-pseudo  { top: 190px; }
+#blue-pencil-pseudo   { top: 212px; }
+#brown-pencil-pseudo  { top: 234px; }
+#white-pencil-pseudo  { top: 256px; }
+#gray-pencil-pseudo   { top: 278px; }
+#black-pencil-pseudo  { top: 300px; }
+
+@keyframes pencil-move-out {
+    from { left: -60px; }
+    to { left: -90px; }
+}
+
+@-webkit-keyframes pencil-move-out {
+    from { left: -60px; }
+    to { left: -90px; }
+}
+
+@keyframes pencil-move-in {
+    from { left: -90px; }
+    to { left: -60px; }
+}
+
+@-webkit-keyframes pencil-move-in {
+    from { left: -90px; }
+    to { left: -60px; }
+}
+
+#color-info-container {
+    background: var(--grey);  
+    border: 1px outset black;
+    border-radius: 5px;
+    margin-top: 30px;
+    box-shadow: 5px 5px 4px rgba(0 ,0 ,0 ,0.9);
+    display: block;
+    margin: auto;  
+    height: 78px;               
+    position: relative;    
+    width: 560px;   
+    z-index: -2;
+}
+
+#color-display {
+    background: black;
+    border: 1px inset black;
+    left: -50px;
+    height: 20px;
+    position: absolute;
+    top: 10px;
+    width: 40px;
+}
 
 @media only screen and (max-width: 600px) {
     body {
         background: green;
     }
-}0
+}
