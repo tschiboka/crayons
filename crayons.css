@@ -3,6 +3,7 @@
     --grey: #282c34;
     --sheet-white: #eee;
     --pencil-tip-color: #b1a79e;
+    --pencil-tip-reflection: rgba(250,250,250,0.7);
 }
 
 body {
@@ -46,7 +47,7 @@ body {
     height: 100%;
     right: 0;    
     position: absolute;    
-    width: 78px;
+    width: 76px;
 }
 
 .pencil-side-top {
@@ -118,6 +119,29 @@ body {
     position: absolute;
     top: 33%;
     width: 12%;
+}
+
+.pencil-tip-reflection {
+   /* background: var(--pencil-tip-reflection);*/
+    /* IE10+ */ 
+    background-image: -ms-linear-gradient(top left, var(--pencil-tip-reflection)0%, #BFBFBF 100%);    
+    /* Mozilla Firefox */ 
+    background-image: -moz-linear-gradient(top left, red 0%, #BFBFBF 100%);    
+    /* Opera */ 
+    background-image: -o-linear-gradient(top left, var(--pencil-tip-reflection) 0%, #BFBFBF 100%);    
+    /* Webkit (Safari/Chrome 10) */ 
+    background-image: -webkit-gradient(linear, left top, right bottom, color-stop(0, var(--pencil-tip-reflection)), color-stop(100, #BFBFBF));    
+    /* Webkit (Chrome 11+) */ 
+    background-image: -webkit-linear-gradient(top left, var(--pencil-tip-reflection) 0%, #BFBFBF 100%);    
+    /* W3C Markup */ 
+    background-image: linear-gradient(to bottom right, rgba(250,250,250,0.1) 40%, var(--pencil-tip-reflection) 100%);
+    clip-path: polygon(0% 100%, 100% 0%, 100% 100%);    
+    height: 40%;
+    left: 2%;    
+    position: absolute;
+    top: 10%;
+    width: 25%;
+
 }
 
 @media only screen and (max-width: 600px) {
