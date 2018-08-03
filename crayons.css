@@ -13,15 +13,20 @@ body {
     width: 100%;
 }
 
-#container {
+#container {    
+    display: block;
+    margin: auto;
+    margin-top: 5%;    
+}
+
+#window-box {
     border: 1px outset black;
     border-radius: 5px;
     box-shadow: 5px 5px 4px rgba(0 ,0 ,0 ,0.9);
-    background: var(--grey);
+    background: var(--grey);  
     display: block;
-    height: 260px;    
-    margin: auto;
-    margin-top: 5%;    
+    margin: auto;  
+    height: 260px;               
     position: relative;
     width: 500px;    
 }
@@ -37,7 +42,7 @@ body {
 
 .pencil {            
     height: 20px;
-    left: -60px;
+    left: -60px;    
     position: absolute;    
     width: 100px;
     z-index: -1;
