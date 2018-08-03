@@ -2,6 +2,7 @@
     --backgroundColor: #c8c8ff;
     --grey: #282c34;
     --sheet-white: #eee;
+    --pencil-tip-color: #b1a79e;
 }
 
 body {
@@ -33,8 +34,7 @@ body {
     width: 400px;    
 }
 
-.pencil {    
-    background: red;
+.pencil {        
     height: 25px;
     left: -60px;
     position: absolute;
@@ -42,8 +42,7 @@ body {
     width: 100px;
 }
 
-.pencil-shaft {    
-    background: yellow;   
+.pencil-shaft {        
     height: 100%;
     right: 0;    
     position: absolute;    
@@ -99,6 +98,15 @@ body {
     right: 0;    
     position: absolute;   
     width: 100%;      
+}
+
+.pencil-tip {
+    background: var(--pencil-tip-color);
+    clip-path: polygon(0% 50%, 70% 0%, 100% 0%, 100% 100%, 70% 100%);
+    height: 100%;
+    left: 0;
+    position: absolute;
+    width: 33%;
 }
 
 @media only screen and (max-width: 600px) {
