@@ -14,16 +14,18 @@
     </head>
     <body>
         <div id="container">        
-            <div id="color-info-container">
+            <div id="color-info-container"></div>
             <div id="window-box">
-            <div id="sheet"></div>              
+            <div id="sheet">
+                <div><input type="color" name="color-picker" id="color-selector-dialog-box"></div>
+            </div>              
             <div id="pencil-red" title="red" class="pencil">                
                 <div class="pencil-tip"></div>   
                 <div class="pencil-lead pencil-color-red"></div> 
                 <div class="pencil-tip-reflection"></div>     
                 <div class="pencil-shaft">
                     <div class="pencil-side-top pencil-color-red"></div>
-                    <div class="pencil-side-middle pencil-color-red"></div>
+                    <div class="pencil-side-middle pencil-color-red">&nbsp;T</div>
                     <div class="pencil-side-bottom pencil-color-red"></div>
                     <div class="pencil-bright-side"></div>
                     <div class="pencil-dark-side"></div>                                   
@@ -35,7 +37,7 @@
                 <div class="pencil-tip-reflection"></div>     
                 <div class="pencil-shaft">
                     <div class="pencil-side-top pencil-color-pink"></div>
-                    <div class="pencil-side-middle pencil-color-pink"></div>
+                    <div class="pencil-side-middle pencil-color-pink">&nbsp;S</div>
                     <div class="pencil-side-bottom pencil-color-pink"></div>
                     <div class="pencil-bright-side"></div>
                     <div class="pencil-dark-side"></div>                   
@@ -47,7 +49,7 @@
                 <div class="pencil-tip-reflection"></div>     
                 <div class="pencil-shaft">
                     <div class="pencil-side-top pencil-color-orange"></div>
-                    <div class="pencil-side-middle pencil-color-orange"></div>
+                    <div class="pencil-side-middle pencil-color-orange">&nbsp;C</div>
                     <div class="pencil-side-bottom pencil-color-orange"></div>
                     <div class="pencil-bright-side"></div>
                     <div class="pencil-dark-side"></div>                   
@@ -59,7 +61,7 @@
                 <div class="pencil-tip-reflection"></div>     
                 <div class="pencil-shaft">
                     <div class="pencil-side-top pencil-color-yellow"></div>
-                    <div class="pencil-side-middle pencil-color-yellow"></div>
+                    <div class="pencil-side-middle pencil-color-yellow">&nbsp;H</div>
                     <div class="pencil-side-bottom pencil-color-yellow"></div>
                     <div class="pencil-bright-side"></div>
                     <div class="pencil-dark-side"></div>                   
@@ -71,7 +73,7 @@
                 <div class="pencil-tip-reflection"></div>     
                 <div class="pencil-shaft">
                     <div class="pencil-side-top pencil-color-purple"></div>
-                    <div class="pencil-side-middle pencil-color-purple"></div>
+                    <div class="pencil-side-middle pencil-color-purple">&nbsp;I</div>
                     <div class="pencil-side-bottom pencil-color-purple"></div>
                     <div class="pencil-bright-side"></div>
                     <div class="pencil-dark-side"></div>                   
@@ -83,7 +85,7 @@
                 <div class="pencil-tip-reflection"></div>     
                 <div class="pencil-shaft">
                     <div class="pencil-side-top pencil-color-green"></div>
-                    <div class="pencil-side-middle pencil-color-green"></div>
+                    <div class="pencil-side-middle pencil-color-green">&nbsp;B</div>
                     <div class="pencil-side-bottom pencil-color-green"></div>
                     <div class="pencil-bright-side"></div>
                     <div class="pencil-dark-side"></div>                   
@@ -95,7 +97,7 @@
                 <div class="pencil-tip-reflection"></div>     
                 <div class="pencil-shaft">
                     <div class="pencil-side-top pencil-color-blue"></div>
-                    <div class="pencil-side-middle pencil-color-blue"></div>
+                    <div class="pencil-side-middle pencil-color-blue">&nbsp;O</div>
                     <div class="pencil-side-bottom pencil-color-blue"></div>
                     <div class="pencil-bright-side"></div>
                     <div class="pencil-dark-side"></div>                   
@@ -107,7 +109,7 @@
                 <div class="pencil-tip-reflection"></div>     
                 <div class="pencil-shaft">
                     <div class="pencil-side-top pencil-color-brown"></div>
-                    <div class="pencil-side-middle pencil-color-brown"></div>
+                    <div class="pencil-side-middle pencil-color-brown">&nbsp;K</div>
                     <div class="pencil-side-bottom pencil-color-brown"></div>
                     <div class="pencil-bright-side"></div>
                     <div class="pencil-dark-side"></div>                   
@@ -119,7 +121,7 @@
                 <div class="pencil-tip-reflection"></div>     
                 <div class="pencil-shaft">
                     <div class="pencil-side-top pencil-color-white"></div>
-                    <div class="pencil-side-middle pencil-color-white"></div>
+                    <div class="pencil-side-middle pencil-color-white">&nbsp;A</div>
                     <div class="pencil-side-bottom pencil-color-white"></div>
                     <div class="pencil-bright-side"></div>
                     <div class="pencil-dark-side"></div>                   
@@ -131,7 +133,7 @@
                 <div class="pencil-tip-reflection"></div>     
                 <div class="pencil-shaft">
                     <div class="pencil-side-top pencil-color-gray"></div>
-                    <div class="pencil-side-middle pencil-color-gray"></div>
+                    <div class="pencil-side-middle pencil-color-gray">&nbsp;&#58;&#41;</div>
                     <div class="pencil-side-bottom pencil-color-gray"></div>
                     <div class="pencil-bright-side"></div>
                     <div class="pencil-dark-side"></div>                   
@@ -168,8 +170,7 @@
                 <div id="palette-icon-circle3" class="palette-icon-circle"></div>
                 <div id="palette-icon-circle4" class="palette-icon-circle"></div>
                 <div id="palette-icon-circle5" class="palette-icon-circle"></div>
-                <div id="palette-icon-circle6" class="palette-icon-circle"></div>
-            </div>
+                <div id="palette-icon-circle6" class="palette-icon-circle"></div>            
             </div>  
             </div>
         </div>        

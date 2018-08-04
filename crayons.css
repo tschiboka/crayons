@@ -4,7 +4,7 @@
     --sheet-white: #eee;
     --pencil-tip-color: #b1a79e;
     --pencil-tip-reflection: rgba(250,250,250,0.5);
-    --icon-color: #1a97e1;
+    --icon-color: #1a97e1;    
 }
 
 body {
@@ -24,11 +24,11 @@ body {
     border: 1px outset black;
     border-radius: 5px;
     box-shadow: 5px 5px 4px rgba(0 ,0 ,0 ,0.9);
-    background: var(--grey);  
-    display: block;
-    margin: auto;  
+    background: var(--grey);      
     height: 320px; 
-    left: 60px; 
+    left: 50%;
+    margin-left: -210px;
+    margin-top: 5%;
     position: absolute;    
     top: 0;             
     width: 500px;    
@@ -43,10 +43,17 @@ body {
     width: 380px;    
 }
 
-.pencil {            
+.pencil {  
+    color: white;         
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; 
+    font-size: 6px;
+    font-weight: normal;
     height: 20px;
     left: -60px;    
+    line-height: 10px;
     position: absolute;    
+    text-align: center;
+    text-shadow: -1px -1px rgba(0 ,0 ,0 ,0.9);
     width: 100px;
     z-index: -1;
 }
@@ -182,7 +189,8 @@ body {
 .pencil-color-black {background:black; }
 #pencil-black { top: 300px; }
 
-.pencil-pseudo {     
+.pencil-pseudo { 
+    background: transparent;    
     height: 20px;    
     left: -38px;
     width: 38px;
@@ -229,7 +237,7 @@ body {
     box-shadow: 5px 5px 4px rgba(0 ,0 ,0 ,0.9);
     display: block;
     margin: auto;  
-    height: 78px;               
+    height: 320px;               
     position: relative;    
     width: 560px;   
     z-index: -2;
@@ -284,7 +292,14 @@ body {
 #palette-icon-circle6 { left: 28px; top: 17px; }
 
 #palette-icon:hover {
-    background: white;
+    transform: scale(1.2);    
+}
+
+#color-selector-dialog-box {
+    left: 0px;
+    top: -25px;
+    position: absolute;
+    visibility: hidden;
 }
 
 @media only screen and (max-width: 600px) {
