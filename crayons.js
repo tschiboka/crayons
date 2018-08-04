@@ -22,7 +22,12 @@ function addPencilMouseListeners() {
         pseudo.addEventListener("click", ()=> {
             drawingColor = color;
             document.getElementById("color-display").style.background = color;
-            console.log(drawingColor);
+            // color dialog doesn't seem to accept html color names, so we'll convert them
+            const colorMatrix = [["red", "ff0000"],["pink", "ffc0cb"],["orange", "ffa500"],["yellow", "ffff00"],["purple", "800080"],["green", "008000"],["blue", "0000ff"],["brown", "a52a2a"],["white", "ffffff"],["gray", "808080"],["black", "000000"]];
+            const htmlColorToHex = (col) => `#${colorMatrix.filter(e => e[0] === col)[0][1]}`; // if [0] matches return [1]
+            // when pencil is selected, color palettes dialog box default value changes as well
+            document.getElementById("color-selector-dialog-box").value = htmlColorToHex(drawingColor);
+            console.log(color, htmlColorToHex(drawingColor));
         }); // end of click 
     }); // end of color mapping
 } // end of addPencilMouseListener
@@ -30,10 +35,14 @@ function addPencilMouseListeners() {
 function addColorPaletteMouseListener() {
     const palette = document.getElementById("palette-icon");
     palette.addEventListener("click", () => {
-        console.log("click");
         const dialog = document.getElementById("color-selector-dialog-box");
+        dialog.addEventListener("change", () => { 
+            drawingColor = dialog.value;
+            document.getElementById("color-display").style.background = dialog.value;
+        }); // end of change listener
+        console.log(dialog.value);
         dialog.click();
-    });
+    }); // end of click listener
 } // end of addColorPaletteMouseListener
 
 
