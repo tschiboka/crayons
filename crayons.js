@@ -2,6 +2,7 @@ var drawingColor = "black";
 
 addPencilMouseListeners();
 addColorPaletteMouseListener();
+addCursorOverCanvasListener();
 
 function addPencilMouseListeners() {
     const colors = ["red", "pink", "orange", "yellow", "purple", "green", "blue", "brown", "white", "gray", "black"];
@@ -26,8 +27,7 @@ function addPencilMouseListeners() {
             const colorMatrix = [["red", "ff0000"],["pink", "ffc0cb"],["orange", "ffa500"],["yellow", "ffff00"],["purple", "800080"],["green", "008000"],["blue", "0000ff"],["brown", "a52a2a"],["white", "ffffff"],["gray", "808080"],["black", "000000"]];
             const htmlColorToHex = (col) => `#${colorMatrix.filter(e => e[0] === col)[0][1]}`; // if [0] matches return [1]
             // when pencil is selected, color palettes dialog box default value changes as well
-            document.getElementById("color-selector-dialog-box").value = htmlColorToHex(drawingColor);
-            console.log(color, htmlColorToHex(drawingColor));
+            document.getElementById("color-selector-dialog-box").value = htmlColorToHex(drawingColor);            
         }); // end of click 
     }); // end of color mapping
 } // end of addPencilMouseListener
@@ -39,10 +39,19 @@ function addColorPaletteMouseListener() {
         dialog.addEventListener("change", () => { 
             drawingColor = dialog.value;
             document.getElementById("color-display").style.background = dialog.value;
-        }); // end of change listener
-        console.log(dialog.value);
+        }); // end of change listener        
         dialog.click();
+        dialog.style.backgroundColor = "#282c34";
+        console.log(window.getComputedStyle(dialog).backgroundColor);
     }); // end of click listener
 } // end of addColorPaletteMouseListener
 
-
+function addCursorOverCanvasListener() {
+    const canvas = document.getElementById("canvas");
+          canvas.addEventListener("mousemove", function(e) {
+              const X = e.pageX - this.offsetLeft;
+              const Y = e.pageY - this.offsetTop;
+              console.log(X,Y);
+          });
+    
+} // end of addCursorOverSheetListener
