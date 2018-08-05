@@ -49,8 +49,9 @@ function addColorPaletteMouseListener() {
 function addCursorOverCanvasListener() {
     const canvas = document.getElementById("canvas");
           canvas.addEventListener("mousemove", function(e) {
-              const X = e.pageX - this.offsetLeft;
-              const Y = e.pageY - this.offsetTop;
+              const rect = e.target.getBoundingClientRect();
+              const X = Math.round(e.pageX - rect.left);
+              const Y = Math.round(e.pageX - rect.left);
               console.log(X,Y);
           });
     
