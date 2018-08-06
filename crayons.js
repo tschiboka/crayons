@@ -1,8 +1,13 @@
-var drawingColor = "black";
+var drawingColor = "black", // default drawing color
+    canvasX = 0, // mouse horizontal position on canvas
+    canvasY = 0, // and vertical   
+    mouseDown = false; // when mouse is pressed; 
+    tool = "draw"; // the default tool is simple drawing
 
 addPencilMouseListeners();
 addColorPaletteMouseListener();
 addCursorOverCanvasListener();
+addMouseUpDownListener();
 
 function addPencilMouseListeners() {
     const colors = ["red", "pink", "orange", "yellow", "purple", "green", "blue", "brown", "white", "gray", "black"];
@@ -48,11 +53,15 @@ function addColorPaletteMouseListener() {
 
 function addCursorOverCanvasListener() {
     const canvas = document.getElementById("canvas");
-          canvas.addEventListener("mousemove", function(e) {
-              const rect = e.target.getBoundingClientRect();
-              const X = Math.round(e.pageX - rect.left);
-              const Y = Math.round(e.pageX - rect.left);
-              console.log(X,Y);
-          });
-    
+    canvas.addEventListener("mousemove", function(e) {
+        const rect = e.target.getBoundingClientRect(); // get relative coordinates
+        X = Math.round(e.pageX - rect.left); // calculate canvas X & Y (starngely returns decimal point numbers, so they're rounded)
+        Y = Math.round(e.pageX - rect.left);
+        canvasX = X; canvasY = Y;   // pass values to global vars                           
+    }); // end of mousemove listener        
 } // end of addCursorOverSheetListener
+
+function addMouseUpDownListener() {    
+    document.getElementsByTagName("body")[0].addEventListener("mousedown", () => console.log("down"));
+    document.getElementsByTagName("body")[0].addEventListener("mouseup", () => console.log("up"));
+} // end of addCanvasMouseDownListener
