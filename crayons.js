@@ -1,8 +1,13 @@
 var drawingColor = "black", // default drawing color
+    canvas = document.getElementById("canvas"); // canvas    
     canvasX = 0, // mouse horizontal position on canvas
     canvasY = 0, // and vertical   
-    mouseDown = false; // when mouse is pressed; 
-    tool = "draw"; // the default tool is simple drawing
+    ctx = canvas.getContext("2d"), // canvas context
+    mouseDown = false, // when mouse is pressed; 
+    tool = "draw", // the default tool is simple drawing
+    toolSettings = { // the collection of the tools attributes
+        drawingWidth : "5",
+    };
 
 addPencilMouseListeners();
 addColorPaletteMouseListener();
@@ -51,17 +56,35 @@ function addColorPaletteMouseListener() {
     }); // end of click listener
 } // end of addColorPaletteMouseListener
 
-function addCursorOverCanvasListener() {
-    const canvas = document.getElementById("canvas");
+function addCursorOverCanvasListener() {    
     canvas.addEventListener("mousemove", function(e) {
         const rect = e.target.getBoundingClientRect(); // get relative coordinates
         X = Math.round(e.pageX - rect.left); // calculate canvas X & Y (starngely returns decimal point numbers, so they're rounded)
-        Y = Math.round(e.pageX - rect.left);
-        canvasX = X; canvasY = Y;   // pass values to global vars                           
+        Y = Math.round(e.pageY - rect.top);
+        canvasX = X; canvasY = Y;   // pass values to global vars    
+        console.log(canvasX + " " + canvasY);
+        if(mouseDown) {
+            switch (tool) {
+                case "draw" : drawOnCanvas();
+            } // end of tool switch
+        } // end of if mousedown                       
     }); // end of mousemove listener        
 } // end of addCursorOverSheetListener
 
 function addMouseUpDownListener() {    
-    document.getElementsByTagName("body")[0].addEventListener("mousedown", () => console.log("down"));
-    document.getElementsByTagName("body")[0].addEventListener("mouseup", () => console.log("up"));
+    const body = document.getElementsByTagName("body")[0];
+    body.addEventListener("mousedown", () => mouseDown = true);
+    body.addEventListener("mouseup", () => mouseDown = false);
 } // end of addCanvasMouseDownListener
+
+
+function drawOnCanvas() {
+    /*console.log(canvasX + " " + canvasY);*/
+    ctx.beginPath();
+    ctx.arc(canvasX, canvasY, toolSettings.drawingWidth, 0, Math.PI * 2);
+    ctx.closePath();
+    ctx.fillStyle = drawingColor;
+    ctx.fill();
+    ctx.strokeStyle = drawingColor;
+    ctx.stroke();
+} // end of drawOnCanvas
