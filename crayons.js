@@ -7,7 +7,7 @@ var drawingColor = "black",                     // default drawing color
     mouseDown = false,                          // when mouse is pressed; 
     tool = "draw",                              // the default tool is simple drawing    
     toolSettings = {                            // the collection of the tools attributes
-        drawingWidth : "8",                     // the sharpness of the pencil
+        drawingWidth : "4",                     // the sharpness of the pencil
     };
 
 
@@ -78,14 +78,14 @@ function addCursorOverCanvasListener() {
             switch (tool) {
                 case "draw" : drawOnCanvas();
             } // end of tool switch
-        } // end of if mousedown                       
+        } // end of if mousedown                    
     }); // end of mousemove listener        
 } // end of addCursorOverSheetListener
 
 
 function addMouseUpDownListener() {    
     const body = document.getElementsByTagName("body")[0];
-    
+
     body.addEventListener("mousedown", () => mouseDown = true);
     // whenever mouse button released clear mouse history for new linedraws
     body.addEventListener("mouseup", () => { mouseDown = false; lastDrawEventCoordinates = false; }); 
@@ -111,7 +111,7 @@ function drawOnCanvas() {
             ctx.lineWidth = toolSettings.drawingWidth;
             ctx.strokeStyle = drawingColor;
             ctx.stroke();
-            }, // end of connectDots            
+            }; // end of connectDots            
         
         connectDots(lastDrawEventCoordinates[0], lastDrawEventCoordinates[1], canvasX, canvasY);
     } // end of if lastMouseEvent

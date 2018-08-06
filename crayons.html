@@ -19,13 +19,29 @@
             <div id="sheet">
                 <div><input type="color" name="color-picker" id="color-selector-dialog-box"></div>
                 <canvas id="canvas" width="380" height="300"></canvas>
-            </div>   
+            </div>             
             <div id="tools">
                 <div id="frame-and-arrows">
-                    <div id="arrow-up" class="arrow icon"><div class="arrow-line1"></div><div class="arrow-line2"></div></div>
-                    <div id="arrow-down" class="arrow icon"><div class="arrow-line1"></div><div class="arrow-line2"></div></div>
-                </div>
-            </div>           
+                    <div id="arrow-up" class="arrow icon">
+                        <div class="arrow-line1"></div>
+                        <div class="arrow-line2"></div>
+                    </div>
+                    <div id="arrow-down" class="arrow icon">
+                        <div class="arrow-line1"></div>
+                        <div class="arrow-line2"></div>
+                    </div>
+                    <div id=tool-icons>
+                        <div id="pencil-icon" class="icon tool-icon" title="pencil-tool">
+                            <div id="pencil-icon-shape"></div>
+                            <div id="pencil-icon-shape-cut"></div>
+                        </div>
+                        <div id="point-width-icon" class="icon tool-icon" title="point-width">
+                            <div id="point-width-icon-left-ver-line"></div>
+                            <div id="point-width-icon-right-ver-line"></div>
+                        </div>
+                    </div>
+                </div>                
+            </div>                   
             <div id="pencil-red" title="red" class="pencil">                
                 <div class="pencil-tip"></div>   
                 <div class="pencil-lead pencil-color-red"></div> 
@@ -158,6 +174,7 @@
                     <div class="pencil-dark-side"></div>                   
                 </div>
             </div>
+            <!-- It's just a work-around! Needed a fake layer because of z-index, pencils were not reached by mouseover -->
             <div id="red-pencil-pseudo"    class="pencil-pseudo" title="red"></div>      
             <div id="pink-pencil-pseudo"   class="pencil-pseudo" title="pink"></div>      
             <div id="orange-pencil-pseudo" class="pencil-pseudo" title="orange"></div>      
