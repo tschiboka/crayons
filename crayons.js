@@ -5,7 +5,7 @@ var drawingColor = "black",                     // default drawing color
     lastDrawEventCoordinates = false;           // to connect the dots in drawing because mousemove is just not fast enough  
     ctx = canvas.getContext("2d"),              // canvas context
     mouseDown = false,                          // when mouse is pressed; 
-    tool = "draw",                              // the default tool is simple drawing
+    tool = "draw",                              // the default tool is simple drawing    
     toolSettings = {                            // the collection of the tools attributes
         drawingWidth : "8",                     // the sharpness of the pencil
     };
@@ -39,9 +39,11 @@ function addPencilMouseListeners() {
         pseudo.addEventListener("click", ()=> {
             drawingColor = color;
             document.getElementById("color-display").style.background = color;
+
             // color dialog doesn't seem to accept html color names, so we'll convert them
             const colorMatrix = [["red", "ff0000"],["pink", "ffc0cb"],["orange", "ffa500"],["yellow", "ffff00"],["purple", "800080"],["green", "008000"],["blue", "0000ff"],["brown", "a52a2a"],["white", "ffffff"],["gray", "808080"],["black", "000000"]];
             const htmlColorToHex = (col) => `#${colorMatrix.filter(e => e[0] === col)[0][1]}`; // if [0] matches return [1]
+
             // when pencil is selected, color palettes dialog box default value changes as well
             document.getElementById("color-selector-dialog-box").value = htmlColorToHex(drawingColor);            
         }); // end of click 
@@ -51,15 +53,17 @@ function addPencilMouseListeners() {
 
 function addColorPaletteMouseListener() {
     const palette = document.getElementById("palette-icon");
+
     palette.addEventListener("click", () => {
         const dialog = document.getElementById("color-selector-dialog-box");
+
         dialog.addEventListener("change", () => { 
             drawingColor = dialog.value;
             document.getElementById("color-display").style.background = dialog.value;
-        }); // end of change listener        
+        }); // end of change listener  
+
         dialog.click();
-        dialog.style.backgroundColor = "#282c34";
-        console.log(window.getComputedStyle(dialog).backgroundColor);
+        dialog.style.backgroundColor = "#282c34";        
     }); // end of click listener
 } // end of addColorPaletteMouseListener
 
@@ -81,7 +85,9 @@ function addCursorOverCanvasListener() {
 
 function addMouseUpDownListener() {    
     const body = document.getElementsByTagName("body")[0];
+    
     body.addEventListener("mousedown", () => mouseDown = true);
+    // whenever mouse button released clear mouse history for new linedraws
     body.addEventListener("mouseup", () => { mouseDown = false; lastDrawEventCoordinates = false; }); 
 } // end of addCanvasMouseDownListener
 
@@ -92,8 +98,7 @@ function drawOnCanvas() {
     ctx.arc(canvasX, canvasY, toolSettings.drawingWidth / 2, 0, Math.PI * 2);
     ctx.closePath();
     ctx.fillStyle = drawingColor;
-    ctx.fill();    
-    console.log(lastDrawEventCoordinates, canvasX, canvasY);
+    ctx.fill();        
 
     // if mouse has history (not false), connect the current circle with the previous one
     if (lastDrawEventCoordinates) {

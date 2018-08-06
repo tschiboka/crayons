@@ -291,15 +291,69 @@ body {
 #palette-icon-circle5 { left: 16px; top: 17px; }
 #palette-icon-circle6 { left: 28px; top: 17px; }
 
-#palette-icon:hover {
-    transform: scale(1.2);    
-}
-
 #color-selector-dialog-box {
     left: 0px;
     top: -25px;
     position: absolute;
     visibility: hidden;
+}
+
+#tools {
+    border: rgba(250, 250, 250, 0.1) solid 1px;
+    height: 300px;
+    left: 395px;
+    position: absolute;
+    top: 10px;
+    width: 100px;
+}
+
+.arrow {    
+    height: 20px;
+    left: 0;
+    position: absolute;    
+    width: 100px;
+}
+
+.arrow-line1 {   
+    background: var(--icon-color); 
+    border-radius: 5px;
+    height: 16px;
+    left: 43px;
+    position: absolute;
+    top: 2px;
+    transform: rotate(50deg);
+    -webkit-transform: rotate(50deg);
+    width: 3px;
+}
+
+.arrow-line2 {   
+    background: var(--icon-color); 
+    border-radius: 5px;
+    height: 16px;
+    right: 43px;
+    position: absolute;
+    top: 2px;
+    transform: rotate(-50deg);
+    -webkit-transform: rotate(-50deg);
+    width: 3px;
+}
+
+
+#arrow-up { top: 0; }
+#arrow-down {
+    bottom: 0; 
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+}
+
+.icon:hover {
+    transform: scale(1.2);
+    -webkit-transform: scale(1.2);
+}
+/* arrow-down has already transformed so it needs to have a separate hover */
+#arrow-down:hover {
+    transform: scale(1.2) rotate(180deg); 
+    -webkit-transform: scale(1.2) rotate(180deg); 
 }
 
 @media only screen and (max-width: 600px) {
