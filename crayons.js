@@ -138,18 +138,16 @@ function addIconListeners() {
 
 
 function addPointWidthSliderListener() {
-    const slider = document.getElementById("point-width-slider");
-    let sliderClicked = false;
-    slider.addEventListener("mousedown", () => { // if clicked change values
-        sliderClicked = true;
-        toolSettings.drawingWidth = slider.value;
-        document.getElementById("point-width-display").innerHTML = toolSettings.drawingWidth;
-    });
+    const slider = document.getElementById("point-width-slider"),
+          setWidth = () => document.getElementById("point-width-display").innerHTML = toolSettings.drawingWidth = slider.value;
+    let sliderClicked = false;    
+    
+    slider.addEventListener("change", () => { setWidth(); }); // I had to write the literal clicks too (slider body didnt react)     
     slider.addEventListener("mouseup", () => {sliderClicked = false; });
+    slider.addEventListener("mousedown", () => { sliderClicked = true; setWidth(); });  // if clicked change values
     slider.addEventListener("mousemove", () => { // if dragged change value as well
         if (sliderClicked) {
-            toolSettings.drawingWidth = slider.value;
-            document.getElementById("point-width-display").innerHTML = toolSettings.drawingWidth;
+            document.getElementById("point-width-display").innerHTML = toolSettings.drawingWidth = slider.value;
         } // end of if
     }); // end of mousemove listener
 } // end of addPointWidthSliderListener

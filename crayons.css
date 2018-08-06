@@ -481,6 +481,7 @@ body {
 
 #pencil-icon { top: 0px; }
 #point-width-icon { top: 52px; }
+#shapes-icon { top: 104px; }
 
 
 .tool-icon:first-child {
@@ -510,8 +511,8 @@ body {
 }
 
 #point-width-slider-box {    
-    color: rgba(250,250,250,0.7); 
-    border: 1px solid rgba(250,250,250,0.1);   
+    color: #20242a; 
+    border: 1px solid #20242a;   
     height: 20px;
     left: 40px;        
     position: absolute;
@@ -555,9 +556,9 @@ body {
 
 #point-width-display {    
     background: #e8c62e; /* Old browsers */
-    background: -moz-linear-gradient(left, #e8c62e 0%, #c47eea 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(left, #e8c62e 0%,#c47eea 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to right, #e8c62e 0%,#c47eea 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    background: -moz-linear-gradient(bottom, #e8c62e 0%, #c47eea 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(bottom, #e8c62e 0%,#c47eea 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #e8c62e 0%,#c47eea 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -567,7 +568,37 @@ body {
     left: 170px;        
     position: absolute;
     top: 200px;        
-    width: 40px;
+    width: 45px;
+}
+
+#shapes-icon-circle {
+    background: var(--icon-color); 
+    border-radius: 50%;
+    height: 15px;
+    left: 20px;        
+    position: absolute;
+    top: 17px;
+    width: 15px;
+}
+
+#shapes-icon-square {
+    background: var(--icon-color);     
+    height: 15px;
+    left: 40px;        
+    position: absolute;
+    top: 17px;
+    width: 15px;
+}
+
+#shapes-icon-triangle {
+    background: var(--icon-color);    
+    clip-path: polygon(0% 100%, 50% 0%, 100% 100%); 
+    -webkit-clip-path: polygon(0% 100%, 50% 0%, 100% 100%); 
+    height: 15px;
+    left: 60px;        
+    position: absolute;
+    top: 17px;
+    width: 15px;
 }
 
 @media only screen and (max-width: 600px) {
