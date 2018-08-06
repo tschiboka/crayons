@@ -1,18 +1,21 @@
-var drawingColor = "black", // default drawing color
+var drawingColor = "black",                     // default drawing color
     canvas = document.getElementById("canvas"); // canvas    
-    canvasX = 0, // mouse horizontal position on canvas
-    canvasY = 0, // and vertical   
-    ctx = canvas.getContext("2d"), // canvas context
-    mouseDown = false, // when mouse is pressed; 
-    tool = "draw", // the default tool is simple drawing
-    toolSettings = { // the collection of the tools attributes
-        drawingWidth : "5",
+    canvasX = 0,                                // mouse horizontal position on canvas
+    canvasY = 0,                                // and vertical 
+    lastDrawEventCoordinates = false;           // to connect the dots in drawing because mousemove is just not fast enough  
+    ctx = canvas.getContext("2d"),              // canvas context
+    mouseDown = false,                          // when mouse is pressed; 
+    tool = "draw",                              // the default tool is simple drawing
+    toolSettings = {                            // the collection of the tools attributes
+        drawingWidth : "8",                     // the sharpness of the pencil
     };
+
 
 addPencilMouseListeners();
 addColorPaletteMouseListener();
 addCursorOverCanvasListener();
 addMouseUpDownListener();
+
 
 function addPencilMouseListeners() {
     const colors = ["red", "pink", "orange", "yellow", "purple", "green", "blue", "brown", "white", "gray", "black"];
@@ -20,16 +23,19 @@ function addPencilMouseListeners() {
     colors.map((color) => {
         const pseudo = document.getElementById(`${color}-pencil-pseudo`),
               element = document.getElementById(`pencil-${color}`);
+
         pseudo.addEventListener("mouseenter", () => { 
             element.style.animation = "pencil-move-out 0.3s linear";
             element.style.WebkitAnimation = "pencil-move-out 0.3s linear";
             element.style.left = "-90px";
         });  // end of mouseenter
+
         pseudo.addEventListener("mouseout", () => { 
             element.style.animation = "pencil-move-in 0.6s linear"; 
             element.style.WebkitAnimation = "pencil-move-in 0.6s linear"; 
             element.style.left = "-60px";
-        }); // end of mouseout    
+        }); // end of mouseout  
+
         pseudo.addEventListener("click", ()=> {
             drawingColor = color;
             document.getElementById("color-display").style.background = color;
@@ -41,6 +47,7 @@ function addPencilMouseListeners() {
         }); // end of click 
     }); // end of color mapping
 } // end of addPencilMouseListener
+
 
 function addColorPaletteMouseListener() {
     const palette = document.getElementById("palette-icon");
@@ -56,13 +63,13 @@ function addColorPaletteMouseListener() {
     }); // end of click listener
 } // end of addColorPaletteMouseListener
 
+
 function addCursorOverCanvasListener() {    
     canvas.addEventListener("mousemove", function(e) {
         const rect = e.target.getBoundingClientRect(); // get relative coordinates
         X = Math.round(e.pageX - rect.left); // calculate canvas X & Y (starngely returns decimal point numbers, so they're rounded)
         Y = Math.round(e.pageY - rect.top);
-        canvasX = X; canvasY = Y;   // pass values to global vars    
-        console.log(canvasX + " " + canvasY);
+        canvasX = X; canvasY = Y;   // pass values to global vars            
         if(mouseDown) {
             switch (tool) {
                 case "draw" : drawOnCanvas();
@@ -71,20 +78,37 @@ function addCursorOverCanvasListener() {
     }); // end of mousemove listener        
 } // end of addCursorOverSheetListener
 
+
 function addMouseUpDownListener() {    
     const body = document.getElementsByTagName("body")[0];
     body.addEventListener("mousedown", () => mouseDown = true);
-    body.addEventListener("mouseup", () => mouseDown = false);
+    body.addEventListener("mouseup", () => { mouseDown = false; lastDrawEventCoordinates = false; }); 
 } // end of addCanvasMouseDownListener
 
 
-function drawOnCanvas() {
-    /*console.log(canvasX + " " + canvasY);*/
+function drawOnCanvas() {    
+    // draw circle on canvas
     ctx.beginPath();
-    ctx.arc(canvasX, canvasY, toolSettings.drawingWidth, 0, Math.PI * 2);
+    ctx.arc(canvasX, canvasY, toolSettings.drawingWidth / 2, 0, Math.PI * 2);
     ctx.closePath();
     ctx.fillStyle = drawingColor;
-    ctx.fill();
-    ctx.strokeStyle = drawingColor;
-    ctx.stroke();
+    ctx.fill();    
+    console.log(lastDrawEventCoordinates, canvasX, canvasY);
+
+    // if mouse has history (not false), connect the current circle with the previous one
+    if (lastDrawEventCoordinates) {
+        // draws a single line
+        const connectDots = (X1,Y1, X2, Y2) => {
+            ctx.beginPath();
+            ctx.moveTo(X1, Y1);
+            ctx.lineTo(X2, Y2);
+            ctx.closePath();
+            ctx.lineWidth = toolSettings.drawingWidth;
+            ctx.strokeStyle = drawingColor;
+            ctx.stroke();
+            }, // end of connectDots            
+        
+        connectDots(lastDrawEventCoordinates[0], lastDrawEventCoordinates[1], canvasX, canvasY);
+    } // end of if lastMouseEvent
+    lastDrawEventCoordinates = [canvasX, canvasY]; // feed last update
 } // end of drawOnCanvas
