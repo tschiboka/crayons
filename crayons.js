@@ -15,6 +15,8 @@ addPencilMouseListeners();
 addColorPaletteMouseListener();
 addCursorOverCanvasListener();
 addMouseUpDownListener();
+addPointWidthSliderListener();
+addIconListeners();
 
 
 function addPencilMouseListeners() {
@@ -117,3 +119,37 @@ function drawOnCanvas() {
     } // end of if lastMouseEvent
     lastDrawEventCoordinates = [canvasX, canvasY]; // feed last update
 } // end of drawOnCanvas
+
+
+function addIconListeners() {
+    const pointWidthIcon = document.getElementById("point-width-icon"),
+          pointWidthPanel = document.getElementById("point-width-panel");
+
+
+    pointWidthIcon.addEventListener("click", () => {              
+        if (pointWidthPanel.style.visibility === "visible") pointWidthPanel.style.visibility = "hidden";
+        else { 
+           pointWidthPanel.style.visibility = "visible"; 
+           document.getElementById("point-width-display").innerHTML = toolSettings.drawingWidth;
+           document.getElementById("point-width-slider").value = toolSettings.drawingWidth;           
+        }
+    }); // end of pointWidthIcon listener
+} // end of addIconListeners
+
+
+function addPointWidthSliderListener() {
+    const slider = document.getElementById("point-width-slider");
+    let sliderClicked = false;
+    slider.addEventListener("mousedown", () => { // if clicked change values
+        sliderClicked = true;
+        toolSettings.drawingWidth = slider.value;
+        document.getElementById("point-width-display").innerHTML = toolSettings.drawingWidth;
+    });
+    slider.addEventListener("mouseup", () => {sliderClicked = false; });
+    slider.addEventListener("mousemove", () => { // if dragged change value as well
+        if (sliderClicked) {
+            toolSettings.drawingWidth = slider.value;
+            document.getElementById("point-width-display").innerHTML = toolSettings.drawingWidth;
+        } // end of if
+    }); // end of mousemove listener
+} // end of addPointWidthSliderListener

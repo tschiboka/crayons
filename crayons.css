@@ -35,8 +35,9 @@ body {
 }
 
 #sheet {
-    border: 1px inset black;    
+    border: 1px solid rgba(0, 0, 0, 0.1);    
     background: var(--sheet-white);    
+    cursor: pointer;
     height: 300px;    
     margin-left: 10px;    
     margin-top: 10px;  
@@ -484,6 +485,89 @@ body {
 
 .tool-icon:first-child {
     top: 5px;
+}
+
+.panel {
+    background: #24282f; 
+    border: 1px solid rgba(250, 250, 250, 0.1); 
+    font-family: 'Fira Sans', sans-serif;
+    height: 300px;
+    left: 10px;    
+    position: absolute;
+    top: 10px;   
+    visibility: hidden;     
+    width: 380px;
+}
+
+#point-width-panel-text {
+    color: rgba(250,250,250,0.7);
+    font-weight: 100;     
+    height: 200px;
+    left: 110px;        
+    position: absolute;
+    top: 50px;        
+    width: 200px;
+}
+
+#point-width-slider-box {    
+    color: rgba(250,250,250,0.7); 
+    border: 1px solid rgba(250,250,250,0.1);   
+    height: 20px;
+    left: 40px;        
+    position: absolute;
+    top: 120px;        
+    width: 300px;
+}
+
+#point-width-slider {
+    appearance: none;
+    -webkit-appearance: none;
+    background: var(--icon-color); 
+    height: 5px;
+    left: 10px;
+    margin: 0;
+    outline: none;
+    padding: 0;
+    position: absolute;
+    top: 8px;
+    width: 280px;
+}
+
+#point-width-slider::-webkit-slider-thumb {
+    appearance: none;
+    -webkit-appearance: none;
+    border: 2px solid var(--icon-color);
+    border-radius: 3px;    
+    background: #20242a;
+    height: 16px;
+    width: 3px;
+}
+
+#point-width-slider::-moz-range-thumb {
+    appearance: none;
+    -webkit-appearance: none;
+    border: 2px solid var(--icon-color);
+    border-radius: 3px;    
+    background: #20242a;
+    height: 16px;
+    width: 3px;
+}
+
+#point-width-display {    
+    background: #e8c62e; /* Old browsers */
+    background: -moz-linear-gradient(left, #e8c62e 0%, #c47eea 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, #e8c62e 0%,#c47eea 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, #e8c62e 0%,#c47eea 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 100;
+    font-size: 40px;     
+    height: 40px;
+    left: 170px;        
+    position: absolute;
+    top: 200px;        
+    width: 40px;
 }
 
 @media only screen and (max-width: 600px) {

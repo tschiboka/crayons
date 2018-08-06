@@ -11,6 +11,7 @@
         <meta name="description" content="tiny drawing program">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="crayons.css">
+        <link href="https://fonts.googleapis.com/css?family=Fira+Sans:200" rel="stylesheet"> 
     </head>
     <body>
         <div id="container">        
@@ -19,6 +20,15 @@
             <div id="sheet">
                 <div><input type="color" name="color-picker" id="color-selector-dialog-box"></div>
                 <canvas id="canvas" width="380" height="300"></canvas>
+                <div id="point-width-panel" class="panel">
+                    <div id="point-width-panel-text">
+                        Set pencils point width
+                    </div>
+                    <div id="point-width-slider-box">
+                        <input id="point-width-slider" type="range" min="1" max="20" value="4" />
+                    </div>
+                    <div id="point-width-display">XY</div>
+                </div>
             </div>             
             <div id="tools">
                 <div id="frame-and-arrows">
