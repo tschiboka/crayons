@@ -375,9 +375,6 @@ body {
     width: 95px;
 }
 
-#pencil-icon { top: 0px; }
-#point-width-icon { top: 52px; }
-
 #pencil-icon-shape {
     background: var(--icon-color);
     clip-path: polygon(0% 50%, 15% 0%, 100% 0%, 100% 100%, 15% 100%);
@@ -420,6 +417,69 @@ body {
     top: 12px;
     width: 3px;
 }
+
+#point-width-icon-hor-line {
+    background: var(--icon-color);   
+    border-radius: 3px;
+    height: 3px;
+    right: 22px;
+    position: absolute;
+    top: 22px;
+    width: 50px;
+}
+
+.point-width-icon-arrow {    
+    position: absolute;
+    top: 15px;    
+}
+
+#point-width-icon-arrow-left {
+    left: 22px;
+}
+
+#point-width-icon-arrow-right {
+    right: 21px;
+    transform: rotate(180deg);
+    top: 32px;
+}
+
+
+.point-width-icon-arrow-part {
+    background: var(--icon-color);
+    border-radius: 3px;
+    height: 10px;
+    left: 0;    
+    position: absolute;
+    top: 0;    
+    transform-origin: bottom left;
+    width: 3px;
+}
+
+#point-width-icon-arrow-part1 {
+    transform: rotate(60deg);
+    -webkit-transform: rotate(60deg);
+    top: -2px;
+}
+
+#point-width-icon-arrow-part2 {
+    left: 2px;
+    transform: rotate(120deg);
+    -webkit-transform: rotate(120deg);
+    top: -3px;
+}
+
+#point-width-icon-circle {
+    background: var(--icon-color);    
+    border-radius: 50px;
+    height: 10px;
+    left: 43px;    
+    position: absolute;
+    top: 18px;        
+    width: 10px;
+}
+
+#pencil-icon { top: 0px; }
+#point-width-icon { top: 52px; }
 
 
 .tool-icon:first-child {
