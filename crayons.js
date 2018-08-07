@@ -123,7 +123,9 @@ function drawOnCanvas() {
 
 function addIconListeners() {
     const pointWidthIcon = document.getElementById("point-width-icon"),
-          pointWidthPanel = document.getElementById("point-width-panel");
+          pointWidthPanel = document.getElementById("point-width-panel"),
+          shapesIcon = document.getElementById("shapes-icon"),
+          shapesPanel = document.getElementById("shapes-panel");
 
 
     pointWidthIcon.addEventListener("click", () => {              
@@ -132,8 +134,12 @@ function addIconListeners() {
            pointWidthPanel.style.visibility = "visible"; 
            document.getElementById("point-width-display").innerHTML = toolSettings.drawingWidth;
            document.getElementById("point-width-slider").value = toolSettings.drawingWidth;           
-        }
+        } // end of else
     }); // end of pointWidthIcon listener
+
+    shapesIcon.addEventListener("click", () => {              
+        shapesPanel.style.visibility = shapesPanel.style.visibility === "visible" ? "hidden" : "visible";        
+    }); // end of shapesIcon listener
 } // end of addIconListeners
 
 
