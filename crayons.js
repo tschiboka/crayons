@@ -80,6 +80,7 @@ function addCursorOverCanvasListener() {
         if(mouseDown) {
             switch (tool) {
                 case "draw" : drawOnCanvas();
+                case "triangle" : setTriangle();
             } // end of tool switch
         } // end of if mousedown                    
     }); // end of mousemove listener        
@@ -172,10 +173,13 @@ function addToolCheck(id) {
     const toolsIds = ["pencil-icon", "shape-triangle", "shape-square", "shape-rectangle", "shape-rounded-rectangle", "shape-circle", "shape-ellipse"],
           tools = ["pencil", "triangle", "square", "rectangle", "rounded-rectangle", "circle", "ellipse"];
 
+    // most of tools cancel out each other!
     toolsIds.forEach(t => document.getElementById(`${t}-check`).style.visibility = "hidden"); // reset all to hidden
     document.getElementById(`${id}-check`).style.visibility = "visible"; // set actual visible
 
     // set tool variable
     tool = tools[toolsIds.findIndex(e => e === id)];
-    console.log(tool);
+
+    // if one of the shapes are selected, shape icon is checked
+    document.getElementById("shapes-icon-check").style.visibility = ((/(triangle|square|rectangle|rounded-rectangle|circle|ellipse)/).test(tool)) ? "visible" : "hidden";
 } // end of addToolCheck
