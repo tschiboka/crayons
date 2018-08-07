@@ -17,6 +17,7 @@ addCursorOverCanvasListener();
 addMouseUpDownListener();
 addPointWidthSliderListener();
 addIconListeners();
+addShapeListeners();
 
 
 function addPencilMouseListeners() {
@@ -122,11 +123,14 @@ function drawOnCanvas() {
 
 
 function addIconListeners() {
-    const pointWidthIcon = document.getElementById("point-width-icon"),
+    const pencilIcon = document.getElementById("pencil-icon"),
+          pointWidthIcon = document.getElementById("point-width-icon"),
           pointWidthPanel = document.getElementById("point-width-panel"),
           shapesIcon = document.getElementById("shapes-icon"),
           shapesPanel = document.getElementById("shapes-panel");
 
+
+    pencilIcon.addEventListener("click", () => addToolCheck(pencilIcon.id));
 
     pointWidthIcon.addEventListener("click", () => {              
         if (pointWidthPanel.style.visibility === "visible") pointWidthPanel.style.visibility = "hidden";
@@ -157,3 +161,21 @@ function addPointWidthSliderListener() {
         } // end of if
     }); // end of mousemove listener
 } // end of addPointWidthSliderListener
+
+function addShapeListeners() {
+    const shapes = document.getElementsByClassName("shape-option"); // get all shapes
+
+    [...shapes].forEach(sh => sh.addEventListener("click",function () { addToolCheck(this.id); })); // add listeners to all
+} // end of addShapeListeners
+
+function addToolCheck(id) {
+    const toolsIds = ["pencil-icon", "shape-triangle", "shape-square", "shape-rectangle", "shape-rounded-rectangle", "shape-circle", "shape-ellipse"],
+          tools = ["pencil", "triangle", "square", "rectangle", "rounded-rectangle", "circle", "ellipse"];
+
+    toolsIds.forEach(t => document.getElementById(`${t}-check`).style.visibility = "hidden"); // reset all to hidden
+    document.getElementById(`${id}-check`).style.visibility = "visible"; // set actual visible
+
+    // set tool variable
+    tool = tools[toolsIds.findIndex(e => e === id)];
+    console.log(tool);
+} // end of addToolCheck

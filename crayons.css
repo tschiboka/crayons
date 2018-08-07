@@ -724,6 +724,7 @@ body {
     position: absolute;
     right: 2px;
     top: 2px;
+    visibility: hidden;
 }
 
 @media only screen and (max-width: 600px) {
@@ -731,3 +732,5 @@ body {
         background: green;
     }
 }
+
+#pencil-icon-check { visibility: visible; }
