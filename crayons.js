@@ -79,8 +79,8 @@ function addCursorOverCanvasListener() {
         canvasX = X; canvasY = Y;   // pass values to global vars            
         if(mouseDown) {
             switch (tool) {
-                case "draw" : drawOnCanvas();
-                case "triangle" : setTriangle();
+                case "draw" : { drawOnCanvas(); break; }
+                case "triangle" : { setTriangle(); break; }
             } // end of tool switch
         } // end of if mousedown                    
     }); // end of mousemove listener        
@@ -143,7 +143,12 @@ function addIconListeners() {
     }); // end of pointWidthIcon listener
 
     shapesIcon.addEventListener("click", () => {              
-        shapesPanel.style.visibility = shapesPanel.style.visibility === "visible" ? "hidden" : "visible";        
+        shapesPanel.style.visibility = shapesPanel.style.visibility === "visible" ? "hidden" : "visible"; 
+        // if hidden take off all checks if any visible  
+        if (shapesPanel.style.visibility === "hidden") {
+            ["pencil-icon", "shape-triangle", "shape-square", "shape-rectangle", "shape-rounded-rectangle", "shape-circle", "shape-ellipse"]
+            .forEach(t => document.getElementById(`${t}-check`).style.visibility = "hidden");
+        } // end of if
     }); // end of shapesIcon listener
 } // end of addIconListeners
 
@@ -183,3 +188,10 @@ function addToolCheck(id) {
     // if one of the shapes are selected, shape icon is checked
     document.getElementById("shapes-icon-check").style.visibility = ((/(triangle|square|rectangle|rounded-rectangle|circle|ellipse)/).test(tool)) ? "visible" : "hidden";
 } // end of addToolCheck
+
+
+function setTriangle() {
+    const workCanvas = document.getElementById("pseudo-canvas");
+
+    workCanvas.style.visibility = "visible";
+} // end of setTriangle

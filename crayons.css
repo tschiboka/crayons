@@ -45,6 +45,14 @@ body {
     width: 380px;    
 }
 
+#pseudo-canvas {
+    background: rgba(93, 92, 113, 0.4);
+    left: 11px;
+    top: 11px;
+    position: absolute;
+    visibility: hidden;
+}
+
 .pencil {  
     color: white;         
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; 
