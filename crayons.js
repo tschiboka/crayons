@@ -190,8 +190,18 @@ function addToolCheck(id) {
 } // end of addToolCheck
 
 
+/* addCircle adds as many points to the surface (arg0) as arg1, which will be used to set geometric shape coordiantes
+   (coord) on the canvas. Note coord is an array (arg2), which looks like the following ([[X1,Y1],[X2Y2]...])
+   if coord length differs from num, exception is thrown! */
+function addCircle(worktop, num, coords) {
+    // check if num corrisponds to coords' length
+    if (num !== coords.length) throw new Error("Error on calling addCircle function! Coordinates length don't match! (" + num + ") (" + coords.length + ")");
+} // end of addCircle
+
+
 function setTriangle() {
     const workCanvas = document.getElementById("pseudo-canvas");
 
     workCanvas.style.visibility = "visible";
+    addCircle(workCanvas, 1, [100,100]);
 } // end of setTriangle
