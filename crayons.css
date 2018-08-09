@@ -48,9 +48,28 @@ body {
 #pseudo-canvas {
     background: rgba(93, 92, 113, 0.4);
     left: 11px;
-    top: 11px;
     position: absolute;
+    top: 11px;
     visibility: hidden;
+}
+
+ #worktop {
+    background: transparent;       
+    height: 300px;
+    left: 11px;
+    position: absolute;
+    top: 11px;
+    visibility: hidden;
+    width: 380px;
+ }
+
+.positioner {
+    background: var(--grey);    
+    border: 3px solid var(--icon-color);
+    border-radius: 50%;    
+    height: 10px;    
+    position: absolute;        
+    width: 10px;
 }
 
 .pencil {  

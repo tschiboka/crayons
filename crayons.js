@@ -79,11 +79,10 @@ function addCursorOverCanvasListener() {
         canvasX = X; canvasY = Y;   // pass values to global vars            
         if(mouseDown) {
             switch (tool) {
-                case "draw" : { drawOnCanvas(); break; }
-                case "triangle" : { setTriangle(); break; }
+                case "draw" : { drawOnCanvas(); break; }                               
             } // end of tool switch
         } // end of if mousedown                    
-    }); // end of mousemove listener        
+    }); // end of mousemove listener          
 } // end of addCursorOverSheetListener
 
 
@@ -142,9 +141,15 @@ function addIconListeners() {
         } // end of else
     }); // end of pointWidthIcon listener
 
-    shapesIcon.addEventListener("click", () => {              
+    shapesIcon.addEventListener("click", () => {
+        // if panel is visible and icon is checked start shape function
+        if (shapesPanel.style.visibility === "visible") {
+            switch(tool) {
+                case "triangle": { setTriangle(); break; } 
+            } // end of switch tool
+        } // end of if visible
         shapesPanel.style.visibility = shapesPanel.style.visibility === "visible" ? "hidden" : "visible"; 
-        // if hidden take off all checks if any visible  
+        // if hidden take off all check signes if any visible  
         if (shapesPanel.style.visibility === "hidden") {
             ["pencil-icon", "shape-triangle", "shape-square", "shape-rectangle", "shape-rounded-rectangle", "shape-circle", "shape-ellipse"]
             .forEach(t => document.getElementById(`${t}-check`).style.visibility = "hidden");
@@ -190,18 +195,31 @@ function addToolCheck(id) {
 } // end of addToolCheck
 
 
-/* addCircle adds as many points to the surface (arg0) as arg1, which will be used to set geometric shape coordiantes
-   (coord) on the canvas. Note coord is an array (arg2), which looks like the following ([[X1,Y1],[X2Y2]...])
-   if coord length differs from num, exception is thrown! */
-function addCircle(worktop, num, coords) {
+/* addPositioner adds as many points to the surface (arg0) as arg1, which will be used to set geometric shape
+   coordiantes (coord) on the canvas. Note coord is an array (arg2), which looks like the following 
+   ([[X1,Y1],[X2Y2]...]) if coord length differs from num, exception is thrown! */
+function addPositioner(worktop, num, coords) {
     // check if num corrisponds to coords' length
     if (num !== coords.length) throw new Error("Error on calling addCircle function! Coordinates length don't match! (" + num + ") (" + coords.length + ")");
-} // end of addCircle
+    else {
+        // create positioners num times
+        for (let i = 1; i <= num; i++) {
+            newPositioner = document.createElement("div");
+            newPositioner.id = "positioner"+i;                  // id
+            newPositioner.class = "positioner";                 // class
+            newPositioner.style.left = coords[i - 1][0];        // left
+            newPositioner.style.top = coords[i - 1][1];         // top
+            console.log(newPositioner.id, newPositioner.class);
+        } // end of for     
+    } // end of else
+} // end of addPositioner
 
 
 function setTriangle() {
-    const workCanvas = document.getElementById("pseudo-canvas");
-
-    workCanvas.style.visibility = "visible";
-    addCircle(workCanvas, 1, [100,100]);
+    const workCanvas = document.getElementById("pseudo-canvas"),
+          workTop = document.getElementById("worktop");
+    
+    workCanvas.style.visibility = workTop.style.visibility = "visible";
+    addPositioner(workCanvas, 3, [[100,100], [50,150], [150,150]] );
 } // end of setTriangle
+
