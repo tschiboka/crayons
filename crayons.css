@@ -715,6 +715,10 @@ body {
     background: -moz-linear-gradient(left, #30f291 0%, #7db9e8 100%); /* FF3.6-15 */
     background: -webkit-linear-gradient(left, #30f291 0%,#7db9e8 100%); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(to right, #30f291 0%,#7db9e8 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    height: 95px;
+    left: 7px;
+    top: 15px;
+    width: 95px;
 }
 
 #rectangle-icon {

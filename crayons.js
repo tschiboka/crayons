@@ -127,12 +127,17 @@ function addIconListeners() {
           pointWidthIcon = document.getElementById("point-width-icon"),
           pointWidthPanel = document.getElementById("point-width-panel"),
           shapesIcon = document.getElementById("shapes-icon"),
-          shapesPanel = document.getElementById("shapes-panel");
+          shapesPanel = document.getElementById("shapes-panel"),
+          closeAllPanels = () => [...document.getElementsByClassName("panel")].map(e => e.style.visibility = "hidden"),
+          // delete any check signs that is not gengerated by main icons
+          ereaseChecks = () => [...document.getElementsByClassName("check")].map(e => !/.*icon.*/g.test(e.id) ? e.style.visibility = "hidden" : e);
 
+    
+    pencilIcon.addEventListener("click", () => { addToolCheck(pencilIcon.id); closeAllPanels(); });
 
-    pencilIcon.addEventListener("click", () => addToolCheck(pencilIcon.id));
-
-    pointWidthIcon.addEventListener("click", () => {              
+    pointWidthIcon.addEventListener("click", () => {  
+        closeAllPanels();   
+        ereaseChecks();         
         if (pointWidthPanel.style.visibility === "visible") pointWidthPanel.style.visibility = "hidden";
         else { 
            pointWidthPanel.style.visibility = "visible"; 
@@ -142,6 +147,7 @@ function addIconListeners() {
     }); // end of pointWidthIcon listener
 
     shapesIcon.addEventListener("click", () => {
+
         // if panel is visible and icon is checked start shape function
         if (shapesPanel.style.visibility === "visible") {
             switch(tool) {
@@ -201,7 +207,7 @@ function addToolCheck(id) {
 function addPositioner(worktop, num, coords) {
     // check if num corrisponds to coords' length
     if (num !== coords.length) throw new Error("Error on calling addCircle function! Coordinates length don't match! (" + num + ") (" + coords.length + ")");
-    else {
+    else {        
         // create positioners num times
         for (let i = 1; i <= num; i++) {
             newPositioner = document.createElement("div");
@@ -210,7 +216,9 @@ function addPositioner(worktop, num, coords) {
             newPositioner.style.left = coords[i - 1][0] + "px"; // left
             newPositioner.style.top = coords[i - 1][1] + "px";  // top
             newPositioner.title = `[${newPositioner.style.left.match(/\d+/)}, ${newPositioner.style.top.match(/\d+/)}]`;
-            worktop.appendChild(newPositioner);            
+            worktop.appendChild(newPositioner);     
+            
+            
         } // end of for     
     } // end of else
 } // end of addPositioner
@@ -219,18 +227,19 @@ function addPositioner(worktop, num, coords) {
 function setTriangle() {
     const workCanvas = document.getElementById("pseudo-canvas"),
           workTop = document.getElementById("worktop");
-          positioner = document.getElementsByClassName("positioner");
+          positioners = document.getElementsByClassName("positioner")
+          positionerClicked = [false, false, false]; 
 
     function drawTriangle() {
-        const X1 = positioner[0].style.left,
-              Y1 = positioner[0].style.top,
-              X2 = positioner[1].style.left,
-              Y2 = positioner[1].style.top,
-              X3 = positioner[2].style.left,
-              Y3 = positioner[2].style.top,
+        const X1 = positioners[0].style.left,
+              Y1 = positioners[0].style.top,
+              X2 = positioners[1].style.left,
+              Y2 = positioners[1].style.top,
+              X3 = positioners[2].style.left,
+              Y3 = positioners[2].style.top,              
               // get rid of all px postfixes (+ 4 is to get it centered (positioners width n height is 8px with border))
               coords = [X1, Y1, X2, Y2, X3, Y3].map(e => Number(e.match(/\d+/)) + 4), 
-              [x1, y1, x2, y2, x3, y3] = [...coords]; // spread back the numbers
+              [x1, y1, x2, y2, x3, y3] = [...coords]; // spread back the numbers             
 
         triangleCtx = workCanvas.getContext("2d");
         triangleCtx.beginPath();
@@ -248,6 +257,39 @@ function setTriangle() {
 
     workCanvas.style.visibility = workTop.style.visibility = "visible";
     addPositioner(workTop, 3, [[180,50], [50,250], [330,250]] );
+
+    // EVENTS
+
+    let oldPositionX, oldPositionY; // they're gonna get there value from mousedown event
+
+    [...positioners].forEach(e => {
+        e.addEventListener("mousedown", function (event) { 
+            positionerClicked[Number(this.id.match(/\d/)) - 1] = true;
+            oldPositionX = event.pageX;
+            oldPositionY = event.pageY;
+            console.log(oldPositionX, oldPositionY, positionerClicked);
+        }); // end of mousedown listener        
+    }); // end of forEach
+    
+    workTop.addEventListener("mouseup", function () { positionerClicked = [false, false, false]; console.log("here i clear " + positionerClicked); });          
+    workTop.addEventListener("mousemove", function (event) {
+        const positionerToDrag = document.getElementById("positioner" + Number(positionerClicked.findIndex(e => !!e) + 1));
+
+        if (positionerToDrag) {
+            const diffXY = [event.pageX - oldPositionX, event.pageY - oldPositionY], // pixel movement xy
+                  left = Number(positionerToDrag.style.left.match(/\d+/)),           // current left position 
+                  top = Number(positionerToDrag.style.top.match(/\d+/)),             // current top position
+                  newXY = [left + diffXY[0], top + diffXY[1]];                       // the newly calculated positon
+
+            // set new positions
+            positionerToDrag.style.left  = ((newXY[0] >= -4 && newXY[0] <= 375) ? newXY[0] : left) + "px";
+            positionerToDrag.style.top   = ((newXY[1] >= -4 && newXY[1] <= 295) ? newXY[1] : top ) + "px";
+            [oldPositionX, oldPositionY] = [event.pageX, event.pageY]; // refresh oldpositions
+
+            drawTriangle();
+        } // end of if    
+    }); // end of mousemove listener
+     
     drawTriangle();
 } // end of setTriangle
 
