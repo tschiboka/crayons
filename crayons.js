@@ -127,17 +127,13 @@ function addIconListeners() {
           pointWidthIcon = document.getElementById("point-width-icon"),
           pointWidthPanel = document.getElementById("point-width-panel"),
           shapesIcon = document.getElementById("shapes-icon"),
-          shapesPanel = document.getElementById("shapes-panel"),
-          closeAllPanels = () => [...document.getElementsByClassName("panel")].map(e => e.style.visibility = "hidden"),
-          // delete any check signs that is not gengerated by main icons
-          ereaseChecks = () => [...document.getElementsByClassName("check")].map(e => !/.*icon.*/g.test(e.id) ? e.style.visibility = "hidden" : e);
+          shapesPanel = document.getElementById("shapes-panel");          
 
     
-    pencilIcon.addEventListener("click", () => { addToolCheck(pencilIcon.id); closeAllPanels(); });
+    pencilIcon.addEventListener("click", () => { addToolCheck(pencilIcon.id); closeAllPanels(); tool = "draw"});
 
-    pointWidthIcon.addEventListener("click", () => {  
-        closeAllPanels();   
-        ereaseChecks();         
+    pointWidthIcon.addEventListener("click", () => {                
+        console.log(tool);
         if (pointWidthPanel.style.visibility === "visible") pointWidthPanel.style.visibility = "hidden";
         else { 
            pointWidthPanel.style.visibility = "visible"; 
@@ -216,9 +212,7 @@ function addPositioner(worktop, num, coords) {
             newPositioner.style.left = coords[i - 1][0] + "px"; // left
             newPositioner.style.top = coords[i - 1][1] + "px";  // top
             newPositioner.title = `[${newPositioner.style.left.match(/\d+/)}, ${newPositioner.style.top.match(/\d+/)}]`;
-            worktop.appendChild(newPositioner);     
-            
-            
+            worktop.appendChild(newPositioner); 
         } // end of for     
     } // end of else
 } // end of addPositioner
@@ -226,8 +220,9 @@ function addPositioner(worktop, num, coords) {
 
 function setTriangle() {
     const workCanvas = document.getElementById("pseudo-canvas"),
-          workTop = document.getElementById("worktop");
-          positioners = document.getElementsByClassName("positioner")
+          workTop = document.getElementById("worktop"),
+          helper = document.getElementById("worktop-helper"),
+          positioners = document.getElementsByClassName("positioner"),
           positionerClicked = [false, false, false]; 
 
     function drawTriangle() {
@@ -242,6 +237,9 @@ function setTriangle() {
               [x1, y1, x2, y2, x3, y3] = [...coords]; // spread back the numbers             
 
         triangleCtx = workCanvas.getContext("2d");
+        // clear canvas
+        triangleCtx.clearRect(0, 0, workCanvas.width, workCanvas. height);
+        // draw triangle
         triangleCtx.beginPath();
         triangleCtx.moveTo(x1, y1);
         triangleCtx.lineTo(x2, y2);
@@ -255,7 +253,8 @@ function setTriangle() {
         triangleCtx.stroke();        
     } // end of drawTriangle
 
-    workCanvas.style.visibility = workTop.style.visibility = "visible";
+    workCanvas.style.visibility = workTop.style.visibility = helper.style.visibility = "visible";
+
     addPositioner(workTop, 3, [[180,50], [50,250], [330,250]] );
 
     // EVENTS
@@ -263,7 +262,8 @@ function setTriangle() {
     let oldPositionX, oldPositionY; // they're gonna get there value from mousedown event
 
     [...positioners].forEach(e => {
-        e.addEventListener("mousedown", function (event) { 
+        e.addEventListener("mousedown", function (event) {
+            event.preventDefault(); // prevent text selection while dragging 
             positionerClicked[Number(this.id.match(/\d/)) - 1] = true;
             oldPositionX = event.pageX;
             oldPositionY = event.pageY;
@@ -271,10 +271,17 @@ function setTriangle() {
         }); // end of mousedown listener        
     }); // end of forEach
     
-    workTop.addEventListener("mouseup", function () { positionerClicked = [false, false, false]; console.log("here i clear " + positionerClicked); });          
-    workTop.addEventListener("mousemove", function (event) {
-        const positionerToDrag = document.getElementById("positioner" + Number(positionerClicked.findIndex(e => !!e) + 1));
+    workTop.addEventListener("mouseup", function () { positionerClicked[0] = positionerClicked[1] = positionerClicked[2] = false; });          
 
+    workTop.addEventListener("mousemove", function (event) {
+        const positionerToDrag = document.getElementById("positioner" + Number(positionerClicked.findIndex(e => !!e) + 1)),
+              leftmostX = Math.max(...[...positioners].map(p => Number(window.getComputedStyle(p).left.match(/\d+/)))), // find leftmost x position
+              leftMostPositionerY = window.getComputedStyle(positioners[[...positioners].findIndex(p => window.getComputedStyle(p).left === leftmostX + "px")]).top;
+                                                
+                  
+
+        console.log(leftmostX, leftMostPositionerY);
+        event.preventDefault(); // prevent text selection while dragging 
         if (positionerToDrag) {
             const diffXY = [event.pageX - oldPositionX, event.pageY - oldPositionY], // pixel movement xy
                   left = Number(positionerToDrag.style.left.match(/\d+/)),           // current left position 
@@ -282,11 +289,15 @@ function setTriangle() {
                   newXY = [left + diffXY[0], top + diffXY[1]];                       // the newly calculated positon
 
             // set new positions
-            positionerToDrag.style.left  = ((newXY[0] >= -4 && newXY[0] <= 375) ? newXY[0] : left) + "px";
+            positionerToDrag.style.left  = ((newXY[0] >= -4 && newXY[0] <= 375) ? newXY[0] : left) + "px"; // positions have to be in worktop!
             positionerToDrag.style.top   = ((newXY[1] >= -4 && newXY[1] <= 295) ? newXY[1] : top ) + "px";
-            [oldPositionX, oldPositionY] = [event.pageX, event.pageY]; // refresh oldpositions
+            [oldPositionX, oldPositionY] = [event.pageX, event.pageY];               // refresh oldpositions
+            positionerToDrag.title = `[${left}, ${top}]`;                            // reset title
 
-            drawTriangle();
+            helper.style.left = (leftmostX - 80) + "px";
+            helper.style.top = leftMostPositionerY;
+
+            drawTriangle(); // redraw on mousemove
         } // end of if    
     }); // end of mousemove listener
      

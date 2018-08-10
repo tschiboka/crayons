@@ -79,6 +79,43 @@ body {
      background: #55f7a6;
 }
 
+#worktop-helper{
+    background: var(--grey);    
+    border: 1px solid var(--icon-color);
+    border-radius: 10px;    
+    height: 20px;   
+    left: 0; 
+    position: absolute;
+    top: 0;        
+    width: 60px;
+    visibility: hidden;
+}
+
+#worktop-helper-check {
+    border-right: 1px solid rgba(250,250,250,0.3);   
+    color: #4dffb8;
+    height: 20px;   
+    left: 0; 
+    position: absolute;
+    text-align: center;
+    font-size: 14px;
+    top: 0;        
+    width: 29px;
+}
+
+#worktop-helper-close {    
+    color: #ee4859;
+    height: 20px;   
+    left: 30px; 
+    position: absolute;
+    text-align: center;
+    font-size: 14px;
+    top: 0;        
+    width: 29px;
+}
+
+#worktop-helper-check:hover, #worktop-helper-close:hover { font-size: 18px; line-height: 19px; }
+
 .pencil {  
     color: white;         
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; 
