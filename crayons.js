@@ -227,13 +227,25 @@ function setTriangle() {
               X2 = positioner[1].style.left,
               Y2 = positioner[1].style.top,
               X3 = positioner[2].style.left,
-              Y3 = positioner[2].style.top;
-        [X1, Y1, X2, Y2, X3, Y3] = [X1, Y1, X2, Y2, X3, Y3].map(e => e.match(/\d+/)); // get rid of all px postfixes
+              Y3 = positioner[2].style.top,
+              // get rid of all px postfixes (+ 4 is to get it centered (positioners width n height is 8px with border))
+              coords = [X1, Y1, X2, Y2, X3, Y3].map(e => Number(e.match(/\d+/)) + 4), 
+              [x1, y1, x2, y2, x3, y3] = [...coords]; // spread back the numbers
+
         triangleCtx = workCanvas.getContext("2d");
         triangleCtx.beginPath();
-        //triangleCtx.moveTo();
-        console.log(X1, Y1, X2, Y2, X3, Y3, XXX);
+        triangleCtx.moveTo(x1, y1);
+        triangleCtx.lineTo(x2, y2);
+        triangleCtx.moveTo(x2, y2);
+        triangleCtx.lineTo(x3, y3);
+        triangleCtx.moveTo(x3, y3);
+        triangleCtx.lineTo(x1, y1);
+        triangleCtx.closePath();
+        triangleCtx.lineWidth = toolSettings.drawingWidth;
+        triangleCtx.strokeStyle = drawingColor;
+        triangleCtx.stroke();        
     } // end of drawTriangle
+
     workCanvas.style.visibility = workTop.style.visibility = "visible";
     addPositioner(workTop, 3, [[180,50], [50,250], [330,250]] );
     drawTriangle();
