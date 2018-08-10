@@ -147,7 +147,8 @@ function addIconListeners() {
         // if panel is visible and icon is checked start shape function
         if (shapesPanel.style.visibility === "visible") {
             switch(tool) {
-                case "triangle": { setTriangle(); break; } 
+                case "triangle": { setTriangle(); break; }
+                case "square": { setSquare(); break; } 
             } // end of switch tool
         } // end of if visible
         shapesPanel.style.visibility = shapesPanel.style.visibility === "visible" ? "hidden" : "visible"; 
@@ -202,7 +203,7 @@ function addToolCheck(id) {
    ([[X1,Y1],[X2Y2]...]) if coord length differs from num, exception is thrown! */
 function addPositioner(worktop, num, coords) {
     // check if num corrisponds to coords' length
-    if (num !== coords.length) throw new Error("Error on calling addCircle function! Coordinates length don't match! (" + num + ") (" + coords.length + ")");
+    if (num !== coords.length) throw new Error("Error on calling addPositioner function! Coordinates length don't match! (" + num + ") (" + coords.length + ")");
     else {        
         // create positioners num times
         for (let i = 1; i <= num; i++) {
@@ -218,53 +219,24 @@ function addPositioner(worktop, num, coords) {
 } // end of addPositioner
 
 
-function setTriangle() {
-    const workCanvas = document.getElementById("pseudo-canvas"),
-          workTop = document.getElementById("worktop"),
-          helper = document.getElementById("worktop-helper"),
-          helperYes = document.getElementById("worktop-helper-check"),
-          helperNo = document.getElementById("worktop-helper-close"),
-          positioners = document.getElementsByClassName("positioner"),
-          positionerClicked = [false, false, false]; 
 
-    function drawTriangle(context) {
-        const X1 = positioners[0].style.left,
-              Y1 = positioners[0].style.top,
-              X2 = positioners[1].style.left,
-              Y2 = positioners[1].style.top,
-              X3 = positioners[2].style.left,
-              Y3 = positioners[2].style.top,              
-              // get rid of all px postfixes (+ 4 is to get it centered (positioners width n height is 8px with border))
-              coords = [X1, Y1, X2, Y2, X3, Y3].map(e => Number(e.match(/\d+/)) + 4), 
-              [x1, y1, x2, y2, x3, y3] = [...coords]; // spread back the numbers             
-
-        triangleCtx = context || workCanvas.getContext("2d"); // default is workCanvas
-        // clear canvas if its the worktop cotext
-        console.log(!context);
-        if (!context) triangleCtx.clearRect(0, 0, workCanvas.width, workCanvas. height);
-        // draw triangle
-        triangleCtx.beginPath();
-        triangleCtx.moveTo(x1, y1);
-        triangleCtx.lineTo(x2, y2);
-        triangleCtx.moveTo(x2, y2);
-        triangleCtx.lineTo(x3, y3);
-        triangleCtx.moveTo(x3, y3);
-        triangleCtx.lineTo(x1, y1);
-        triangleCtx.closePath();
-        triangleCtx.lineWidth = toolSettings.drawingWidth;
-        triangleCtx.strokeStyle = drawingColor;
-        triangleCtx.stroke();        
-    } // end of drawTriangle
+/* General shape drawing function.*/
+function anyShapeDrawing(positionerNum, drawingFunction) {
+    const workCanvas = document.getElementById("pseudo-canvas"),       // the canvas we put the temporary drawings
+          workTop = document.getElementById("worktop"),                // the div we put the positioners on
+          helper = document.getElementById("worktop-helper"),          // helper div where we can press ok, or cancel
+          helperYes = document.getElementById("worktop-helper-check"), // ok "button" (div)
+          helperNo = document.getElementById("worktop-helper-close"),  // cancel "button"
+          positioners = document.getElementsByClassName("positioner"), // the positioners will give the basic coordinates of every shapes
+          positionerClicked = Array(positionerNum).fill(false);        // array that holds maximum 1 true value, the currently active positioners. the true id is the active ids position +1.
 
     workCanvas.style.visibility = workTop.style.visibility = helper.style.visibility = "visible";
-
-    addPositioner(workTop, 3, [[180,50], [50,250], [330,250]] );
 
     // EVENTS
 
     let oldPositionX, oldPositionY; // they're gonna get there value from mousedown event
 
-    helperYes.addEventListener("click", () => { drawTriangle(ctx); });
+    helperYes.addEventListener("click", () => { drawingFunction(ctx); });
 
     helperNo.addEventListener("click", () => { closeWorkTop(); });
 
@@ -274,20 +246,17 @@ function setTriangle() {
             positionerClicked[Number(this.id.match(/\d/)) - 1] = true;
             oldPositionX = event.pageX;
             oldPositionY = event.pageY;
-            console.log(oldPositionX, oldPositionY, positionerClicked);
         }); // end of mousedown listener        
     }); // end of forEach    
 
-    workTop.addEventListener("mouseup", function () { positionerClicked[0] = positionerClicked[1] = positionerClicked[2] = false; });          
+    workTop.addEventListener("mouseup", function () { positionerClicked.map((e, i) => positionerClicked[i] = false); });  // workaround, positionerClicked is a constans, can't re-reference it        
 
     workTop.addEventListener("mousemove", function (event) {
         const positionerToDrag = document.getElementById("positioner" + Number(positionerClicked.findIndex(e => !!e) + 1)),
               leftmostX = Math.max(...[...positioners].map(p => Number(window.getComputedStyle(p).left.match(/\d+/)))), // find leftmost x position
-              leftMostPositionerY = window.getComputedStyle(positioners[[...positioners].findIndex(p => window.getComputedStyle(p).left === leftmostX + "px")]).top;
-                                                
+              leftMostPositionerY = window.getComputedStyle(positioners[[...positioners].findIndex(p => window.getComputedStyle(p).left === leftmostX + "px")]).top;                                               
                   
 
-        console.log(leftmostX, leftMostPositionerY);
         event.preventDefault(); // prevent text selection while dragging 
         if (positionerToDrag) {
             const diffXY = [event.pageX - oldPositionX, event.pageY - oldPositionY], // pixel movement xy
@@ -304,26 +273,105 @@ function setTriangle() {
             helper.style.left = (leftmostX - 60) + "px";
             helper.style.top = leftMostPositionerY;
 
-            drawTriangle(); // redraw on mousemove
+            drawingFunction(); // redraw on mousemove
         } // end of if    
     }); // end of mousemove listener
     
-    function closeWorkTop() {
-        // work-canvas, helper disappears
-        workCanvas.style.visibility = helper.style.visibility = "hidden";
-
-        // remove workTop eventlisteners        
-        const newWorkTop = workTop.cloneNode(true); // cloned node will not inherit listeners
-        workTop.parentNode.replaceChild(newWorkTop, workTop);
-
-        // remove all positioners
-        [...positioners].forEach(p => { newWorkTop.removeChild(p); });
-
-        // hide workTop
-        newWorkTop.style.visibility = "hidden";
-        
-        console.log(helper);
+    function closeWorkTop() {        
+        workCanvas.style.visibility = helper.style.visibility = "hidden"; // work-canvas, helper disappears               
+        const newWorkTop = workTop.cloneNode(true);                       // cloned node will not inherit listeners
+        workTop.parentNode.replaceChild(newWorkTop, workTop);             // remove workTop eventlisteners         
+        [...positioners].forEach(p => { newWorkTop.removeChild(p); });    // remove all positioners        
+        newWorkTop.style.visibility = "hidden";                           // hide workTop  
     } // end of closeWorkTop 
-    drawTriangle();
+    drawingFunction(); // prime shape on canvas
+} // end of anyShapeDrawing
+
+
+
+
+function setTriangle() {    
+    const positioners = document.getElementsByClassName("positioner"),
+          workTop = document.getElementById("worktop"),
+          workCanvas = document.getElementById("pseudo-canvas");          
+
+    function drawTriangle(context) {
+        const X1 = positioners[0].style.left,
+              Y1 = positioners[0].style.top,
+              X2 = positioners[1].style.left,
+              Y2 = positioners[1].style.top,
+              X3 = positioners[2].style.left,
+              Y3 = positioners[2].style.top,              
+              // get rid of all px postfixes (+ 4 is to get it centered (positioners width n height is 8px with border))
+              coords = [X1, Y1, X2, Y2, X3, Y3].map(e => Number(e.match(/\d+/)) + 4), 
+              [x1, y1, x2, y2, x3, y3] = [...coords], // spread back the numbers
+              triangleCtx = context || workCanvas.getContext("2d"); // default is workCanvas
+
+        // clear canvas if it's the worktop context        
+        if (!context) triangleCtx.clearRect(0, 0, workCanvas.width, workCanvas. height);
+
+        // draw triangle
+        triangleCtx.beginPath();
+        triangleCtx.moveTo(x1, y1);
+        triangleCtx.lineTo(x2, y2);
+        triangleCtx.moveTo(x2, y2);
+        triangleCtx.lineTo(x3, y3);
+        triangleCtx.moveTo(x3, y3);
+        triangleCtx.lineTo(x1, y1);
+        triangleCtx.closePath();
+        triangleCtx.lineWidth = toolSettings.drawingWidth;
+        triangleCtx.strokeStyle = drawingColor;
+        triangleCtx.stroke();        
+    } // end of drawTriangle
+
+    addPositioner(workTop, 3, [[180,50], [50,250], [330,250]]);
+
+    anyShapeDrawing(3, drawTriangle);
 } // end of setTriangle
 
+
+
+
+
+function setSquare() {
+    const positioners = document.getElementsByClassName("positioner"),
+          workTop = document.getElementById("worktop"),
+          workCanvas = document.getElementById("pseudo-canvas"); 
+
+
+    function drawSquare(context) {
+        const X1 = positioners[0].style.left,
+              Y1 = positioners[0].style.top,
+              X2 = positioners[1].style.left,
+              Y2 = positioners[1].style.top,
+              X3 = positioners[2].style.left,
+              Y3 = positioners[2].style.top,  
+              X4 = positioners[3].style.left,
+              Y4 = positioners[3].style.top,
+              // get rid of all px postfixes (+ 4 is to get it centered (positioners width n height is 8px with border))
+              coords = [X1, Y1, X2, Y2, X3, Y3, X4, Y4].map(e => Number(e.match(/\d+/)) + 4), 
+              [x1, y1, x2, y2, x3, y3, x4, y4] = [...coords]; // spread back the numbers 
+              squareCtx = context || workCanvas.getContext("2d"); // default is workCanvas
+        // clear canvas if it's the worktop context        
+        if (!context) squareCtx.clearRect(0, 0, workCanvas.width, workCanvas. height);
+
+        // draw triangle
+        squareCtx.beginPath();
+        squareCtx.moveTo(x1, y1);
+        squareCtx.lineTo(x2, y2);
+        squareCtx.moveTo(x2, y2);
+        squareCtx.lineTo(x3, y3);
+        squareCtx.moveTo(x3, y3);
+        squareCtx.lineTo(x4, y4);
+        squareCtx.moveTo(x4, y4);
+        squareCtx.lineTo(x1, y1);
+        squareCtx.closePath();
+        squareCtx.lineWidth = toolSettings.drawingWidth;
+        squareCtx.strokeStyle = drawingColor;
+        squareCtx.stroke();  
+    } // end of drawSquare
+
+    addPositioner(workTop, 4, [[50,50], [50,250], [250,250], [250,50]]);
+
+    anyShapeDrawing(4, drawSquare);
+} // end of setSquare
