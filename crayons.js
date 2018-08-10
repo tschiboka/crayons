@@ -130,7 +130,7 @@ function addIconListeners() {
           shapesPanel = document.getElementById("shapes-panel");          
 
     
-    pencilIcon.addEventListener("click", () => { addToolCheck(pencilIcon.id); closeAllPanels(); tool = "draw"});
+    pencilIcon.addEventListener("click", () => { addToolCheck(pencilIcon.id); tool = "draw"});
 
     pointWidthIcon.addEventListener("click", () => {                
         console.log(tool);
@@ -222,10 +222,12 @@ function setTriangle() {
     const workCanvas = document.getElementById("pseudo-canvas"),
           workTop = document.getElementById("worktop"),
           helper = document.getElementById("worktop-helper"),
+          helperYes = document.getElementById("worktop-helper-check"),
+          helperNo = document.getElementById("worktop-helper-close"),
           positioners = document.getElementsByClassName("positioner"),
           positionerClicked = [false, false, false]; 
 
-    function drawTriangle() {
+    function drawTriangle(context) {
         const X1 = positioners[0].style.left,
               Y1 = positioners[0].style.top,
               X2 = positioners[1].style.left,
@@ -236,9 +238,10 @@ function setTriangle() {
               coords = [X1, Y1, X2, Y2, X3, Y3].map(e => Number(e.match(/\d+/)) + 4), 
               [x1, y1, x2, y2, x3, y3] = [...coords]; // spread back the numbers             
 
-        triangleCtx = workCanvas.getContext("2d");
-        // clear canvas
-        triangleCtx.clearRect(0, 0, workCanvas.width, workCanvas. height);
+        triangleCtx = context || workCanvas.getContext("2d"); // default is workCanvas
+        // clear canvas if its the worktop cotext
+        console.log(!context);
+        if (!context) triangleCtx.clearRect(0, 0, workCanvas.width, workCanvas. height);
         // draw triangle
         triangleCtx.beginPath();
         triangleCtx.moveTo(x1, y1);
@@ -261,6 +264,10 @@ function setTriangle() {
 
     let oldPositionX, oldPositionY; // they're gonna get there value from mousedown event
 
+    helperYes.addEventListener("click", () => { drawTriangle(ctx); });
+
+    helperNo.addEventListener("click", () => { closeWorkTop(); });
+
     [...positioners].forEach(e => {
         e.addEventListener("mousedown", function (event) {
             event.preventDefault(); // prevent text selection while dragging 
@@ -269,8 +276,8 @@ function setTriangle() {
             oldPositionY = event.pageY;
             console.log(oldPositionX, oldPositionY, positionerClicked);
         }); // end of mousedown listener        
-    }); // end of forEach
-    
+    }); // end of forEach    
+
     workTop.addEventListener("mouseup", function () { positionerClicked[0] = positionerClicked[1] = positionerClicked[2] = false; });          
 
     workTop.addEventListener("mousemove", function (event) {
@@ -294,13 +301,29 @@ function setTriangle() {
             [oldPositionX, oldPositionY] = [event.pageX, event.pageY];               // refresh oldpositions
             positionerToDrag.title = `[${left}, ${top}]`;                            // reset title
 
-            helper.style.left = (leftmostX - 80) + "px";
+            helper.style.left = (leftmostX - 60) + "px";
             helper.style.top = leftMostPositionerY;
 
             drawTriangle(); // redraw on mousemove
         } // end of if    
     }); // end of mousemove listener
-     
+    
+    function closeWorkTop() {
+        // work-canvas, helper disappears
+        workCanvas.style.visibility = helper.style.visibility = "hidden";
+
+        // remove workTop eventlisteners        
+        const newWorkTop = workTop.cloneNode(true); // cloned node will not inherit listeners
+        workTop.parentNode.replaceChild(newWorkTop, workTop);
+
+        // remove all positioners
+        [...positioners].forEach(p => { newWorkTop.removeChild(p); });
+
+        // hide workTop
+        newWorkTop.style.visibility = "hidden";
+        
+        console.log(helper);
+    } // end of closeWorkTop 
     drawTriangle();
 } // end of setTriangle
 
