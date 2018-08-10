@@ -206,10 +206,11 @@ function addPositioner(worktop, num, coords) {
         for (let i = 1; i <= num; i++) {
             newPositioner = document.createElement("div");
             newPositioner.id = "positioner"+i;                  // id
-            newPositioner.class = "positioner";                 // class
-            newPositioner.style.left = coords[i - 1][0];        // left
-            newPositioner.style.top = coords[i - 1][1];         // top
-            console.log(newPositioner.id, newPositioner.class);
+            newPositioner.classList.add("positioner");          // class
+            newPositioner.style.left = coords[i - 1][0] + "px"; // left
+            newPositioner.style.top = coords[i - 1][1] + "px";  // top
+            worktop.appendChild(newPositioner);
+            console.log(window.getComputedStyle(newPositioner).width);
         } // end of for     
     } // end of else
 } // end of addPositioner
@@ -220,6 +221,6 @@ function setTriangle() {
           workTop = document.getElementById("worktop");
     
     workCanvas.style.visibility = workTop.style.visibility = "visible";
-    addPositioner(workCanvas, 3, [[100,100], [50,150], [150,150]] );
+    addPositioner(workTop, 3, [[180,50], [50,250], [330,250]] );
 } // end of setTriangle
 
