@@ -209,8 +209,8 @@ function addPositioner(worktop, num, coords) {
             newPositioner.classList.add("positioner");          // class
             newPositioner.style.left = coords[i - 1][0] + "px"; // left
             newPositioner.style.top = coords[i - 1][1] + "px";  // top
-            worktop.appendChild(newPositioner);
-            console.log(window.getComputedStyle(newPositioner).width);
+            newPositioner.title = `[${newPositioner.style.left.match(/\d+/)}, ${newPositioner.style.top.match(/\d+/)}]`;
+            worktop.appendChild(newPositioner);            
         } // end of for     
     } // end of else
 } // end of addPositioner
@@ -219,8 +219,23 @@ function addPositioner(worktop, num, coords) {
 function setTriangle() {
     const workCanvas = document.getElementById("pseudo-canvas"),
           workTop = document.getElementById("worktop");
-    
+          positioner = document.getElementsByClassName("positioner");
+
+    function drawTriangle() {
+        const X1 = positioner[0].style.left,
+              Y1 = positioner[0].style.top,
+              X2 = positioner[1].style.left,
+              Y2 = positioner[1].style.top,
+              X3 = positioner[2].style.left,
+              Y3 = positioner[2].style.top;
+        [X1, Y1, X2, Y2, X3, Y3] = [X1, Y1, X2, Y2, X3, Y3].map(e => e.match(/\d+/)); // get rid of all px postfixes
+        triangleCtx = workCanvas.getContext("2d");
+        triangleCtx.beginPath();
+        //triangleCtx.moveTo();
+        console.log(X1, Y1, X2, Y2, X3, Y3, XXX);
+    } // end of drawTriangle
     workCanvas.style.visibility = workTop.style.visibility = "visible";
     addPositioner(workTop, 3, [[180,50], [50,250], [330,250]] );
+    drawTriangle();
 } // end of setTriangle
 
