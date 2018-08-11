@@ -263,10 +263,70 @@ function anyShapeDrawing(positionerNum, drawingFunction) {
                   left = Number(positionerToDrag.style.left.match(/\d+/)),           // current left position 
                   top = Number(positionerToDrag.style.top.match(/\d+/)),             // current top position
                   newXY = [left + diffXY[0], top + diffXY[1]];                       // the newly calculated positon
-
+           
             // set new positions
-            positionerToDrag.style.left  = ((newXY[0] >= -4 && newXY[0] <= 375) ? newXY[0] : left) + "px"; // positions have to be in worktop!
-            positionerToDrag.style.top   = ((newXY[1] >= -4 && newXY[1] <= 295) ? newXY[1] : top ) + "px";
+
+            switch (tool) {
+                case "square": {
+                    const corner = Number(positionerToDrag.id.match(/\d/) - 1),
+                          findPositionerWherXIsToBeAdjusted = c =>[[0, 1], [1, 0], [2, 3], [3, 2]].filter(e => e[0] === c)[0][1],
+                          findPositionerWherYIsToBeAdjusted = c =>[[0, 3], [1, 2], [2, 1], [3, 0]].filter(e => e[0] === c)[0][1],
+                          xAdjust = document.getElementById("positioner" + (findPositionerWherXIsToBeAdjusted(corner) + 1)),
+                          yAdjust = document.getElementById("positioner" + (findPositionerWherYIsToBeAdjusted(corner) + 1))
+                          changeX = newXY[0] - left,
+                          changeY = newXY[1] - top,
+                          changeMin = Math.min(Math.abs(changeX), Math.abs(changeY)), // choose the smeller amount of change
+                          changeAmount = changeMin > 5 ? 5 : changeMin, // and it cannot be grater then 5
+                          changeXY = []; 
+
+                    // set changeXY by scenario
+                    switch (corner) {
+                        case 0: { (changeX < 0 && changeY < 0) ? changeXY = [-Math.abs(changeAmount), -Math.abs(changeAmount)]
+                                    : (changeX >= 0 && changeY >= 0) ? changeXY = [Math.abs(changeAmount), Math.abs(changeAmount)]
+                                    : changeXY = [0, 0];
+                                    break; }
+                        case 1: { (changeX < 0 && changeY >= 0) ? changeXY = [-Math.abs(changeAmount), Math.abs(changeAmount)]
+                                    : (changeX >= 0 && changeY < 0) ? changeXY = [Math.abs(changeAmount), -Math.abs(changeAmount)]
+                                    : changeXY = [0, 0];
+                                    break; }                       
+                        case 2: { (changeX >= 0 && changeY >= 0) ? changeXY = [Math.abs(changeAmount), Math.abs(changeAmount)]
+                                    : (changeX < 0 && changeY < 0) ? changeXY = [-Math.abs(changeAmount), -Math.abs(changeAmount)]
+                                    : changeXY = [0, 0];
+                                    break; } 
+                        case 3: { (changeX < 0 && changeY >= 0) ? changeXY = [-Math.abs(changeAmount), Math.abs(changeAmount)]
+                                   : (changeX >= 0 && changeY < 0) ? changeXY = [Math.abs(changeAmount), -Math.abs(changeAmount)]
+                                   : changeXY = [0, 0];
+                                   break; }                               
+                    } // end of switch corner
+                    
+                    const X = 0 < (left + changeXY[0]) && (left + changeXY[0]) < 380 ? (left + changeXY[0]) : left,
+                          Y = 0 < (top + changeXY[1]) && (top + changeXY[1]) < 300 ? (top + changeXY[1]) : top;
+                    console.log(X, Y, changeAmount);
+                    positionerToDrag.style.left  = X + "px"; // positions have to be in worktop!
+                    positionerToDrag.style.top   = Y + "px";
+                    xAdjust.style.left = window.getComputedStyle(positionerToDrag).left;
+                    yAdjust.style.top = window.getComputedStyle(positionerToDrag).top; 
+                    break;
+                } // end of case square
+                case "rectangle": {
+                    const corner = Number(positionerToDrag.id.match(/\d/) - 1),
+                          findPositionerWherXIsToBeAdjusted = c =>[[0, 1], [1, 0], [2, 3], [3, 2]].filter(e => e[0] === c)[0][1],
+                          findPositionerWherYIsToBeAdjusted = c =>[[0, 3], [1, 2], [2, 1], [3, 0]].filter(e => e[0] === c)[0][1],
+                          xAdjust = document.getElementById("positioner" + (findPositionerWherXIsToBeAdjusted(corner) + 1)),
+                          yAdjust = document.getElementById("positioner" + (findPositionerWherYIsToBeAdjusted(corner) + 1));
+
+                    positionerToDrag.style.left  = ((newXY[0] >= -4 && newXY[0] <= 375) ? newXY[0] : left) + "px"; // positions have to be in worktop!
+                    positionerToDrag.style.top   = ((newXY[1] >= -4 && newXY[1] <= 295) ? newXY[1] : top ) + "px";
+                    xAdjust.style.left = window.getComputedStyle(positionerToDrag).left;
+                    yAdjust.style.top = window.getComputedStyle(positionerToDrag).top; 
+                    break;
+                } // end of case rectangle
+                default: {
+                    positionerToDrag.style.left  = ((newXY[0] >= -4 && newXY[0] <= 375) ? newXY[0] : left) + "px"; // positions have to be in worktop!
+                    positionerToDrag.style.top   = ((newXY[1] >= -4 && newXY[1] <= 295) ? newXY[1] : top ) + "px";
+                } // end of default
+            } // end of switch tool
+
             [oldPositionX, oldPositionY] = [event.pageX, event.pageY];               // refresh oldpositions
             positionerToDrag.title = `[${left}, ${top}]`;                            // reset title
 
