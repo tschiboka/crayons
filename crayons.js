@@ -11,6 +11,7 @@ var drawingColor = "black",                     // default drawing color
     };
 
 
+
 addPencilMouseListeners();
 addColorPaletteMouseListener();
 addCursorOverCanvasListener();
@@ -18,6 +19,7 @@ addMouseUpDownListener();
 addPointWidthSliderListener();
 addIconListeners();
 addShapeListeners();
+
 
 
 function addPencilMouseListeners() {
@@ -54,6 +56,7 @@ function addPencilMouseListeners() {
 } // end of addPencilMouseListener
 
 
+
 function addColorPaletteMouseListener() {
     const palette = document.getElementById("palette-icon");
 
@@ -71,6 +74,7 @@ function addColorPaletteMouseListener() {
 } // end of addColorPaletteMouseListener
 
 
+
 function addCursorOverCanvasListener() {    
     canvas.addEventListener("mousemove", function(e) {
         const rect = e.target.getBoundingClientRect(); // get relative coordinates
@@ -86,6 +90,7 @@ function addCursorOverCanvasListener() {
 } // end of addCursorOverSheetListener
 
 
+
 function addMouseUpDownListener() {    
     const body = document.getElementsByTagName("body")[0];
 
@@ -93,6 +98,7 @@ function addMouseUpDownListener() {
     // whenever mouse button released clear mouse history for new linedraws
     body.addEventListener("mouseup", () => { mouseDown = false; lastDrawEventCoordinates = false; }); 
 } // end of addCanvasMouseDownListener
+
 
 
 function drawOnCanvas() {    
@@ -122,6 +128,7 @@ function drawOnCanvas() {
 } // end of drawOnCanvas
 
 
+
 function addIconListeners() {
     const pencilIcon = document.getElementById("pencil-icon"),
           pointWidthIcon = document.getElementById("point-width-icon"),
@@ -149,6 +156,7 @@ function addIconListeners() {
             switch(tool) {
                 case "triangle": { setTriangle(); break; }
                 case "square": { setSquare(); break; } 
+                case "rectangle": { setRectangle(); break; }
             } // end of switch tool
         } // end of if visible
         shapesPanel.style.visibility = shapesPanel.style.visibility === "visible" ? "hidden" : "visible"; 
@@ -159,6 +167,7 @@ function addIconListeners() {
         } // end of if
     }); // end of shapesIcon listener
 } // end of addIconListeners
+
 
 
 function addPointWidthSliderListener() {
@@ -176,11 +185,15 @@ function addPointWidthSliderListener() {
     }); // end of mousemove listener
 } // end of addPointWidthSliderListener
 
+
+
 function addShapeListeners() {
     const shapes = document.getElementsByClassName("shape-option"); // get all shapes
 
     [...shapes].forEach(sh => sh.addEventListener("click",function () { addToolCheck(this.id); })); // add listeners to all
 } // end of addShapeListeners
+
+
 
 function addToolCheck(id) {
     const toolsIds = ["pencil-icon", "shape-triangle", "shape-square", "shape-rectangle", "shape-rounded-rectangle", "shape-circle", "shape-ellipse"],
@@ -196,6 +209,7 @@ function addToolCheck(id) {
     // if one of the shapes are selected, shape icon is checked
     document.getElementById("shapes-icon-check").style.visibility = ((/(triangle|square|rectangle|rounded-rectangle|circle|ellipse)/).test(tool)) ? "visible" : "hidden";
 } // end of addToolCheck
+
 
 
 /* addPositioner adds as many points to the surface (arg0) as arg1, which will be used to set geometric shape
@@ -220,7 +234,12 @@ function addPositioner(worktop, num, coords) {
 
 
 
-/* General shape drawing function.*/
+
+/* 
+    General shape drawing function. It takes positioner number as argument1, so it can be flexibly used, and drawingfunction
+    as a secound argument. The caller function is sending its own drawing function, so drawing won't make this function bigger
+    than it's necessary.
+*/
 function anyShapeDrawing(positionerNum, drawingFunction) {
     const workCanvas = document.getElementById("pseudo-canvas"),       // the canvas we put the temporary drawings
           workTop = document.getElementById("worktop"),                // the div we put the positioners on
@@ -431,7 +450,52 @@ function setSquare() {
         squareCtx.stroke();  
     } // end of drawSquare
 
-    addPositioner(workTop, 4, [[50,50], [50,250], [250,250], [250,50]]);
+    addPositioner(workTop, 4, [[140,100], [140,200], [240,200], [240,100]]);
 
     anyShapeDrawing(4, drawSquare);
 } // end of setSquare
+
+
+
+
+
+function setRectangle() {
+    const positioners = document.getElementsByClassName("positioner"),
+          workTop = document.getElementById("worktop"),
+          workCanvas = document.getElementById("pseudo-canvas");
+
+    function drawRectangle(context) {
+        const X1 = positioners[0].style.left,
+              Y1 = positioners[0].style.top,
+              X2 = positioners[1].style.left,
+              Y2 = positioners[1].style.top,
+              X3 = positioners[2].style.left,
+              Y3 = positioners[2].style.top,  
+              X4 = positioners[3].style.left,
+              Y4 = positioners[3].style.top,
+              // get rid of all px postfixes (+ 4 is to get it centered (positioners width n height is 8px with border))
+              coords = [X1, Y1, X2, Y2, X3, Y3, X4, Y4].map(e => Number(e.match(/\d+/)) + 4), 
+              [x1, y1, x2, y2, x3, y3, x4, y4] = [...coords]; // spread back the numbers 
+              rectangleCtx = context || workCanvas.getContext("2d"); // default is workCanvas
+        // clear canvas if it's the worktop context        
+        if (!context) rectangleCtx.clearRect(0, 0, workCanvas.width, workCanvas. height);  
+        // draw triangle
+        rectangleCtx.beginPath();
+        rectangleCtx.moveTo(x1, y1);
+        rectangleCtx.lineTo(x2, y2);
+        rectangleCtx.moveTo(x2, y2);
+        rectangleCtx.lineTo(x3, y3);
+        rectangleCtx.moveTo(x3, y3);
+        rectangleCtx.lineTo(x4, y4);
+        rectangleCtx.moveTo(x4, y4);
+        rectangleCtx.lineTo(x1, y1);
+        rectangleCtx.closePath();
+        rectangleCtx.lineWidth = toolSettings.drawingWidth;
+        rectangleCtx.strokeStyle = drawingColor;
+        rectangleCtx.stroke();  
+    } // end of drawSquare
+    
+    addPositioner(workTop, 4, [[100,100], [100,200], [280,200], [280,100]]);
+    
+    anyShapeDrawing(4, drawRectangle);
+} // end of setRectangle
