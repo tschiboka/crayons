@@ -151,12 +151,13 @@ function addIconListeners() {
 
     shapesIcon.addEventListener("click", () => {
 
-        // if panel is visible and icon is checked start shape function
+        // if panel is visible and icon is checked start shape set function
         if (shapesPanel.style.visibility === "visible") {
             switch(tool) {
                 case "triangle": { setTriangle(); break; }
                 case "square": { setSquare(); break; } 
                 case "rectangle": { setRectangle(); break; }
+                case "rounded-rectangle": { setRoundedRectangle(); break; }
             } // end of switch tool
         } // end of if visible
         shapesPanel.style.visibility = shapesPanel.style.visibility === "visible" ? "hidden" : "visible"; 
@@ -241,19 +242,32 @@ function addPositioner(worktop, num, coords) {
     than it's necessary.
 */
 function anyShapeDrawing(positionerNum, drawingFunction) {
-    const workCanvas = document.getElementById("pseudo-canvas"),       // the canvas we put the temporary drawings
-          workTop = document.getElementById("worktop"),                // the div we put the positioners on
-          helper = document.getElementById("worktop-helper"),          // helper div where we can press ok, or cancel
-          helperYes = document.getElementById("worktop-helper-check"), // ok "button" (div)
-          helperNo = document.getElementById("worktop-helper-close"),  // cancel "button"
-          positioners = document.getElementsByClassName("positioner"), // the positioners will give the basic coordinates of every shapes
-          positionerClicked = Array(positionerNum).fill(false);        // array that holds maximum 1 true value, the currently active positioners. the true id is the active ids position +1.
+    const workCanvas        = document.getElementById("pseudo-canvas"),       // the canvas we put the temporary drawings
+          workTop           = document.getElementById("worktop"),             // the div we put the positioners on
+          helper            = document.getElementById("worktop-helper"),      // helper div where we can press ok, or cancel
+          helperYes         = document.getElementById("worktop-helper-check"),// ok "button" (div)
+          helperNo          = document.getElementById("worktop-helper-close"),// cancel "button"
+          positioners       = document.getElementsByClassName("positioner"),  // the positioners will give the basic coordinates of every shapes
+          positionerClicked = Array(positionerNum).fill(false);               // array that holds maximum 1 true value, the currently active positioners. the true id is the active ids position +1.
 
     workCanvas.style.visibility = workTop.style.visibility = helper.style.visibility = "visible";
 
     // EVENTS
 
     let oldPositionX, oldPositionY; // they're gonna get there value from mousedown event
+
+    if (tool === "rounded-rectangle") {  // set helper for rounded rectangle and add event-handlers
+        const helper    = document.getElementById("worktop-helper-rounded-rectangle"),               // change helper div to the rounded rectangle one
+              helperYes = document.getElementById("worktop-helper-rounded-rectangle-check"), 
+              helperMin = document.getElementById("worktop-helper-rounded-rectangle-arrow-left"),    // left arrow decrease number
+              helperRad = Number(document.getElementById("worktop-helper-rounded-rectangle-number")),// number represents the radius of the rounde rectangle
+              helperMax = document.getElementById("worktop-helper-rounded-rectangle-arrow-right"),   // right arrow increase number
+              helperNo  = document.getElementById("worktop-helper-rounded-rectangle-close");
+
+        helperMin.addEventListener("click", () => { helperRad = helperRad <=-20 ? --helperRad : helperRad; }); // decrease radius
+        console.log(helper);
+
+    } // end of if rounded-rectangle
 
     helperYes.addEventListener("click", () => { drawingFunction(ctx); });
 
@@ -500,3 +514,48 @@ function setRectangle() {
     anyShapeDrawing(4, drawRectangle);
 } // end of setRectangle
 // git hub check
+
+
+
+
+function setRoundedRectangle() {
+    const positioners = document.getElementsByClassName("positioner"),
+          workTop = document.getElementById("worktop"),
+          workCanvas = document.getElementById("pseudo-canvas");
+
+    function drawRoundedRectangle(context) {
+        const X1 = positioners[0].style.left,
+              Y1 = positioners[0].style.top,
+              X2 = positioners[1].style.left,
+              Y2 = positioners[1].style.top,
+              X3 = positioners[2].style.left,
+              Y3 = positioners[2].style.top,  
+              X4 = positioners[3].style.left,
+              Y4 = positioners[3].style.top,
+              // get rid of all px postfixes (+ 4 is to get it centered (positioners width n height is 8px with border))
+              coords = [X1, Y1, X2, Y2, X3, Y3, X4, Y4].map(e => Number(e.match(/\d+/)) + 4), 
+              [x1, y1, x2, y2, x3, y3, x4, y4] = [...coords]; // spread back the numbers 
+              roundedRectangleCtx = context || workCanvas.getContext("2d"); // default is workCanvas
+        // clear canvas if it's the worktop context        
+        if (!context) roundedRectangleCtx.clearRect(0, 0, workCanvas.width, workCanvas. height);  
+        // draw triangle
+        roundedRectangleCtx.beginPath();
+        roundedRectangleCtx.moveTo(x1, y1);
+        roundedRectangleCtx.lineTo(x2, y2);
+        roundedRectangleCtx.moveTo(x2, y2);
+        roundedRectangleCtx.lineTo(x3, y3);
+        roundedRectangleCtx.moveTo(x3, y3);
+        roundedRectangleCtx.lineTo(x4, y4);
+        roundedRectangleCtx.moveTo(x4, y4);
+        roundedRectangleCtx.lineTo(x1, y1);
+        roundedRectangleCtx.closePath();
+        roundedRectangleCtx.lineWidth = toolSettings.drawingWidth;
+        roundedRectangleCtx.strokeStyle = drawingColor;
+        roundedRectangleCtx.stroke();  
+    } // end of drawSquare
+    
+    addPositioner(workTop, 4, [[100,100], [100,200], [280,200], [280,100]]);
+    
+    anyShapeDrawing(4, drawRoundedRectangle);
+} // end of setRoundedRectangle
+ 
