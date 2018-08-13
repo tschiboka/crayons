@@ -243,68 +243,87 @@ function addPositioner(worktop, num, coords) {
 */
 function anyShapeDrawing(positionerNum, drawingFunction) {
     const workCanvas        = document.getElementById("pseudo-canvas"),       // the canvas we put the temporary drawings
-          workTop           = document.getElementById("worktop"),             // the div we put the positioners on
-          helper            = document.getElementById("worktop-helper"),      // helper div where we can press ok, or cancel
-          helperYes         = document.getElementById("worktop-helper-check"),// ok "button" (div)
-          helperNo          = document.getElementById("worktop-helper-close"),// cancel "button"
+          workTop           = document.getElementById("worktop"),             // the div we put the positioners on          
           positioners       = document.getElementsByClassName("positioner"),  // the positioners will give the basic coordinates of every shapes
           positionerClicked = Array(positionerNum).fill(false);               // array that holds maximum 1 true value, the currently active positioners. the true id is the active ids position +1.
+          
+    let   oldPositionX, oldPositionY,                                         // they're gonna get there value from mousedown event
+          helper, helperYes, helperNo,
+          helperMin, helperMax, helperRad, helperNum;                         // their value will depend on tools setting
+          
 
-    workCanvas.style.visibility = workTop.style.visibility = helper.style.visibility = "visible";
 
     // EVENTS
+          
+    // set helper for rounded rectangle and add event-handlers
+    switch (tool) {  
+        case "rounded-rectangle": {
+            helper    = document.getElementById("worktop-helper-rounded-rectangle"),               // change helper div to the rounded rectangle one
+            helperYes = document.getElementById("worktop-helper-rounded-rectangle-check"), 
+            helperNo  = document.getElementById("worktop-helper-rounded-rectangle-close");
+            helperMin = document.getElementById("worktop-helper-rounded-rectangle-arrow-left"),    // left arrow decrease number
+            helperMax = document.getElementById("worktop-helper-rounded-rectangle-arrow-right"),   // right arrow increase number
+            helperNum = document.getElementById("worktop-helper-rounded-rectangle-number"),        // the div holding the radius
+            helperRad = Number(helperNum.innerHTML),                                               // number represents the radius of the rounde rectangle
 
-    let oldPositionX, oldPositionY; // they're gonna get there value from mousedown event
+            helperMin.addEventListener("click", () => { 
+                helperNum.innerHTML = (helperRad = helperRad > -20 ? --helperRad : helperRad);
+            }); // decrease radius
 
-    if (tool === "rounded-rectangle") {  // set helper for rounded rectangle and add event-handlers
-        const helper    = document.getElementById("worktop-helper-rounded-rectangle"),               // change helper div to the rounded rectangle one
-              helperYes = document.getElementById("worktop-helper-rounded-rectangle-check"), 
-              helperMin = document.getElementById("worktop-helper-rounded-rectangle-arrow-left"),    // left arrow decrease number
-              helperRad = Number(document.getElementById("worktop-helper-rounded-rectangle-number")),// number represents the radius of the rounde rectangle
-              helperMax = document.getElementById("worktop-helper-rounded-rectangle-arrow-right"),   // right arrow increase number
-              helperNo  = document.getElementById("worktop-helper-rounded-rectangle-close");
+            helperMax.addEventListener("click", () => { 
+                helperNum.innerHTML = (helperRad = helperRad < 20 ? ++helperRad : helperRad);
+            }); // decrease radius            
 
-        helperMin.addEventListener("click", () => { helperRad = helperRad <=-20 ? --helperRad : helperRad; }); // decrease radius
-        console.log(helper);
-
-    } // end of if rounded-rectangle
-
+            break;
+        } // end of case rounded-rectangle
+        default: {
+            helper    = document.getElementById("worktop-helper"),       // helper div where we can press ok, or cancel
+            helperYes = document.getElementById("worktop-helper-check"), // ok "button" (div)
+            helperNo  = document.getElementById("worktop-helper-close"); // cancel "button"
+        } // end of default
+    } // end of switch tool for events  
+    
+           
+    // helper Yes and No's functionality is the same for all the tools
     helperYes.addEventListener("click", () => { drawingFunction(ctx); });
-
+    
     helperNo.addEventListener("click", () => { closeWorkTop(); });
 
+    // set visibilities
+    workCanvas.style.visibility = workTop.style.visibility = helper.style.visibility = "visible";
+    
     [...positioners].forEach(e => {
         e.addEventListener("mousedown", function (event) {
             event.preventDefault(); // prevent text selection while dragging 
-            positionerClicked[Number(this.id.match(/\d/)) - 1] = true;
+            positionerClicked[Number(this.id.match(/\d/)) - 1] = true; // set the clicked one true eg.: [false, true, false] for #positioner2
             oldPositionX = event.pageX;
             oldPositionY = event.pageY;
         }); // end of mousedown listener        
     }); // end of forEach    
-
+    
     workTop.addEventListener("mouseup", function () { positionerClicked.map((e, i) => positionerClicked[i] = false); });  // workaround, positionerClicked is a constans, can't re-reference it        
-
+    
     workTop.addEventListener("mousemove", function (event) {
         const positionerToDrag = document.getElementById("positioner" + Number(positionerClicked.findIndex(e => !!e) + 1)),
-              leftmostX = Math.max(...[...positioners].map(p => Number(window.getComputedStyle(p).left.match(/\d+/)))), // find leftmost x position
-              leftMostPositionerY = window.getComputedStyle(positioners[[...positioners].findIndex(p => window.getComputedStyle(p).left === leftmostX + "px")]).top;                                               
-                  
-
+        leftmostX = Math.max(...[...positioners].map(p => Number(window.getComputedStyle(p).left.match(/\d+/)))), // find leftmost x position
+        leftMostPositionerY = window.getComputedStyle(positioners[[...positioners].findIndex(p => window.getComputedStyle(p).left === leftmostX + "px")]).top;                                               
+        
+        
         event.preventDefault(); // prevent text selection while dragging 
         if (positionerToDrag) {
             const diffXY = [event.pageX - oldPositionX, event.pageY - oldPositionY], // pixel movement xy
-                  left = Number(positionerToDrag.style.left.match(/\d+/)),           // current left position 
-                  top = Number(positionerToDrag.style.top.match(/\d+/)),             // current top position
-                  newXY = [left + diffXY[0], top + diffXY[1]];                       // the newly calculated positon
-           
+            left = Number(positionerToDrag.style.left.match(/\d+/)),           // current left position 
+            top = Number(positionerToDrag.style.top.match(/\d+/)),             // current top position
+            newXY = [left + diffXY[0], top + diffXY[1]];                       // the newly calculated positon
+            
             // set new positions
-
+            
             switch (tool) {
                 case "square": {
                     const corner = Number(positionerToDrag.id.match(/\d/) - 1),
-                          findPositionerWherXIsToBeAdjusted = c =>[[0, 1], [1, 0], [2, 3], [3, 2]].filter(e => e[0] === c)[0][1],
-                          findPositionerWherYIsToBeAdjusted = c =>[[0, 3], [1, 2], [2, 1], [3, 0]].filter(e => e[0] === c)[0][1],
-                          xAdjust = document.getElementById("positioner" + (findPositionerWherXIsToBeAdjusted(corner) + 1)),
+                    findPositionerWherXIsToBeAdjusted = c =>[[0, 1], [1, 0], [2, 3], [3, 2]].filter(e => e[0] === c)[0][1],
+                    findPositionerWherYIsToBeAdjusted = c =>[[0, 3], [1, 2], [2, 1], [3, 0]].filter(e => e[0] === c)[0][1],
+                    xAdjust = document.getElementById("positioner" + (findPositionerWherXIsToBeAdjusted(corner) + 1)),
                           yAdjust = document.getElementById("positioner" + (findPositionerWherYIsToBeAdjusted(corner) + 1))
                           changeX = newXY[0] - left,
                           changeY = newXY[1] - top,
@@ -326,14 +345,14 @@ function anyShapeDrawing(positionerNum, drawingFunction) {
                                     : (changeX < 0 && changeY < 0) ? changeXY = [-Math.abs(changeAmount), -Math.abs(changeAmount)]
                                     : changeXY = [0, 0];
                                     break; } 
-                        case 3: { (changeX < 0 && changeY >= 0) ? changeXY = [-Math.abs(changeAmount), Math.abs(changeAmount)]
+                                    case 3: { (changeX < 0 && changeY >= 0) ? changeXY = [-Math.abs(changeAmount), Math.abs(changeAmount)]
                                    : (changeX >= 0 && changeY < 0) ? changeXY = [Math.abs(changeAmount), -Math.abs(changeAmount)]
                                    : changeXY = [0, 0];
                                    break; }                               
                     } // end of switch corner
                     
                     const X = 0 < (left + changeXY[0]) && (left + changeXY[0]) < 380 ? (left + changeXY[0]) : left,
-                          Y = 0 < (top + changeXY[1]) && (top + changeXY[1]) < 300 ? (top + changeXY[1]) : top;
+                    Y = 0 < (top + changeXY[1]) && (top + changeXY[1]) < 300 ? (top + changeXY[1]) : top;
                     console.log(X, Y, changeAmount);
                     positionerToDrag.style.left  = X + "px"; // positions have to be in worktop!
                     positionerToDrag.style.top   = Y + "px";
@@ -341,6 +360,7 @@ function anyShapeDrawing(positionerNum, drawingFunction) {
                     yAdjust.style.top = window.getComputedStyle(positionerToDrag).top; 
                     break;
                 } // end of case square
+                case "rounded-rectangle": {} // FALLTRUOGH IS INTENTIONAL !!!!! rounded rect has the same positioner bounding as rect
                 case "rectangle": {
                     const corner = Number(positionerToDrag.id.match(/\d/) - 1),
                           findPositionerWherXIsToBeAdjusted = c =>[[0, 1], [1, 0], [2, 3], [3, 2]].filter(e => e[0] === c)[0][1],
@@ -359,17 +379,19 @@ function anyShapeDrawing(positionerNum, drawingFunction) {
                     positionerToDrag.style.top   = ((newXY[1] >= -4 && newXY[1] <= 295) ? newXY[1] : top ) + "px";
                 } // end of default
             } // end of switch tool
-
-            [oldPositionX, oldPositionY] = [event.pageX, event.pageY];               // refresh oldpositions
-            positionerToDrag.title = `[${left}, ${top}]`;                            // reset title
-
-            helper.style.left = (leftmostX - 60) + "px";
+            
+            [oldPositionX, oldPositionY] = [event.pageX, event.pageY]; // refresh oldpositions
+            positionerToDrag.title = `[${left}, ${top}]`;              // reset title
+            
+            // set helper div's postion next to the leftMost positioner
+            helper.style.left = (leftmostX - (tool === "rounded-rectangle" ? 90 : 60)) + "px"; // rounded rectangle has wider div
             helper.style.top = leftMostPositionerY;
 
             drawingFunction(); // redraw on mousemove
         } // end of if    
     }); // end of mousemove listener
     
+    // close up work canvas and remove eventlisteners when close "x" is clicked
     function closeWorkTop() {        
         workCanvas.style.visibility = helper.style.visibility = "hidden"; // work-canvas, helper disappears               
         const newWorkTop = workTop.cloneNode(true);                       // cloned node will not inherit listeners
