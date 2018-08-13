@@ -267,11 +267,13 @@ function anyShapeDrawing(positionerNum, drawingFunction) {
             helperRad = Number(helperNum.innerHTML),                                               // number represents the radius of the rounde rectangle
 
             helperMin.addEventListener("click", () => { 
-                helperNum.innerHTML = (helperRad = helperRad > -20 ? --helperRad : helperRad);
+                helperNum.innerHTML = (helperRad = helperRad > -40 ? --helperRad : helperRad);
+                drawingFunction(); // redraw when radius set
             }); // decrease radius
 
             helperMax.addEventListener("click", () => { 
-                helperNum.innerHTML = (helperRad = helperRad < 20 ? ++helperRad : helperRad);
+                helperNum.innerHTML = (helperRad = helperRad < 40 ? ++helperRad : helperRad);
+                drawingFunction(); // redraw when radius set
             }); // decrease radius            
 
             break;
@@ -346,9 +348,9 @@ function anyShapeDrawing(positionerNum, drawingFunction) {
                                     : changeXY = [0, 0];
                                     break; } 
                                     case 3: { (changeX < 0 && changeY >= 0) ? changeXY = [-Math.abs(changeAmount), Math.abs(changeAmount)]
-                                   : (changeX >= 0 && changeY < 0) ? changeXY = [Math.abs(changeAmount), -Math.abs(changeAmount)]
-                                   : changeXY = [0, 0];
-                                   break; }                               
+                                    : (changeX >= 0 && changeY < 0) ? changeXY = [Math.abs(changeAmount), -Math.abs(changeAmount)]
+                                    : changeXY = [0, 0];
+                                    break; }                               
                     } // end of switch corner
                     
                     const X = 0 < (left + changeXY[0]) && (left + changeXY[0]) < 380 ? (left + changeXY[0]) : left,
@@ -508,7 +510,7 @@ function setRectangle() {
               X3 = positioners[2].style.left,
               Y3 = positioners[2].style.top,  
               X4 = positioners[3].style.left,
-              Y4 = positioners[3].style.top,
+              Y4 = positioners[3].style.top,              
               // get rid of all px postfixes (+ 4 is to get it centered (positioners width n height is 8px with border))
               coords = [X1, Y1, X2, Y2, X3, Y3, X4, Y4].map(e => Number(e.match(/\d+/)) + 4), 
               [x1, y1, x2, y2, x3, y3, x4, y4] = [...coords]; // spread back the numbers 
@@ -554,6 +556,7 @@ function setRoundedRectangle() {
               Y3 = positioners[2].style.top,  
               X4 = positioners[3].style.left,
               Y4 = positioners[3].style.top,
+              R  = Number(document.getElementById("worktop-helper-rounded-rectangle-number").innerHTML),
               // get rid of all px postfixes (+ 4 is to get it centered (positioners width n height is 8px with border))
               coords = [X1, Y1, X2, Y2, X3, Y3, X4, Y4].map(e => Number(e.match(/\d+/)) + 4), 
               [x1, y1, x2, y2, x3, y3, x4, y4] = [...coords]; // spread back the numbers 
@@ -562,14 +565,18 @@ function setRoundedRectangle() {
         if (!context) roundedRectangleCtx.clearRect(0, 0, workCanvas.width, workCanvas. height);  
         // draw triangle
         roundedRectangleCtx.beginPath();
-        roundedRectangleCtx.moveTo(x1, y1);
-        roundedRectangleCtx.lineTo(x2, y2);
-        roundedRectangleCtx.moveTo(x2, y2);
-        roundedRectangleCtx.lineTo(x3, y3);
-        roundedRectangleCtx.moveTo(x3, y3);
-        roundedRectangleCtx.lineTo(x4, y4);
-        roundedRectangleCtx.moveTo(x4, y4);
-        roundedRectangleCtx.lineTo(x1, y1);
+        roundedRectangleCtx.arc(x1 + R, y1 + R, R, Math.PI, Math.PI * 1.5, false);
+        roundedRectangleCtx.moveTo(x1, y1 + R);
+        roundedRectangleCtx.lineTo(x2, y2 - R);
+        roundedRectangleCtx.arc(x2 + R, y2 - R, R, Math.PI * 1, Math.PI * 0.5, true);
+        roundedRectangleCtx.moveTo(x2 + R, y2);
+        roundedRectangleCtx.lineTo(x3 - R, y3);
+        roundedRectangleCtx.arc(x3 - R, y3 - R, R, Math.PI * 0.5, 0, true);
+        roundedRectangleCtx.moveTo(x3, y3 - R);
+        roundedRectangleCtx.lineTo(x4, y4 + R);
+        roundedRectangleCtx.arc(x4 - R, y4 + R, R, 0, Math.PI * 1.5, true);
+        roundedRectangleCtx.moveTo(x4 - R, y4);
+        roundedRectangleCtx.lineTo(x1 + R, y1);
         roundedRectangleCtx.closePath();
         roundedRectangleCtx.lineWidth = toolSettings.drawingWidth;
         roundedRectangleCtx.strokeStyle = drawingColor;
