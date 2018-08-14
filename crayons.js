@@ -566,21 +566,21 @@ function setRoundedRectangle() {
         // draw triangle
         roundedRectangleCtx.beginPath();
         R >= 0 ? roundedRectangleCtx.arc(x1 + R, y1 + R, R, Math.PI, Math.PI * 1.5, false)
-               : roundedRectangleCtx.arc(x1 - Math.abs(R), y1 - Math.abs(R), Math.abs(R), Math.PI, Math.PI * 1.5, false);
-        roundedRectangleCtx.moveTo(x1, y1 + R);
-        roundedRectangleCtx.lineTo(x2, y2 - R);
+               : roundedRectangleCtx.arc(x1, y1, Math.abs(R), 0, Math.PI * 0.5, false);
+        roundedRectangleCtx.moveTo(x1, y1 + Math.abs(R));
+        roundedRectangleCtx.lineTo(x2, y2 - Math.abs(R));
         R >= 0 ? roundedRectangleCtx.arc(x2 + R, y2 - R, R, Math.PI, Math.PI * 0.5, true)
-               : roundedRectangleCtx.arc(x2 - Math.abs(R), y2 + Math.abs(R), Math.abs(R), Math.PI, Math.PI * 0.5, true);        
-        roundedRectangleCtx.moveTo(x2 + R, y2);
-        roundedRectangleCtx.lineTo(x3 - R, y3);
+               : roundedRectangleCtx.arc(x2, y2, Math.abs(R), Math.PI * 1.5, 0, false);        
+        roundedRectangleCtx.moveTo(x2 + Math.abs(R), y2);
+        roundedRectangleCtx.lineTo(x3 - Math.abs(R), y3);
         R >= 0 ? roundedRectangleCtx.arc(x3 - R, y3 - R, R, Math.PI * 0.5, 0, true)
-               : roundedRectangleCtx.arc(x3 - Math.abs(R), y3 + Math.abs(R), Math.abs(R), Math.PI * 0.5, 0, true);      
-        roundedRectangleCtx.moveTo(x3, y3 - R);
-        roundedRectangleCtx.lineTo(x4, y4 + R);
-        R >= 0 ? roundedRectangleCtx.arc(x4 - R, y4 - R, R, 0, Math.PI * 0.5, true)
-               : roundedRectangleCtx.arc(x4 - Math.abs(R), y4 + Math.abs(R), Math.abs(R), 0, Math.PI * 0.5, true);         
-        roundedRectangleCtx.moveTo(x4 - R, y4);
-        roundedRectangleCtx.lineTo(x1 + R, y1);
+               : roundedRectangleCtx.arc(x3, y3, Math.abs(R), Math.PI, Math.PI * 1.5 , false);      
+        roundedRectangleCtx.moveTo(x3, y3 - Math.abs(R));
+        roundedRectangleCtx.lineTo(x4, y4 + Math.abs(R));
+        R >= 0 ? roundedRectangleCtx.arc(x4 - R, y4 + R, R, Math.PI * 0, Math.PI * 1.5, true)
+               : roundedRectangleCtx.arc(x4, y4, Math.abs(R), Math.PI * 0.5, Math.PI, false);         
+        roundedRectangleCtx.moveTo(x4 - Math.abs(R), y4);
+        roundedRectangleCtx.lineTo(x1 + Math.abs(R), y1);
         roundedRectangleCtx.closePath();
         roundedRectangleCtx.lineWidth = toolSettings.drawingWidth;
         roundedRectangleCtx.strokeStyle = drawingColor;
