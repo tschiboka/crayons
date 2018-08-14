@@ -565,16 +565,20 @@ function setRoundedRectangle() {
         if (!context) roundedRectangleCtx.clearRect(0, 0, workCanvas.width, workCanvas. height);  
         // draw triangle
         roundedRectangleCtx.beginPath();
-        roundedRectangleCtx.arc(x1 + R, y1 + R, R, Math.PI, Math.PI * 1.5, false);
+        R >= 0 ? roundedRectangleCtx.arc(x1 + R, y1 + R, R, Math.PI, Math.PI * 1.5, false)
+               : roundedRectangleCtx.arc(x1 - Math.abs(R), y1 - Math.abs(R), Math.abs(R), Math.PI, Math.PI * 1.5, false);
         roundedRectangleCtx.moveTo(x1, y1 + R);
         roundedRectangleCtx.lineTo(x2, y2 - R);
-        roundedRectangleCtx.arc(x2 + R, y2 - R, R, Math.PI * 1, Math.PI * 0.5, true);
+        R >= 0 ? roundedRectangleCtx.arc(x2 + R, y2 - R, R, Math.PI, Math.PI * 0.5, true)
+               : roundedRectangleCtx.arc(x2 - Math.abs(R), y2 + Math.abs(R), Math.abs(R), Math.PI, Math.PI * 0.5, true);        
         roundedRectangleCtx.moveTo(x2 + R, y2);
         roundedRectangleCtx.lineTo(x3 - R, y3);
-        roundedRectangleCtx.arc(x3 - R, y3 - R, R, Math.PI * 0.5, 0, true);
+        R >= 0 ? roundedRectangleCtx.arc(x3 - R, y3 - R, R, Math.PI * 0.5, 0, true)
+               : roundedRectangleCtx.arc(x3 - Math.abs(R), y3 + Math.abs(R), Math.abs(R), Math.PI * 0.5, 0, true);      
         roundedRectangleCtx.moveTo(x3, y3 - R);
         roundedRectangleCtx.lineTo(x4, y4 + R);
-        roundedRectangleCtx.arc(x4 - R, y4 + R, R, 0, Math.PI * 1.5, true);
+        R >= 0 ? roundedRectangleCtx.arc(x4 - R, y4 - R, R, 0, Math.PI * 0.5, true)
+               : roundedRectangleCtx.arc(x4 - Math.abs(R), y4 + Math.abs(R), Math.abs(R), 0, Math.PI * 0.5, true);         
         roundedRectangleCtx.moveTo(x4 - R, y4);
         roundedRectangleCtx.lineTo(x1 + R, y1);
         roundedRectangleCtx.closePath();
