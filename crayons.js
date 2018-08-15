@@ -556,7 +556,8 @@ function setRoundedRectangle() {
               Y3 = positioners[2].style.top,  
               X4 = positioners[3].style.left,
               Y4 = positioners[3].style.top,
-              R  = Number(document.getElementById("worktop-helper-rounded-rectangle-number").innerHTML),
+              R  = Number(document.getElementById("worktop-helper-rounded-rectangle-number").innerHTML), // radius
+              W  = toolSettings.drawingWidth / 2, // the edges were a littlebit clumpsy, that's the correction
               // get rid of all px postfixes (+ 4 is to get it centered (positioners width n height is 8px with border))
               coords = [X1, Y1, X2, Y2, X3, Y3, X4, Y4].map(e => Number(e.match(/\d+/)) + 4), 
               [x1, y1, x2, y2, x3, y3, x4, y4] = [...coords]; // spread back the numbers 
@@ -567,20 +568,20 @@ function setRoundedRectangle() {
         roundedRectangleCtx.beginPath();
         R >= 0 ? roundedRectangleCtx.arc(x1 + R, y1 + R, R, Math.PI, Math.PI * 1.5, false)
                : roundedRectangleCtx.arc(x1, y1, Math.abs(R), 0, Math.PI * 0.5, false);
-        roundedRectangleCtx.moveTo(x1, y1 + Math.abs(R));
+        roundedRectangleCtx.moveTo(x1, y1 + Math.abs(R) - W);
         roundedRectangleCtx.lineTo(x2, y2 - Math.abs(R));
         R >= 0 ? roundedRectangleCtx.arc(x2 + R, y2 - R, R, Math.PI, Math.PI * 0.5, true)
                : roundedRectangleCtx.arc(x2, y2, Math.abs(R), Math.PI * 1.5, 0, false);        
-        roundedRectangleCtx.moveTo(x2 + Math.abs(R), y2);
+        roundedRectangleCtx.moveTo(x2 + Math.abs(R) - W, y2);
         roundedRectangleCtx.lineTo(x3 - Math.abs(R), y3);
         R >= 0 ? roundedRectangleCtx.arc(x3 - R, y3 - R, R, Math.PI * 0.5, 0, true)
                : roundedRectangleCtx.arc(x3, y3, Math.abs(R), Math.PI, Math.PI * 1.5 , false);      
-        roundedRectangleCtx.moveTo(x3, y3 - Math.abs(R));
+        roundedRectangleCtx.moveTo(x3, y3 - Math.abs(R) + W);
         roundedRectangleCtx.lineTo(x4, y4 + Math.abs(R));
         R >= 0 ? roundedRectangleCtx.arc(x4 - R, y4 + R, R, Math.PI * 0, Math.PI * 1.5, true)
                : roundedRectangleCtx.arc(x4, y4, Math.abs(R), Math.PI * 0.5, Math.PI, false);         
-        roundedRectangleCtx.moveTo(x4 - Math.abs(R), y4);
-        roundedRectangleCtx.lineTo(x1 + Math.abs(R), y1);
+        roundedRectangleCtx.moveTo(x4 - Math.abs(R) + W, y4);
+        roundedRectangleCtx.lineTo(x1 + Math.abs(R) - W, y1);
         roundedRectangleCtx.closePath();
         roundedRectangleCtx.lineWidth = toolSettings.drawingWidth;
         roundedRectangleCtx.strokeStyle = drawingColor;
