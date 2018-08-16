@@ -389,7 +389,7 @@ function anyShapeDrawing(positionerNum, drawingFunction) {
                     xAdjust.style.left = window.getComputedStyle(positionerToDrag).left;
                     yAdjust.style.top = window.getComputedStyle(positionerToDrag).top; 
                     break;
-                } // end of case rectangle
+                } // end of case rectangle                
                 default: {
                     positionerToDrag.style.left  = ((newXY[0] >= -4 && newXY[0] <= 375) ? newXY[0] : left) + "px"; // positions have to be in worktop!
                     positionerToDrag.style.top   = ((newXY[1] >= -4 && newXY[1] <= 295) ? newXY[1] : top ) + "px";
@@ -632,6 +632,40 @@ function setRoundedRectangle() {
 
 
 function setCircle() {
+    const positioners = document.getElementsByClassName("positioner"),
+          workTop = document.getElementById("worktop"),
+          workCanvas = document.getElementById("pseudo-canvas");
 
+    function drawCircle(context) {
+        const X1 = positioners[0].style.left,
+              Y1 = positioners[0].style.top,
+              X2 = positioners[1].style.left,
+              Y2 = positioners[1].style.top,              
+              // get rid of all px postfixes (+ 4 is to get it centered (positioners width n height is 8px with border))
+              coords = [X1, Y1, X2, Y2].map(e => Number(e.match(/\d+/)) + 4), 
+              [x1, y1, x2, y2] = [...coords], // spread back the numbers
+              circleCtx = context || workCanvas.getContext("2d"), // default is workCanvas
+              // calculating distance between pos1 and 2 by pythagorian theorem
+              D = (ax, ay, bx, by) => { // DISTANCE
+                  const A = Math.max(ax, ay) - Math.min(ax, ay), // A and B is always positive
+                        B = Math.max(bx, by) - Math.min(bx, by);
+                  return Math.round(Math.sqrt(Math.pow(A, 2) + Math.pow(B, 2))); 
+              }; 
+
+        // clear canvas if it's the worktop context        
+        if (!context) circleCtx.clearRect(0, 0, workCanvas.width, workCanvas. height);
+
+        // draw triangle
+        circleCtx.beginPath();        
+        circleCtx.arc(x1, y1, D(x1, x2, y1, y2), 0, 2 * Math.PI, true);        
+        circleCtx.closePath();
+        circleCtx.lineWidth = toolSettings.drawingWidth;
+        circleCtx.strokeStyle = drawingColor;
+        circleCtx.stroke();        
+    } // end of drawTriangle
+      
+    addPositioner(workTop, 2, [[150,190], [150,140]]);
+
+    anyShapeDrawing(2, drawCircle);
 } // end of  setCircle
  
