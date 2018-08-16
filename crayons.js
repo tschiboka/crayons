@@ -479,6 +479,7 @@ function setSquare() {
               Y3 = positioners[2].style.top,  
               X4 = positioners[3].style.left,
               Y4 = positioners[3].style.top,
+              W  = toolSettings.drawingWidth / 2, // the edges were a littlebit clumpsy, that's the correction   
               // get rid of all px postfixes (+ 4 is to get it centered (positioners width n height is 8px with border))
               coords = [X1, Y1, X2, Y2, X3, Y3, X4, Y4].map(e => Number(e.match(/\d+/)) + 4), 
               [x1, y1, x2, y2, x3, y3, x4, y4] = [...coords]; // spread back the numbers 
@@ -488,13 +489,13 @@ function setSquare() {
 
         // draw triangle
         squareCtx.beginPath();
-        squareCtx.moveTo(x1, y1);
+        squareCtx.moveTo(x1, y1 - (y1 < y2 ? W : -W));  // correction works even if rectangle is "inside out"
         squareCtx.lineTo(x2, y2);
-        squareCtx.moveTo(x2, y2);
+        squareCtx.moveTo(x2 - (x2 < x3 ? W : -W), y2);  // correction!
         squareCtx.lineTo(x3, y3);
-        squareCtx.moveTo(x3, y3);
+        squareCtx.moveTo(x3, y3 + (y3 > y1 ? W : -W));  // correction!
         squareCtx.lineTo(x4, y4);
-        squareCtx.moveTo(x4, y4);
+        squareCtx.moveTo(x4 + (x4 > x2 ? W : -W), y4);  // correction!
         squareCtx.lineTo(x1, y1);
         squareCtx.closePath();
         squareCtx.lineWidth = toolSettings.drawingWidth;
@@ -536,11 +537,11 @@ function setRectangle() {
         rectangleCtx.beginPath();
         rectangleCtx.moveTo(x1, y1 - (y1 < y2 ? W : -W));  // correction works even if rectangle is "inside out"
         rectangleCtx.lineTo(x2, y2);
-        rectangleCtx.moveTo(x2 - (x2 < x3 ? W : -W), y2);
+        rectangleCtx.moveTo(x2 - (x2 < x3 ? W : -W), y2);  // correction!
         rectangleCtx.lineTo(x3, y3);
-        rectangleCtx.moveTo(x3, y3 + (y3 > y1 ? W : -W));
+        rectangleCtx.moveTo(x3, y3 + (y3 > y1 ? W : -W));  // correction!
         rectangleCtx.lineTo(x4, y4);
-        rectangleCtx.moveTo(x4 + (x4 > x2 ? W : -W), y4);
+        rectangleCtx.moveTo(x4 + (x4 > x2 ? W : -W), y4);  // correction!
         rectangleCtx.lineTo(x1, y1);
         rectangleCtx.closePath();
         rectangleCtx.lineWidth = toolSettings.drawingWidth;
