@@ -524,7 +524,8 @@ function setRectangle() {
               X3 = positioners[2].style.left,
               Y3 = positioners[2].style.top,  
               X4 = positioners[3].style.left,
-              Y4 = positioners[3].style.top,              
+              Y4 = positioners[3].style.top, 
+              W  = toolSettings.drawingWidth / 2, // the edges were a littlebit clumpsy, that's the correction             
               // get rid of all px postfixes (+ 4 is to get it centered (positioners width n height is 8px with border))
               coords = [X1, Y1, X2, Y2, X3, Y3, X4, Y4].map(e => Number(e.match(/\d+/)) + 4), 
               [x1, y1, x2, y2, x3, y3, x4, y4] = [...coords]; // spread back the numbers 
@@ -533,13 +534,13 @@ function setRectangle() {
         if (!context) rectangleCtx.clearRect(0, 0, workCanvas.width, workCanvas. height);  
         // draw triangle
         rectangleCtx.beginPath();
-        rectangleCtx.moveTo(x1, y1);
+        rectangleCtx.moveTo(x1, y1 - (y1 < y2 ? W : -W));  // correction works even if rectangle is "inside out"
         rectangleCtx.lineTo(x2, y2);
-        rectangleCtx.moveTo(x2, y2);
+        rectangleCtx.moveTo(x2 - (x2 < x3 ? W : -W), y2);
         rectangleCtx.lineTo(x3, y3);
-        rectangleCtx.moveTo(x3, y3);
+        rectangleCtx.moveTo(x3, y3 + (y3 > y1 ? W : -W));
         rectangleCtx.lineTo(x4, y4);
-        rectangleCtx.moveTo(x4, y4);
+        rectangleCtx.moveTo(x4 + (x4 > x2 ? W : -W), y4);
         rectangleCtx.lineTo(x1, y1);
         rectangleCtx.closePath();
         rectangleCtx.lineWidth = toolSettings.drawingWidth;
@@ -614,7 +615,7 @@ function setRoundedRectangle() {
         } // end of if positioner 4 is not selected                     
         roundedRectangleCtx.moveTo(x4 - (!SEL[3] ? Math.abs(R) : 0) + W, y4);                      // clip line 4 start position if pos4 not selected
         roundedRectangleCtx.lineTo(x1 + (!SEL[0] ? Math.abs(R) : 0) - W, y1);                      // clip line 4 end position if pos1 not selected
-        
+
         roundedRectangleCtx.closePath();
         roundedRectangleCtx.lineWidth = toolSettings.drawingWidth;
         roundedRectangleCtx.strokeStyle = drawingColor;
