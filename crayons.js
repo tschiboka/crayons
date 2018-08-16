@@ -138,10 +138,9 @@ function addIconListeners() {
           shapesPanel = document.getElementById("shapes-panel");          
 
     
-    pencilIcon.addEventListener("click", () => { addToolCheck(pencilIcon.id); tool = "draw"});
+    pencilIcon.addEventListener("click", () => { if(!disableIcons) addToolCheck(pencilIcon.id); tool = "draw"; });
 
-    pointWidthIcon.addEventListener("click", () => {                
-        console.log(tool);
+    pointWidthIcon.addEventListener("click", () => {                        
         if (pointWidthPanel.style.visibility === "visible") pointWidthPanel.style.visibility = "hidden";
         else { 
            pointWidthPanel.style.visibility = "visible"; 
@@ -152,23 +151,25 @@ function addIconListeners() {
 
     shapesIcon.addEventListener("click", () => {
 
-        // if panel is visible and icon is checked start shape set function
-        if (shapesPanel.style.visibility === "visible") {
-            switch(tool) {
-                case "triangle": { setTriangle(); break; }
-                case "square": { setSquare(); break; } 
-                case "rectangle": { setRectangle(); break; }
-                case "rounded-rectangle": { setRoundedRectangle(); break; }
-                case "circle": { setCircle(); break; }
-                case "ellipse": { setEllipse(); break; }
-            } // end of switch tool
-        } // end of if visible
-        shapesPanel.style.visibility = shapesPanel.style.visibility === "visible" ? "hidden" : "visible"; 
-        // if hidden take off all check signes if any visible  
-        if (shapesPanel.style.visibility === "hidden") {
-            ["pencil-icon", "shape-triangle", "shape-square", "shape-rectangle", "shape-rounded-rectangle", "shape-circle", "shape-ellipse"]
-            .forEach(t => document.getElementById(`${t}-check`).style.visibility = "hidden");
-        } // end of if
+        if (!disableIcons) {
+            // if panel is visible and icon is checked start shape set function
+            if (shapesPanel.style.visibility === "visible") {
+                switch(tool) {
+                    case "triangle": { setTriangle(); break; }
+                    case "square": { setSquare(); break; } 
+                    case "rectangle": { setRectangle(); break; }
+                    case "rounded-rectangle": { setRoundedRectangle(); break; }
+                    case "circle": { setCircle(); break; }
+                    case "ellipse": { setEllipse(); break; }
+                } // end of switch tool
+            } // end of if visible
+            shapesPanel.style.visibility = shapesPanel.style.visibility === "visible" ? "hidden" : "visible"; 
+            // if hidden take off all check signes if any visible  
+            if (shapesPanel.style.visibility === "hidden") {
+                ["pencil-icon", "shape-triangle", "shape-square", "shape-rectangle", "shape-rounded-rectangle", "shape-circle", "shape-ellipse"]
+                .forEach(t => document.getElementById(`${t}-check`).style.visibility = "hidden");
+            } // end of if
+        } // end of if icon click is allowed        
     }); // end of shapesIcon listener
 } // end of addIconListeners
 
@@ -255,8 +256,7 @@ function anyShapeDrawing(positionerNum, drawingFunction) {
           helperMin, helperMax, helperRad, helperNum,                         // their value will depend on tools setting
           positionerSel = Array(positionerNum).fill(false);                   // right click selections on positioners, comes up with an array
           
-    disableIcons = true; // disable, so the only way to escape is to click on helpers yes or no
-    console.log("icons are disabled")
+    disableIcons = true; // disable, so the only way to escape is to click on helpers yes or no    
 
     // EVENTS
           
@@ -294,7 +294,7 @@ function anyShapeDrawing(positionerNum, drawingFunction) {
     // helper Yes and No's functionality is the same for all the tools
     helperYes.addEventListener("click", () => { drawingFunction(ctx); });
     
-    helperNo.addEventListener("click", () => { closeWorkTop(); });
+    helperNo.addEventListener("click", () => { disableIcons = false; closeWorkTop(); });
 
     // set visibilities
     workCanvas.style.visibility = workTop.style.visibility = helper.style.visibility = "visible";
@@ -371,8 +371,7 @@ function anyShapeDrawing(positionerNum, drawingFunction) {
                     } // end of switch corner
                     
                     const X = 0 < (left + changeXY[0]) && (left + changeXY[0]) < 380 ? (left + changeXY[0]) : left,
-                    Y = 0 < (top + changeXY[1]) && (top + changeXY[1]) < 300 ? (top + changeXY[1]) : top;
-                    console.log(X, Y, changeAmount);
+                    Y = 0 < (top + changeXY[1]) && (top + changeXY[1]) < 300 ? (top + changeXY[1]) : top;                    
                     positionerToDrag.style.left  = X + "px"; // positions have to be in worktop!
                     positionerToDrag.style.top   = Y + "px";
                     xAdjust.style.left = window.getComputedStyle(positionerToDrag).left;
@@ -626,8 +625,7 @@ function setRoundedRectangle() {
         roundedRectangleCtx.closePath();
         roundedRectangleCtx.lineWidth = toolSettings.drawingWidth;
         roundedRectangleCtx.strokeStyle = drawingColor;
-        roundedRectangleCtx.stroke();  
-        console.log(SEL);
+        roundedRectangleCtx.stroke();          
     } // end of drawSquare
     
     addPositioner(workTop, 4, [[100,100], [100,200], [280,200], [280,100]]);
