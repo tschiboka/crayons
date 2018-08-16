@@ -8,7 +8,8 @@ var drawingColor = "black",                     // default drawing color
     tool = "draw",                              // the default tool is simple drawing    
     toolSettings = {                            // the collection of the tools attributes
         drawingWidth : "4",                     // the sharpness of the pencil
-    };
+    },
+    disableIcons = false;                       // if positioners are placed, you cannot click on tool icons
 
 
 
@@ -159,6 +160,7 @@ function addIconListeners() {
                 case "rectangle": { setRectangle(); break; }
                 case "rounded-rectangle": { setRoundedRectangle(); break; }
                 case "circle": { setCircle(); break; }
+                case "ellipse": { setEllipse(); break; }
             } // end of switch tool
         } // end of if visible
         shapesPanel.style.visibility = shapesPanel.style.visibility === "visible" ? "hidden" : "visible"; 
@@ -253,7 +255,8 @@ function anyShapeDrawing(positionerNum, drawingFunction) {
           helperMin, helperMax, helperRad, helperNum,                         // their value will depend on tools setting
           positionerSel = Array(positionerNum).fill(false);                   // right click selections on positioners, comes up with an array
           
-
+    disableIcons = true; // disable, so the only way to escape is to click on helpers yes or no
+    console.log("icons are disabled")
 
     // EVENTS
           
@@ -389,7 +392,10 @@ function anyShapeDrawing(positionerNum, drawingFunction) {
                     xAdjust.style.left = window.getComputedStyle(positionerToDrag).left;
                     yAdjust.style.top = window.getComputedStyle(positionerToDrag).top; 
                     break;
-                } // end of case rectangle                
+                } // end of case rectangle    
+                case "ellipse": {
+                    
+                } // end of case ellipse           
                 default: {
                     positionerToDrag.style.left  = ((newXY[0] >= -4 && newXY[0] <= 375) ? newXY[0] : left) + "px"; // positions have to be in worktop!
                     positionerToDrag.style.top   = ((newXY[1] >= -4 && newXY[1] <= 295) ? newXY[1] : top ) + "px";
@@ -664,8 +670,45 @@ function setCircle() {
         circleCtx.stroke();        
     } // end of drawTriangle
       
-    addPositioner(workTop, 2, [[150,190], [150,140]]);
+    addPositioner(workTop, 2, [[190,140], [140,150]]);
 
     anyShapeDrawing(2, drawCircle);
 } // end of  setCircle
  
+
+
+
+
+function setEllipse() {
+    const positioners = document.getElementsByClassName("positioner"),
+          workTop = document.getElementById("worktop"),
+          workCanvas = document.getElementById("pseudo-canvas");
+
+    function drawEllipse(context) {
+        const X1 = positioners[0].style.left,
+              Y1 = positioners[0].style.top,
+              X2 = positioners[1].style.left,
+              Y2 = positioners[1].style.top,  
+              X3 = positioners[2].style.left,
+              Y3 = positioners[2].style.top,             
+              // get rid of all px postfixes (+ 4 is to get it centered (positioners width n height is 8px with border))
+              coords = [X1, Y1, X2, Y2, X3, Y3].map(e => Number(e.match(/\d+/)) + 4), 
+              [x1, y1, x2, y2, x3, y3] = [...coords], // spread back the numbers
+              ellipseCtx = context || workCanvas.getContext("2d"); // default is workCanvas              
+
+        // clear canvas if it's the worktop context        
+        if (!context) ellipseCtx.clearRect(0, 0, workCanvas.width, workCanvas. height);
+
+        // draw triangle
+        ellipseCtx.beginPath();        
+        ellipseCtx.ellipse(x1, y1, Math.max(x1, x3) - Math.min(x1, x3), Math.max(y1, y2) - Math.min(y1, y2), 0, 0, 2 * Math.PI, true);        
+        ellipseCtx.closePath();
+        ellipseCtx.lineWidth = toolSettings.drawingWidth;
+        ellipseCtx.strokeStyle = drawingColor;
+        ellipseCtx.stroke();        
+    } // end of drawTriangle
+      
+    addPositioner(workTop, 3, [[190,150], [190,100], [290,150]]);
+
+    anyShapeDrawing(2, drawEllipse);
+} // end of  setEllipse
