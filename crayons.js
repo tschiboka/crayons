@@ -269,12 +269,12 @@ function anyShapeDrawing(positionerNum, drawingFunction) {
             helperRad = Number(helperNum.innerHTML),                                               // number represents the radius of the rounde rectangle
 
             helperMin.addEventListener("click", () => { 
-                helperNum.innerHTML = (helperRad = helperRad > -40 ? --helperRad : helperRad);
+                helperNum.innerHTML = (helperRad = helperRad > -100 ? --helperRad : helperRad);
                 drawingFunction(); // redraw when radius set
             }); // decrease radius
 
             helperMax.addEventListener("click", () => { 
-                helperNum.innerHTML = (helperRad = helperRad < 40 ? ++helperRad : helperRad);
+                helperNum.innerHTML = (helperRad = helperRad < 100 ? ++helperRad : helperRad);
                 drawingFunction(); // redraw when radius set
             }); // decrease radius            
 
@@ -573,7 +573,7 @@ function setRoundedRectangle() {
               X4 = positioners[3].style.left,
               Y4 = positioners[3].style.top,
               R  = Number(document.getElementById("worktop-helper-rounded-rectangle-number").innerHTML), // radius
-              W  = toolSettings.drawingWidth / 2, // the edges were a littlebit clumpsy, that's the correction
+              W  = (cond, w = toolSettings.drawingWidth / 2) => cond ? w : -w, // the edges were a littlebit clumpsy, that's the correction
               SEL = [...positioners].map(e => window.getComputedStyle(e).backgroundColor === "rgb(250, 115, 115)"), // find selected positioners by background color
               // get rid of all px postfixes (+ 4 is to get it centered (positioners width n height is 8px with border))
               coords = [X1, Y1, X2, Y2, X3, Y3, X4, Y4].map(e => Number(e.match(/\d+/)) + 4), 
@@ -590,15 +590,15 @@ function setRoundedRectangle() {
             R >= 0 ? roundedRectangleCtx.arc(x1 + R, y1 + R, R, Math.PI, Math.PI * 1.5, false)     // positive 
                    : roundedRectangleCtx.arc(x1, y1, Math.abs(R), 0, Math.PI * 0.5, false);        // negative
         } // end of if positioner 1 is not selected   
-        roundedRectangleCtx.moveTo(x1, y1 + (!SEL[0] ? Math.abs(R) : 0) - W);                      // clip line 1 start position if pos1 not selected
+        roundedRectangleCtx.moveTo(x1, y1 + (!SEL[0] ? Math.abs(R) : 0) - W(y1<y2));               // clip line 1 start position if pos1 not selected
 
         // CORNER 2
-        roundedRectangleCtx.lineTo(x2, y2 - (!SEL[1] ? Math.abs(R) : 0) );                         // clip line 1 end position if pos2 not selected
+        roundedRectangleCtx.lineTo(x2, y2 - (!SEL[1] ? Math.abs(R) : 0));                          // clip line 1 end position if pos2 not selected
         if (!SEL[1]) {                                                                             // draw arc if pos2 not selected
             R >= 0 ? roundedRectangleCtx.arc(x2 + R, y2 - R, R, Math.PI, Math.PI * 0.5, true)      // positive
                    : roundedRectangleCtx.arc(x2, y2, Math.abs(R), Math.PI * 1.5, 0, false);        // negative
         } // end of if positioner 2 is not selected        
-        roundedRectangleCtx.moveTo(x2 + (!SEL[1] ? Math.abs(R) : 0) - W, y2);                      // clip line 2 start position if pos2 not selected
+        roundedRectangleCtx.moveTo(x2 + (!SEL[1] ? Math.abs(R) : 0) - W(x2<x3), y2);               // clip line 2 start position if pos2 not selected
 
         // CORNER 3
         roundedRectangleCtx.lineTo(x3 - (!SEL[2] ? Math.abs(R) : 0), y3);                          // clip line 2 end position if pos3 not selected
@@ -606,7 +606,7 @@ function setRoundedRectangle() {
             R >= 0 ? roundedRectangleCtx.arc(x3 - R, y3 - R, R, Math.PI * 0.5, 0, true)            // positive
                    : roundedRectangleCtx.arc(x3, y3, Math.abs(R), Math.PI, Math.PI * 1.5 , false); // negative
         } // end of if positioner 3 is not selected         
-        roundedRectangleCtx.moveTo(x3, y3 - (!SEL[2] ? Math.abs(R) : 0) + W);                      // clip line 3 start position if pos3 not selected
+        roundedRectangleCtx.moveTo(x3, y3 - (!SEL[2] ? Math.abs(R) : 0) + W(y3>y4));               // clip line 3 start position if pos3 not selected
 
         // CORNER 4
         roundedRectangleCtx.lineTo(x4, y4 + (!SEL[3] ? Math.abs(R) : 0));                          // clip line 3 end position if pos4 not selected 
@@ -614,8 +614,8 @@ function setRoundedRectangle() {
             R >= 0 ? roundedRectangleCtx.arc(x4 - R, y4 + R, R, Math.PI * 0, Math.PI * 1.5, true)  // positive
                    : roundedRectangleCtx.arc(x4, y4, Math.abs(R), Math.PI * 0.5, Math.PI, false);  // negative          
         } // end of if positioner 4 is not selected                     
-        roundedRectangleCtx.moveTo(x4 - (!SEL[3] ? Math.abs(R) : 0) + W, y4);                      // clip line 4 start position if pos4 not selected
-        roundedRectangleCtx.lineTo(x1 + (!SEL[0] ? Math.abs(R) : 0) - W, y1);                      // clip line 4 end position if pos1 not selected
+        roundedRectangleCtx.moveTo(x4 - (!SEL[3] ? Math.abs(R) : 0) + W(x4>x1), y4);               // clip line 4 start position if pos4 not selected
+        roundedRectangleCtx.lineTo(x1 + (!SEL[0] ? Math.abs(R) : 0) - W(x1<x4), y1);               // clip line 4 end position if pos1 not selected
 
         roundedRectangleCtx.closePath();
         roundedRectangleCtx.lineWidth = toolSettings.drawingWidth;
