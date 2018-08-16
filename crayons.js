@@ -158,6 +158,7 @@ function addIconListeners() {
                 case "square": { setSquare(); break; } 
                 case "rectangle": { setRectangle(); break; }
                 case "rounded-rectangle": { setRoundedRectangle(); break; }
+                case "circle": { setCircle(); break; }
             } // end of switch tool
         } // end of if visible
         shapesPanel.style.visibility = shapesPanel.style.visibility === "visible" ? "hidden" : "visible"; 
@@ -249,7 +250,8 @@ function anyShapeDrawing(positionerNum, drawingFunction) {
           
     let   oldPositionX, oldPositionY,                                         // they're gonna get there value from mousedown event
           helper, helperYes, helperNo,
-          helperMin, helperMax, helperRad, helperNum;                         // their value will depend on tools setting
+          helperMin, helperMax, helperRad, helperNum,                         // their value will depend on tools setting
+          positionerSel = Array(positionerNum).fill(false);              // right click selections
           
 
 
@@ -300,7 +302,12 @@ function anyShapeDrawing(positionerNum, drawingFunction) {
             positionerClicked[Number(this.id.match(/\d/)) - 1] = true; // set the clicked one true eg.: [false, true, false] for #positioner2
             oldPositionX = event.pageX;
             oldPositionY = event.pageY;
-        }); // end of mousedown listener        
+        }); // end of mousedown listener   
+        e.addEventListener("contextmenu", (event) => { // add right click event
+             event.preventDefault(); // prevent default menu popping up
+             if (tool === "rounded-rectangle") alert(positionerSel);
+             return false; // need to return false otherwise default menu still pops up
+            }); // end of right click listener    
     }); // end of forEach    
     
     workTop.addEventListener("mouseup", function () { positionerClicked.map((e, i) => positionerClicked[i] = false); });  // workaround, positionerClicked is a constans, can't re-reference it        
@@ -592,4 +599,10 @@ function setRoundedRectangle() {
     
     anyShapeDrawing(4, drawRoundedRectangle);
 } // end of setRoundedRectangle
+
+
+
+function setCircle() {
+
+} // end of  setCircle
  
