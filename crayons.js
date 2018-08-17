@@ -731,7 +731,9 @@ function drawLinesIcons() {
           arc      = document.getElementById("arc-icon"),
           arcCtx   = arc.getContext("2d"),
           bezier   = document.getElementById("bezier-icon"),
-          bezCtx   = bezier.getContext("2d");
+          bezCtx   = bezier.getContext("2d"),
+          quad     = document.getElementById("quadratic-icon"),
+          quadCtx  = quad.getContext("2d");
 
     let grad;
 
@@ -750,7 +752,7 @@ function drawLinesIcons() {
 
     // draw line icon   
     grad = lineCtx.createLinearGradient(0, 100, 100, 100);
-    grad.addColorStop(0, "red");
+    grad.addColorStop(0, "yellow");
     grad.addColorStop(1, "orange");
     lineCtx.beginPath();
     lineCtx.moveTo(5, 95);
@@ -782,4 +784,15 @@ function drawLinesIcons() {
     bezCtx.lineWidth = 2;
     bezCtx.strokeStyle = grad;
     bezCtx.stroke();
+
+    // draw quadratic icon
+    grad = quadCtx.createLinearGradient(0, 100, 100, 100);
+    grad.addColorStop(0, "rgb(128, 128, 192)");
+    grad.addColorStop(1, "rgb(0, 255, 255)");
+    quadCtx.beginPath();
+    quadCtx.moveTo(10, 90);
+    quadCtx.quadraticCurveTo(20, -10, 100, 70);  
+    quadCtx.lineWidth = 2;
+    quadCtx.strokeStyle = grad;
+    quadCtx.stroke();
 } // end of drawLinesIcon
