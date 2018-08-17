@@ -730,7 +730,7 @@ function drawLinesIcons() {
           lineCtx  = line.getContext("2d"),
           arc      = document.getElementById("arc-icon"),
           arcCtx   = arc.getContext("2d");
-          
+
     let grad;
 
 
@@ -760,12 +760,13 @@ function drawLinesIcons() {
 
     // draw arc icon
     grad = arcCtx.createLinearGradient(0, 100, 100, 100);
-    grad.addColorStop(0, "red");
-    grad.addColorStop(1, "orange");
+    grad.addColorStop(0, "rgb(91, 207, 232)");
+    grad.addColorStop(1, "rgb(23, 236, 50)");
     arcCtx.beginPath();
-    arcCtx.moveTo(5, 95);
-    arcCtx.lineTo(95, 5);
-    arcCtx.closePath();
+    arcCtx.arc(50, 50, 20, Math.PI * 1.5, 0, false);
+    arcCtx.moveTo(90, 50);
+    arcCtx.arc(50, 50, 40, 0, Math.PI * 1.8, false);
+    //arcCtx.closePath();
     arcCtx.lineWidth = 2;
     arcCtx.strokeStyle = grad;
     arcCtx.stroke();
