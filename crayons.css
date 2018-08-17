@@ -880,6 +880,63 @@ body {
     visibility: hidden;
 }
 
+#lines-panel {
+    visibility: hidden;
+}
+
+#lines-panel-text {
+    height: 20px;
+    left: 130px;        
+    position: absolute;
+    top: 10px;        
+    width: 200px;
+}
+
+.lines-option {    
+    height: 120px;
+    position: absolute;
+    width: 110px;
+}
+
+#lines-line {
+    border-bottom: var(--border);
+    border-right: var(--border);
+    left: 15px;
+    top: 40px;
+}
+
+#lines-arc {
+    border-bottom: var(--border);
+    border-left: var(--border);
+    border-right: var(--border);
+    left: 135px;
+    top: 40px;
+}
+
+#lines-dashed {    
+    border-left: var(--border);
+    height: 250px;
+    left: 255px;
+    top: 40px;
+}
+
+#lines-brasier {
+    border-right: var(--border);
+    border-top: var(--border);
+    left: 15px;
+    top: 170px;
+}
+
+#lines-quadratic {
+    border-left: var(--border);
+    border-right: var(--border);
+    border-top: var(--border);
+    left: 135px;
+    top: 170px;
+}
+
+
+
 #pencil-icon-check { visibility: visible; }
 
 

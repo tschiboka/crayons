@@ -176,10 +176,10 @@ function addIconListeners() {
     }); // end of shapesIcon listener
 
     linesIcon.addEventListener("click", () => {
-        console.log("lines");
-        if (linesPanel.style.visibility === "hidden") {
-            linesPanel.style.wisibility = "visible";
+        if (window.getComputedStyle(linesPanel).visibility == "hidden") {
+            linesPanel.style.visibility = "visible";
         } // end of if iconpanel is visible
+        console.log(window.getComputedStyle(linesPanel).visibility);
     }); // end of linesIcon listener
 } // end of addIconListeners
 
