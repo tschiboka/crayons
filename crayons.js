@@ -20,7 +20,8 @@ addMouseUpDownListener();
 addPointWidthSliderListener();
 addIconListeners();
 addShapeListeners();
-drawLinesIcon();
+drawLinesIcons();
+
 
 
 
@@ -722,10 +723,18 @@ function setEllipse() {
 } // end of  setEllipse
 
 
-function drawLinesIcon() {
-    const icon     = document.getElementById("lines-icon-canvas")
-          iconCtx  = icon.getContext("2d");
+function drawLinesIcons() {
+    const icon     = document.getElementById("lines-icon-canvas"),
+          iconCtx  = icon.getContext("2d"),
+          line     = document.getElementById("line-icon"),
+          lineCtx  = line.getContext("2d"),
+          arc      = document.getElementById("arc-icon"),
+          arcCtx   = arc.getContext("2d");
+          
+    let grad;
 
+
+    // draw tools lines icon
     iconCtx.beginPath();
     iconCtx.arc(35, 25, 13, Math.PI, 0, false);
     iconCtx.moveTo(75, 25);
@@ -736,4 +745,28 @@ function drawLinesIcon() {
     iconCtx.lineWidth = 2;
     iconCtx.strokeStyle = "#1a97e1";
     iconCtx.stroke();
+
+    // draw line icon   
+    grad = lineCtx.createLinearGradient(0, 100, 100, 100);
+    grad.addColorStop(0, "red");
+    grad.addColorStop(1, "orange");
+    lineCtx.beginPath();
+    lineCtx.moveTo(5, 95);
+    lineCtx.lineTo(95, 5);
+    lineCtx.closePath();
+    lineCtx.lineWidth = 2;
+    lineCtx.strokeStyle = grad;
+    lineCtx.stroke();
+
+    // draw arc icon
+    grad = arcCtx.createLinearGradient(0, 100, 100, 100);
+    grad.addColorStop(0, "red");
+    grad.addColorStop(1, "orange");
+    arcCtx.beginPath();
+    arcCtx.moveTo(5, 95);
+    arcCtx.lineTo(95, 5);
+    arcCtx.closePath();
+    arcCtx.lineWidth = 2;
+    arcCtx.strokeStyle = grad;
+    arcCtx.stroke();
 } // end of drawLinesIcon
