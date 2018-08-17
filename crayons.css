@@ -920,7 +920,7 @@ body {
     top: 40px;
 }
 
-#lines-brasier {
+#lines-bezier {
     border-right: var(--border);
     border-top: var(--border);
     left: 15px;

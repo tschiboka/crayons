@@ -729,7 +729,9 @@ function drawLinesIcons() {
           line     = document.getElementById("line-icon"),
           lineCtx  = line.getContext("2d"),
           arc      = document.getElementById("arc-icon"),
-          arcCtx   = arc.getContext("2d");
+          arcCtx   = arc.getContext("2d"),
+          bezier   = document.getElementById("bezier-icon"),
+          bezCtx   = bezier.getContext("2d");
 
     let grad;
 
@@ -765,9 +767,19 @@ function drawLinesIcons() {
     arcCtx.beginPath();
     arcCtx.arc(50, 50, 20, Math.PI * 1.5, 0, false);
     arcCtx.moveTo(90, 50);
-    arcCtx.arc(50, 50, 40, 0, Math.PI * 1.8, false);
-    //arcCtx.closePath();
+    arcCtx.arc(50, 50, 40, 0, Math.PI * 1.8, false);    
     arcCtx.lineWidth = 2;
     arcCtx.strokeStyle = grad;
     arcCtx.stroke();
+
+    // draw bezier icon
+    grad = bezCtx.createLinearGradient(0, 100, 100, 100);
+    grad.addColorStop(0, "rgb(202, 168, 249)");
+    grad.addColorStop(1, "rgb(142, 53, 168)");
+    bezCtx.beginPath();
+    bezCtx.moveTo(10, 50);
+    bezCtx.bezierCurveTo(30, -80, 20, 170, 100, 70);  
+    bezCtx.lineWidth = 2;
+    bezCtx.strokeStyle = grad;
+    bezCtx.stroke();
 } // end of drawLinesIcon
