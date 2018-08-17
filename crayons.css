@@ -631,6 +631,7 @@ body {
 #pencil-icon { top: 0px; }
 #point-width-icon { top: 52px; }
 #shapes-icon { top: 104px; }
+#lines-icon { top: 156px; }
 
 
 .tool-icon:first-child {
@@ -879,10 +880,12 @@ body {
     visibility: hidden;
 }
 
+#pencil-icon-check { visibility: visible; }
+
+
+
 @media only screen and (max-width: 600px) {
     body {
         background: green;
     }
 }
-
-#pencil-icon-check { visibility: visible; }

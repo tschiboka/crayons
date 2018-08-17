@@ -20,6 +20,7 @@ addMouseUpDownListener();
 addPointWidthSliderListener();
 addIconListeners();
 addShapeListeners();
+drawLinesIcon();
 
 
 
@@ -131,11 +132,13 @@ function drawOnCanvas() {
 
 
 function addIconListeners() {
-    const pencilIcon = document.getElementById("pencil-icon"),
-          pointWidthIcon = document.getElementById("point-width-icon"),
+    const pencilIcon      = document.getElementById("pencil-icon"),
+          pointWidthIcon  = document.getElementById("point-width-icon"),
           pointWidthPanel = document.getElementById("point-width-panel"),
-          shapesIcon = document.getElementById("shapes-icon"),
-          shapesPanel = document.getElementById("shapes-panel");          
+          shapesIcon      = document.getElementById("shapes-icon"),
+          shapesPanel     = document.getElementById("shapes-panel"), 
+          linesIcon       = document.getElementById("lines-icon"), 
+          linesPanel      = document.getElementById("lines-panel");          
 
     
     pencilIcon.addEventListener("click", () => { if(!disableIcons) addToolCheck(pencilIcon.id); tool = "draw"; });
@@ -171,6 +174,13 @@ function addIconListeners() {
             } // end of if
         } // end of if icon click is allowed        
     }); // end of shapesIcon listener
+
+    linesIcon.addEventListener("click", () => {
+        console.log("lines");
+        if (linesPanel.style.visibility === "hidden") {
+            linesPanel.style.wisibility = "visible";
+        } // end of if iconpanel is visible
+    }); // end of linesIcon listener
 } // end of addIconListeners
 
 
@@ -428,8 +438,8 @@ function anyShapeDrawing(positionerNum, drawingFunction) {
 
 function setTriangle() {    
     const positioners = document.getElementsByClassName("positioner"),
-          workTop = document.getElementById("worktop"),
-          workCanvas = document.getElementById("pseudo-canvas");          
+          workTop     = document.getElementById("worktop"),
+          workCanvas  = document.getElementById("pseudo-canvas");          
 
     function drawTriangle(context) {
         const X1 = positioners[0].style.left,
@@ -471,8 +481,8 @@ function setTriangle() {
 
 function setSquare() {
     const positioners = document.getElementsByClassName("positioner"),
-          workTop = document.getElementById("worktop"),
-          workCanvas = document.getElementById("pseudo-canvas"); 
+          workTop     = document.getElementById("worktop"),
+          workCanvas  = document.getElementById("pseudo-canvas"); 
 
 
     function drawSquare(context) {
@@ -519,8 +529,8 @@ function setSquare() {
 
 function setRectangle() {
     const positioners = document.getElementsByClassName("positioner"),
-          workTop = document.getElementById("worktop"),
-          workCanvas = document.getElementById("pseudo-canvas");
+          workTop     = document.getElementById("worktop"),
+          workCanvas  = document.getElementById("pseudo-canvas");
 
     function drawRectangle(context) {
         const X1 = positioners[0].style.left,
@@ -565,8 +575,8 @@ function setRectangle() {
 
 function setRoundedRectangle() {
     const positioners = document.getElementsByClassName("positioner"),
-          workTop = document.getElementById("worktop"),
-          workCanvas = document.getElementById("pseudo-canvas");
+          workTop     = document.getElementById("worktop"),
+          workCanvas  = document.getElementById("pseudo-canvas");
 
     function drawRoundedRectangle(context) {
         const X1 = positioners[0].style.left,
@@ -637,8 +647,8 @@ function setRoundedRectangle() {
 
 function setCircle() {
     const positioners = document.getElementsByClassName("positioner"),
-          workTop = document.getElementById("worktop"),
-          workCanvas = document.getElementById("pseudo-canvas");
+          workTop     = document.getElementById("worktop"),
+          workCanvas  = document.getElementById("pseudo-canvas");
 
     function drawCircle(context) {
         const X1 = positioners[0].style.left,
@@ -679,8 +689,8 @@ function setCircle() {
 
 function setEllipse() {
     const positioners = document.getElementsByClassName("positioner"),
-          workTop = document.getElementById("worktop"),
-          workCanvas = document.getElementById("pseudo-canvas");
+          workTop     = document.getElementById("worktop"),
+          workCanvas  = document.getElementById("pseudo-canvas");
 
     function drawEllipse(context) {
         const X1 = positioners[0].style.left,
@@ -710,3 +720,20 @@ function setEllipse() {
 
     anyShapeDrawing(2, drawEllipse);
 } // end of  setEllipse
+
+
+function drawLinesIcon() {
+    const icon     = document.getElementById("lines-icon-canvas")
+          iconCtx  = icon.getContext("2d");
+
+    iconCtx.beginPath();
+    iconCtx.arc(35, 25, 13, Math.PI, 0, false);
+    iconCtx.moveTo(75, 25);
+    iconCtx.arc(62, 25, 13,0,  Math.PI, false);
+    iconCtx.moveTo(10, 25);
+    iconCtx.lineTo(85, 25);
+    iconCtx.closePath();
+    iconCtx.lineWidth = 2;
+    iconCtx.strokeStyle = "#1a97e1";
+    iconCtx.stroke();
+} // end of drawLinesIcon
