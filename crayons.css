@@ -915,12 +915,14 @@ body {
 
 #lines-dashed {    
     border-left: var(--border);
+    border-right: var(--border);
     height: 250px;
     left: 255px;
+    text-align: center;
     top: 40px;
 }
 
-#lines-bezier {
+#lines-bezier {    
     border-right: var(--border);
     border-top: var(--border);
     left: 15px;
@@ -942,6 +944,13 @@ body {
     top: 10px;
     width: 100px;
 }
+
+#dashed-line-sample {
+    border: var(--border);
+    margin-top: 5px;
+    position: relative;
+}
+
 
 #pencil-icon-check { visibility: visible; }
 
