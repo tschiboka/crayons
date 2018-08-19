@@ -951,6 +951,15 @@ body {
     position: relative;
 }
 
+#dash-checkbox > * {
+    color: #333;
+    font-size: 12px;
+    letter-spacing: -3px;
+    margin: 0;
+    padding: 0;
+    text-shadow: -1px -1px #111;
+}
+
 
 #pencil-icon-check { visibility: visible; }
 
