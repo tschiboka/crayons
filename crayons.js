@@ -142,33 +142,41 @@ function addIconListeners() {
           shapesIcon      = document.getElementById("shapes-icon"),
           shapesPanel     = document.getElementById("shapes-panel"), 
           linesIcon       = document.getElementById("lines-icon"), 
-          linesPanel      = document.getElementById("lines-panel");          
+          linesPanel      = document.getElementById("lines-panel"),
+          allToolsPanels  = [pointWidthPanel, dashedPanel, linesPanel, shapesPanel],
+          closeAllPanels  = () => allToolsPanels.forEach(e => e.style.visibility = "hidden");          
 
-    
-    pencilIcon.addEventListener("click", () => { if(!disableIcons) addToolCheck(pencilIcon.id); tool = "draw"; });
 
-    pointWidthIcon.addEventListener("click", () => {                        
-        if (pointWidthPanel.style.visibility === "visible") pointWidthPanel.style.visibility = "hidden";
+    pencilIcon.addEventListener("click", () => {
+        closeAllPanels();
+        if(!disableIcons) addToolCheck(pencilIcon.id); tool = "draw"; 
+    }); // end of pencilIcon Listener
+
+    pointWidthIcon.addEventListener("click", () => {   
+        if (pointWidthPanel.style.visibility === "visible") {
+            pointWidthPanel.style.visibility = "hidden";
+        }
         else { 
-           pointWidthPanel.style.visibility = "visible"; 
-           document.getElementById("point-width-display").innerHTML = toolSettings.drawingWidth;
-           document.getElementById("point-width-slider").value = toolSettings.drawingWidth;           
+            closeAllPanels();                     
+            pointWidthPanel.style.visibility = "visible"; 
+            document.getElementById("point-width-display").innerHTML = toolSettings.drawingWidth;
+            document.getElementById("point-width-slider").value = toolSettings.drawingWidth;           
         } // end of else
     }); // end of pointWidthIcon listener
 
     dashedIcon.addEventListener("click", () => {
-        console.log("HEEY");
         if (dashedPanel.style.visibility === "visible") {
             dashedPanel.style.visibility = "hidden";
         } // end of if dashedPanel is visible
         else {
+            closeAllPanels();
             dashedPanel.style.visibility = "visible";
         } // end of dashedPanel is hidden
     }); // end of dashedIcon listener
 
     shapesIcon.addEventListener("click", () => {
-
         if (!disableIcons) {
+            console.log(window.getComputedStyle(shapesPanel).visibility);
             // if panel is visible and icon is checked start shape set function
             if (shapesPanel.style.visibility === "visible") {
                 switch(tool) {
@@ -180,20 +188,26 @@ function addIconListeners() {
                     case "ellipse": { setEllipse(); break; }
                 } // end of switch tool
             } // end of if visible
-            shapesPanel.style.visibility = shapesPanel.style.visibility === "visible" ? "hidden" : "visible"; 
+            
             // if hidden take off all check signes if any visible  
-            if (shapesPanel.style.visibility === "hidden") {
+            if (window.getComputedStyle(shapesPanel).visibility === "hidden") {
+                closeAllPanels();
+                shapesPanel.style.visibility = "visible";
                 ["pencil-icon", "shape-triangle", "shape-square", "shape-rectangle", "shape-rounded-rectangle", "shape-circle", "shape-ellipse"]
                 .forEach(t => document.getElementById(`${t}-check`).style.visibility = "hidden");
             } // end of if
+            else shapesPanel.style.visibility = "hidden";
         } // end of if icon click is allowed        
     }); // end of shapesIcon listener
-
+    
     linesIcon.addEventListener("click", () => {
         if (window.getComputedStyle(linesPanel).visibility == "hidden") {
+            closeAllPanels();
             linesPanel.style.visibility = "visible";
-        } // end of if iconpanel is visible
-        console.log(window.getComputedStyle(linesPanel).visibility);
+        } // end of if iconpanel is hidden
+        else {
+            linesPanel.style.visibility = "hidden";
+        } // end if it's visible
     }); // end of linesIcon listener
 } // end of addIconListeners
 
