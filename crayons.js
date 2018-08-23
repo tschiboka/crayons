@@ -20,6 +20,7 @@ addMouseUpDownListener();
 addPointWidthSliderListener();
 addIconListeners();
 addShapeListeners();
+drawDashIcon();
 drawLinesIcons();
 
 
@@ -720,7 +721,26 @@ function setEllipse() {
     addPositioner(workTop, 3, [[190,150], [190,100], [290,150]]);
 
     anyShapeDrawing(2, drawEllipse);
-} // end of  setEllipse
+} // end of setEllipse
+
+
+
+
+function drawDashIcon() {
+    const icon    = document.getElementById("dashed-icon-canvas");
+          iconCtx = icon.getContext("2d");
+
+    iconCtx.beginPath();
+    // draw a horizontal dashed line
+    iconCtx.moveTo(10,25);
+    iconCtx.lineTo(90,25);
+    iconCtx.closePath();
+    iconCtx.lineWidth = 2;
+    iconCtx.strokeStyle = "#1a97e1";
+    iconCtx.stroke();
+} // end of drawDashIcon
+
+
 
 
 function drawLinesIcons() {

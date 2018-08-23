@@ -630,8 +630,9 @@ body {
 
 #pencil-icon { top: 0px; }
 #point-width-icon { top: 52px; }
-#shapes-icon { top: 104px; }
+#dashed-icon { top: 104px; }
 #lines-icon { top: 156px; }
+#shapes-icon { top: 208px; }
 
 
 .tool-icon:first-child {
