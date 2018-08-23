@@ -137,6 +137,8 @@ function addIconListeners() {
     const pencilIcon      = document.getElementById("pencil-icon"),
           pointWidthIcon  = document.getElementById("point-width-icon"),
           pointWidthPanel = document.getElementById("point-width-panel"),
+          dashedIcon      = document.getElementById("dashed-icon"),
+          dashedPanel     = document.getElementById("dashed-panel"),
           shapesIcon      = document.getElementById("shapes-icon"),
           shapesPanel     = document.getElementById("shapes-panel"), 
           linesIcon       = document.getElementById("lines-icon"), 
@@ -153,6 +155,16 @@ function addIconListeners() {
            document.getElementById("point-width-slider").value = toolSettings.drawingWidth;           
         } // end of else
     }); // end of pointWidthIcon listener
+
+    dashedIcon.addEventListener("click", () => {
+        console.log("HEEY");
+        if (dashedPanel.style.visibility === "visible") {
+            dashedPanel.style.visibility = "hidden";
+        } // end of if dashedPanel is visible
+        else {
+            dashedPanel.style.visibility = "visible";
+        } // end of dashedPanel is hidden
+    }); // end of dashedIcon listener
 
     shapesIcon.addEventListener("click", () => {
 
