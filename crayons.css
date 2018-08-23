@@ -902,39 +902,28 @@ body {
 #lines-line {
     border-bottom: var(--border);
     border-right: var(--border);
-    left: 15px;
+    left: 65px;
     top: 40px;
 }
 
 #lines-arc {
     border-bottom: var(--border);
-    border-left: var(--border);
-    border-right: var(--border);
-    left: 135px;
-    top: 40px;
-}
-
-#lines-dashed {    
-    border-left: var(--border);
-    border-right: var(--border);
-    height: 250px;
-    left: 255px;
-    text-align: center;
+    border-left: var(--border);    
+    left: 185px;
     top: 40px;
 }
 
 #lines-bezier {    
     border-right: var(--border);
     border-top: var(--border);
-    left: 15px;
+    left: 65px;
     top: 170px;
 }
 
 #lines-quadratic {
-    border-left: var(--border);
-    border-right: var(--border);
+    border-left: var(--border);    
     border-top: var(--border);
-    left: 135px;
+    left: 185px;
     top: 170px;
 }
 

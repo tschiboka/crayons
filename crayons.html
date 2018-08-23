@@ -43,6 +43,21 @@
                     </div>
                     <div id="point-width-display">XY</div>
                 </div>
+                <div id="dashed-panel" class="panel">
+                    Dashed line                                           
+                    <div id="dash-toggle" class="toggle">
+                        <div class="toggle-text-off">OFF</div>                            
+                        <div class="toggle-bg"></div>
+                        <div class="toggle-groove"></div>
+                        <div id="dash-toggle-button" class="toggle-button"></div>
+                        <div class="toggle-text-on">ON</div>
+                    </div>
+                    <canvas id="dashed-line-sample" width="90" height="45"></canvas>
+                    <div id="dash-and-gap-settings">
+                        <input type="radio">
+                    </div>
+                    <div id="dash-pattern-settings"></div>
+                </div>
                 <div id="shapes-panel" class="panel">
                     <div id="shapes-panel-text">
                         Select a shape                        
@@ -83,22 +98,7 @@
                         <div>
                             <canvas id="arc-icon" class="icon lines-selector" width="100" height="100" title="arc"></canvas>
                         </div>
-                    </div>
-                    <div id="lines-dashed" class="lines-option">
-                        Dashed line                                           
-                        <div id="dash-toggle" class="toggle">
-                            <div class="toggle-text-off">OFF</div>                            
-                            <div class="toggle-bg"></div>
-                            <div class="toggle-groove"></div>
-                            <div id="dash-toggle-button" class="toggle-button"></div>
-                            <div class="toggle-text-on">ON</div>
-                        </div>
-                        <canvas id="dashed-line-sample" width="90" height="45"></canvas>
-                        <div id="dash-and-gap-settings">
-                            <input type="radio">
-                        </div>
-                        <div id="dash-pattern-settings"></div>
-                    </div>
+                    </div>                    
                     <div id="lines-bezier" class="lines-option">
                         <div>
                             <canvas id="bezier-icon" class="icon lines-selector" width="100" height="100" title="cubic-bezier-curve"></canvas>
