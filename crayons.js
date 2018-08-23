@@ -730,13 +730,27 @@ function drawDashIcon() {
     const icon    = document.getElementById("dashed-icon-canvas");
           iconCtx = icon.getContext("2d");
 
-    iconCtx.beginPath();
     // draw a horizontal dashed line
-    iconCtx.moveTo(10,25);
-    iconCtx.lineTo(90,25);
-    iconCtx.closePath();
-    iconCtx.lineWidth = 2;
     iconCtx.strokeStyle = "#1a97e1";
+    iconCtx.lineWidth = 2;
+    iconCtx.setLineDash([5, 3, 1, 3]);
+    
+    iconCtx.beginPath();
+    iconCtx.moveTo(10, 25);
+    iconCtx.lineTo(90, 25);
+    iconCtx.moveTo(90, 25);
+    iconCtx.closePath();
+    iconCtx.stroke();
+    
+    // draw a diagonal dotted line   
+    iconCtx.lineWidth = 1;
+    iconCtx.setLineDash([1, 1]);
+    
+    iconCtx.beginPath();
+    iconCtx.moveTo(10, 35);
+    iconCtx.lineTo(90, 15);
+    iconCtx.moveTo(90, 15);
+    iconCtx.closePath();
     iconCtx.stroke();
 } // end of drawDashIcon
 
