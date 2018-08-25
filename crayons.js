@@ -165,12 +165,27 @@ function addIconListeners() {
     }); // end of pointWidthIcon listener
 
     dashedIcon.addEventListener("click", () => {
+        function drawDashSample() {
+            const sample     = document.getElementById("dashed-line-sample"),
+                  sampleCtx  = sample.getContext("2d");
+
+            sampleCtx.beginPath();         
+            sampleCtx.moveTo(10, 22);
+            sampleCtx.lineTo(190, 22); 
+            sampleCtx.closePath();  
+            sampleCtx.lineWidth = toolSettings.drawingWidth;
+            sampleCtx.strokeStyle = "#1a97e1";
+            sampleCtx.stroke(); 
+        } // end of drawDashSample
+
+
         if (dashedPanel.style.visibility === "visible") {
             dashedPanel.style.visibility = "hidden";
         } // end of if dashedPanel is visible
         else {
             closeAllPanels();
             dashedPanel.style.visibility = "visible";
+            drawDashSample();
         } // end of dashedPanel is hidden
     }); // end of dashedIcon listener
 
