@@ -1003,7 +1003,7 @@ body {
 }
 
 .toggle-button-light {
-    background: #c82063;
+    background: #ff8494;
     border: 1px outset rgba(0 ,0 ,0 ,0.4);
     border-radius: 50%;
     height: 4px;
@@ -1011,6 +1011,22 @@ body {
     left: 0px;
     top: 0px;
     width: 4px;
+}
+
+
+@keyframes toggleOn {
+    from { top: 26px; }
+    to { top: 1px; }
+}
+
+@-webkit-keyframes toggleOn {
+    from { top: 26px; }
+    to { top: 1px; }
+}
+
+@-webkit-keyframes toggleOff {
+    from { top: 1px; }
+    to { top: 26px; }
 }
 
 #pencil-icon-check { visibility: visible; }
