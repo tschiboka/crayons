@@ -1,15 +1,15 @@
-var drawingColor = "black",                     // default drawing color
-    canvas = document.getElementById("canvas"); // canvas    
-    canvasX = 0,                                // mouse horizontal position on canvas
-    canvasY = 0,                                // and vertical 
-    lastDrawEventCoordinates = false;           // to connect the dots in drawing because mousemove is just not fast enough  
-    ctx = canvas.getContext("2d"),              // canvas context
-    mouseDown = false,                          // when mouse is pressed; 
-    tool = "draw",                              // the default tool is simple drawing    
-    toolSettings = {                            // the collection of the tools attributes
-        drawingWidth : "4",                     // the sharpness of the pencil
-    },
-    disableIcons = false;                       // if positioners are placed, you cannot click on tool icons
+var drawingColor = "black",                           // default drawing color
+    canvas       = document.getElementById("canvas"); // canvas    
+    canvasX      = 0,                                 // mouse horizontal position on canvas
+    canvasY      = 0,                                 // and vertical 
+    lastDrawEventCoordinates = false;                 // to connect the dots in drawing because mousemove is just not fast enough  
+    ctx          = canvas.getContext("2d"),           // canvas context
+    mouseDown    = false,                             // when mouse is pressed; 
+    tool         = "draw",                            // the default tool is simple drawing    
+    toolSettings = {                                  // the collection of the tools attributes
+        drawingWidth : "4",                           // the sharpness of the pencil    
+    },    
+    disableIcons = false;                             // if positioners are placed, you cannot click on tool icons
 
 
 
@@ -22,6 +22,7 @@ addIconListeners();
 addShapeListeners();
 drawDashIcon();
 drawLinesIcons();
+addToggleListeners();
 
 
 
@@ -871,3 +872,18 @@ function drawLinesIcons() {
     quadCtx.strokeStyle = grad;
     quadCtx.stroke();
 } // end of drawLinesIcon
+
+
+
+
+function addToggleListeners() {
+    const toggleIds = ["dash-and-gap-toggle", "dash-pattern-toggle"];
+
+    toggleIds.forEach(tg => {
+        const toggle = document.getElementById(tg);
+        toggle.addEventListener("click", () => {
+           toggle.dataset.on = toggle.dataset.on === "true" ? "false" : "true"; // switch on custom attribute
+           console.log(toggle, toggle.dataset.on);
+        }); // end of enentlistener
+    }); // end of iterate toggleIds
+} // end of addToggleListeners

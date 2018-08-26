@@ -639,15 +639,15 @@ body {
     top: 5px;
 }
 
-.panel {
-    background: #24282f; 
+.panel {   
+    background: #24282f;    
     border: 1px solid rgba(250, 250, 250, 0.1); 
     color: rgba(250,250,250,0.7);
     font-family: 'Fira Sans', sans-serif;    
     font-weight: 100;     
     height: 300px;
     left: 10px;    
-    position: absolute;
+    position: absolute;    
     top: 10px;   
     visibility: hidden;     
     width: 380px;
@@ -936,7 +936,7 @@ body {
 }
 
 #dashed-panel{
-    padding-top: 20px;
+    /*padding-top: 20px;*/
     text-align: center;
 }
 
@@ -946,7 +946,6 @@ body {
     position: absolute;
     top: 50px;
 }
-
 
 
 #dash-and-gap-settings {
@@ -967,6 +966,53 @@ body {
     width: 360px;
 }
 
+.toggle {
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px inset rgba(0 ,0 ,0 ,0.4);
+    border-radius: 3px;
+    height: 50px;
+    position: absolute;
+    width: 20px;
+}
+
+.toggle-button {
+    background: #24282f;
+    border: 1px outset rgba(0 ,0 ,0 ,0.4);
+    border-radius: 3px;
+    height: 23px;
+    position: absolute;
+    left: 0px;
+    top: 26px;
+    width: 18px;
+}
+
+#dash-and-gap-toggle, #dash-pattern-toggle {
+    left: 5px;
+    top: 15px;
+}
+
+.toggle-button-light-bg {
+    background: rgba(0 ,0 ,0 ,0.8);
+    border: 1px inset rgba(135, 43, 43, 0.4);
+    border-radius: 50%;
+    height: 6px;
+    position: absolute;
+    left: 6px;
+    top: 7px;
+    width: 6px;
+}
+
+.toggle-button-light {
+    background: #c82063;
+    border: 1px outset rgba(0 ,0 ,0 ,0.4);
+    border-radius: 50%;
+    height: 4px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 4px;
+}
+
 #pencil-icon-check { visibility: visible; }
 
 @media only screen and (max-width: 600px) {
@@ -974,3 +1020,4 @@ body {
         background: green;
     }
 }
+
