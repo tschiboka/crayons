@@ -1041,6 +1041,37 @@ body {
     padding-top: 10px;
 }
 
+#dash-slider {
+    border: var(--border);
+    left: 50px;
+    top: 30px;
+    height: 20px;
+    position: absolute;
+    width: 230px;
+}
+
+input[type=range] {
+    margin: 0;
+    padding: 0;
+
+    -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
+    background: transparent;  /* Otherwise white in Chrome */
+    width: 100%;              /* Specific width is required for Firefox. */
+}
+
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; }
+
+input[type=range]:focus { outline: none; } /* Removes the blue border.*/
+
+input[type=range]::-ms-track {
+    /* Hides the slider so custom styles can be added */
+    background: transparent; 
+    border-color: transparent;
+    color: transparent;
+    cursor: pointer;
+    width: 100%;  
+}
+
 #pencil-icon-check { visibility: visible; }
 
 @media only screen and (max-width: 600px) {
