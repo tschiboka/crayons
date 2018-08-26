@@ -882,19 +882,34 @@ function addToggleListeners() {
     toggleIds.forEach(tg => {
         const toggle = document.getElementById(tg + "-toggle-button"),
               light = document.getElementById(tg + "-toggle-button-light");
-              console.log(toggle.style.animation, light);
-        toggle.addEventListener("click", () => {
+
+        console.log(toggle.style.animation, light);
+
+        toggle.addEventListener("click", () => {            
             toggle.dataset.on = toggle.dataset.on === "true" ? "false" : "true"; // switch on custom attribute
             if (toggle.dataset.on === "true") {
+                const otherToggleName = tg === toggleIds[0] ? toggleIds[1] : toggleIds[0], // get other toggle so they can cancel each other
+                      otherToggle     = document.getElementById(otherToggleName + "-toggle-button"),
+                      otherLight      = document.getElementById(otherToggleName + "-toggle-button-light");
+
+                // set active toggle
                 toggle.style.webkitAnimation = toggle.style.animation = "0.2s toggleOn linear";
                 toggle.style.top = "1px";
                 light.style.background = "#a6e6ed";
-            } 
-            else {
+
+                // set the other toggle
+                if (otherToggle.dataset.on === "true") {
+                    otherToggle.style.webkitAnimation = otherToggle.style.animation = "0.2s toggleOff linear";                
+                    otherToggle.style.top = "26px";
+                    otherLight.style.background = "#ff8494";
+                    otherToggle.dataset.on = "false";
+                } // end of if other toggle is on                
+            } //  end of if current toggle is on
+            else {                
                 toggle.style.webkitAnimation = toggle.style.animation = "0.2s toggleOff linear";                
                 toggle.style.top = "26px";
                 light.style.background = "#ff8494";
-            }
+            } // end of if current toggle is off            
         }); // end of enentlistener
     }); // end of iterate toggleIds
 } // end of addToggleListeners

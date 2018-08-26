@@ -1024,6 +1024,11 @@ body {
     to { top: 1px; }
 }
 
+@keyframes toggleOff {
+    from { top: 1px; }
+    to { top: 26px; }
+}
+
 @-webkit-keyframes toggleOff {
     from { top: 1px; }
     to { top: 26px; }
