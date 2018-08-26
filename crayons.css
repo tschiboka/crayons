@@ -940,6 +940,8 @@ body {
     text-align: center;
 }
 
+#dashed-panel-text { padding-top: 15px; }
+
 #dashed-line-sample {
     border: var(--border);
     left: 90px;    
@@ -1032,6 +1034,11 @@ body {
 @-webkit-keyframes toggleOff {
     from { top: 1px; }
     to { top: 26px; }
+}
+
+.dash-setting-text {
+    font-size: 14px;
+    padding-top: 10px;
 }
 
 #pencil-icon-check { visibility: visible; }
