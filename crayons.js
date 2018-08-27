@@ -513,6 +513,7 @@ function setTriangle() {
         triangleCtx.closePath();
         triangleCtx.lineWidth = toolSettings.drawingWidth;
         triangleCtx.strokeStyle = drawingColor;
+        triangleCtx.setLineDash(toolSettings.dashedLine);
         triangleCtx.stroke();        
     } // end of drawTriangle
 
@@ -561,6 +562,7 @@ function setSquare() {
         squareCtx.closePath();
         squareCtx.lineWidth = toolSettings.drawingWidth;
         squareCtx.strokeStyle = drawingColor;
+        squareCtx.setLineDash(toolSettings.dashedLine);
         squareCtx.stroke();  
     } // end of drawSquare
 
@@ -607,6 +609,7 @@ function setRectangle() {
         rectangleCtx.closePath();
         rectangleCtx.lineWidth = toolSettings.drawingWidth;
         rectangleCtx.strokeStyle = drawingColor;
+        rectangleCtx.setLineDash(toolSettings.dashedLine);
         rectangleCtx.stroke();  
     } // end of drawSquare
     
@@ -681,6 +684,7 @@ function setRoundedRectangle() {
         roundedRectangleCtx.closePath();
         roundedRectangleCtx.lineWidth = toolSettings.drawingWidth;
         roundedRectangleCtx.strokeStyle = drawingColor;
+        roundedRectangleCtx.setLineDash(toolSettings.dashedLine);
         roundedRectangleCtx.stroke();          
     } // end of drawSquare
     
@@ -721,6 +725,7 @@ function setCircle() {
         circleCtx.closePath();
         circleCtx.lineWidth = toolSettings.drawingWidth;
         circleCtx.strokeStyle = drawingColor;
+        circleCtx.setLineDash(toolSettings.dashedLine);
         circleCtx.stroke();        
     } // end of drawTriangle
       
@@ -759,6 +764,7 @@ function setEllipse() {
         ellipseCtx.closePath();
         ellipseCtx.lineWidth = toolSettings.drawingWidth;
         ellipseCtx.strokeStyle = drawingColor;
+        ellipseCtx.setLineDash(toolSettings.dashedLine);
         ellipseCtx.stroke();        
     } // end of drawTriangle
       
