@@ -1041,8 +1041,7 @@ body {
     padding-top: 10px;
 }
 
-#dash-slider {
-    border: var(--border);
+#dash-slider {    
     left: 50px;
     top: 30px;
     height: 20px;
@@ -1071,6 +1070,33 @@ input[type=range]::-ms-track {
     cursor: pointer;
     width: 100%;  
 }
+
+/* Special styling for WebKit/Blink */
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background: var(--icon-color);
+    border: 3px solid #282c34;
+    border-radius: 3px;
+    border-bottom: none;
+    border-top: none;
+    box-shadow: 1px 1px 2px #0f5782, 0px 0px 2px #aaa; 
+    cursor: pointer;
+    height: 22px;
+    margin-top: -2px; /* I need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+    width: 8px;
+}
+
+input[type=range]::-moz-range-thumb {
+    background: var(--icon-color);
+    border: 3px solid #282c34;
+    border-radius: 3px;
+    border-bottom: none;
+    border-top: none;
+    box-shadow: 1px 1px 2px #0f5782, 0px 0px 2px #aaa; 
+    cursor: pointer;
+    height: 22px;
+    width: 3px;
+  }
 
 #pencil-icon-check { visibility: visible; }
 
