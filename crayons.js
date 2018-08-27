@@ -904,7 +904,9 @@ function addToggleListeners() {
                     otherToggle.style.top = "26px";
                     otherLight.style.background = "#ff8494";
                     otherToggle.dataset.on = "false";
-                } // end of if other toggle is on                
+                } // end of if other toggle is on   
+
+                console.log("Here ill check the values");             
             } //  end of if current toggle is on
 
             else {                
@@ -919,5 +921,18 @@ function addToggleListeners() {
 
 
 function addDashesSlidersListener() {
+    const dashSlider = document.getElementById("dash-slider"),
+          gapSlider = document.getElementById("gap-slider");
+          
+    // reset values that seems to gone while styling range      
+    dashSlider.value = 2;
+    gapSlider.value = 6;
 
+    dashSlider.addEventListener("mousemove", () => {
+        document.getElementById("dash-value-display").innerHTML = dashSlider.value;        
+    }); // end of dashSlider mouseover listener
+
+    gapSlider.addEventListener("mousemove", () => {
+        document.getElementById("gap-value-display").innerHTML = gapSlider.value;       
+    }); // end of gapSlider mouseover listener
 }// end of addDashSlidersListener

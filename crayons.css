@@ -1009,7 +1009,7 @@ body {
     padding-top: 5px;
 }
 
-#dash-slider {   
+#dash-slider-box {   
      
     left: 50px;
     top: 25px;
@@ -1018,7 +1018,7 @@ body {
     width: 230px;
 }
 
-#gap-slider {    
+#gap-slider-box {    
     left: 50px;
     top: 55px;
     height: 20px;
