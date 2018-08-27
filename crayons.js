@@ -23,6 +23,7 @@ addShapeListeners();
 drawDashIcon();
 drawLinesIcons();
 addToggleListeners();
+addDashesSlidersListener();
 
 
 
@@ -905,7 +906,7 @@ function addToggleListeners() {
                     otherToggle.dataset.on = "false";
                 } // end of if other toggle is on                
             } //  end of if current toggle is on
-            
+
             else {                
                 toggle.style.webkitAnimation = toggle.style.animation = "0.2s toggleOff linear";                
                 toggle.style.top = "26px";
@@ -914,3 +915,9 @@ function addToggleListeners() {
         }); // end of enentlistener
     }); // end of iterate toggleIds
 } // end of addToggleListeners
+
+
+
+function addDashesSlidersListener() {
+
+}// end of addDashSlidersListener
