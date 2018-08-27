@@ -8,7 +8,8 @@ var drawingColor = "black",                           // default drawing color
     tool         = "draw",                            // the default tool is simple drawing    
     toolSettings = {                                  // the collection of the tools attributes
         drawingWidth : "4",                           // the sharpness of the pencil    
-    },    
+        dashedLine   : [],                            // if the drawing line is dashed
+    },        
     disableIcons = false;                             // if positioners are placed, you cannot click on tool icons
 
 
@@ -878,7 +879,8 @@ function drawLinesIcons() {
 
 
 function addToggleListeners() {
-    const toggleIds = ["dash-and-gap", "dash-pattern"];
+    const toggleIds = ["dash-and-gap", "dash-pattern"];    
+
 
     toggleIds.forEach(tg => {
         const toggle = document.getElementById(tg + "-toggle-button"),
@@ -886,12 +888,14 @@ function addToggleListeners() {
         
 
         toggle.addEventListener("click", () => {            
-            toggle.dataset.on = toggle.dataset.on === "true" ? "false" : "true"; // switch on custom attribute
+            const otherToggleName = tg === toggleIds[0] ? toggleIds[1] : toggleIds[0], // get other toggle so they can cancel each other
+                  otherToggle     = document.getElementById(otherToggleName + "-toggle-button"),
+                  otherLight      = document.getElementById(otherToggleName + "-toggle-button-light")
+           
+            toggle.dataset.on = toggle.dataset.on === "true" ? "false" : "true"; // switch on custom attribute              
+            
 
-            if (toggle.dataset.on === "true") {
-                const otherToggleName = tg === toggleIds[0] ? toggleIds[1] : toggleIds[0], // get other toggle so they can cancel each other
-                      otherToggle     = document.getElementById(otherToggleName + "-toggle-button"),
-                      otherLight      = document.getElementById(otherToggleName + "-toggle-button-light");
+            if (toggle.dataset.on === "true") {               
 
                 // set active toggle
                 toggle.style.webkitAnimation = toggle.style.animation = "0.2s toggleOn linear";
@@ -904,19 +908,56 @@ function addToggleListeners() {
                     otherToggle.style.top = "26px";
                     otherLight.style.background = "#ff8494";
                     otherToggle.dataset.on = "false";
-                } // end of if other toggle is on   
-
-                console.log("Here ill check the values");             
+                } // end of if other toggle is on                               
             } //  end of if current toggle is on
 
             else {                
                 toggle.style.webkitAnimation = toggle.style.animation = "0.2s toggleOff linear";                
                 toggle.style.top = "26px";
                 light.style.background = "#ff8494";
-            } // end of if current toggle is off            
-        }); // end of enentlistener
+            } // end of if current toggle is off               
+            
+            getDashValues();
+            reDrawDashedLineSample();
+        }); // end of eventlistener
     }); // end of iterate toggleIds
 } // end of addToggleListeners
+
+
+
+function getDashValues() {
+    const get = (el) => document.getElementById(el),
+          tgs = [get("dash-and-gap-toggle-button").dataset.on, get("dash-pattern-toggle-button").dataset.on];
+
+    let   val = [];
+
+    if (tgs[0] === "true") { val = [get("dash-slider").value, get("gap-slider").value].map(Number); }
+
+    if (tgs[1] === "true") {
+        val = [];
+    }
+    toolSettings.dashedLine = val;
+    console.log(val);
+    return val;
+} // end of setDashValues
+
+
+
+function reDrawDashedLineSample() {   
+        const sample     = document.getElementById("dashed-line-sample"),
+              sampleCtx  = sample.getContext("2d");
+
+        sampleCtx.clearRect(0, 0, sample.width, sample.height);  
+        sampleCtx.beginPath();         
+        sampleCtx.moveTo(10, 22);
+        sampleCtx.lineTo(190, 22); 
+        sampleCtx.closePath();  
+        sampleCtx.lineWidth = toolSettings.drawingWidth;
+        sampleCtx.strokeStyle ="#1a97e1";
+        sampleCtx.setLineDash(toolSettings.dashedLine);
+        sampleCtx.stroke();  
+} // end of reDrawDashedLineSample
+
 
 
 
@@ -929,10 +970,14 @@ function addDashesSlidersListener() {
     gapSlider.value = 6;
 
     dashSlider.addEventListener("mousemove", () => {
-        document.getElementById("dash-value-display").innerHTML = dashSlider.value;        
+        document.getElementById("dash-value-display").innerHTML = dashSlider.value;   
+        getDashValues();    
+        reDrawDashedLineSample();      
     }); // end of dashSlider mouseover listener
 
     gapSlider.addEventListener("mousemove", () => {
-        document.getElementById("gap-value-display").innerHTML = gapSlider.value;       
+        document.getElementById("gap-value-display").innerHTML = gapSlider.value;   
+        getDashValues();    
+        reDrawDashedLineSample();
     }); // end of gapSlider mouseover listener
 }// end of addDashSlidersListener
