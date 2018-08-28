@@ -1143,6 +1143,27 @@ input[type=range]::-moz-range-track {
     width: 40px;
 }
 
+
+#dash-pattern-input {
+    background: rgba(0 ,0 ,0 ,0.1);
+    border: 2px inset #1e2126;
+    border-radius: 5px;
+    cursor: default;
+    font-family: 'Fira Sans', sans-serif;   
+    font-size: 20px;
+    font-weight: 100;
+    color: var(--icon-color);
+    height: 25px;
+    left: 50px;
+    position: absolute;
+    text-align: center;
+    text-shadow: 2px 2px 2px #0e4f76, -2px -2px 2px #0d0d0d;
+    top: 35px;
+    width: 230px;
+}
+
+
+
 #pencil-icon-check { visibility: visible; }
 
 @media only screen and (max-width: 600px) {

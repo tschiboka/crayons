@@ -25,6 +25,7 @@ drawDashIcon();
 drawLinesIcons();
 addToggleListeners();
 addDashesSlidersListener();
+addPatternListener();
 
 
 
@@ -219,13 +220,16 @@ function addIconListeners() {
     }); // end of shapesIcon listener
     
     linesIcon.addEventListener("click", () => {
-        if (window.getComputedStyle(linesPanel).visibility == "hidden") {
-            closeAllPanels();
-            linesPanel.style.visibility = "visible";
-        } // end of if iconpanel is hidden
-        else {
-            linesPanel.style.visibility = "hidden";
-        } // end if it's visible
+        if (!disableIcons) {
+            if (window.getComputedStyle(linesPanel).visibility == "hidden") {
+                closeAllPanels();
+                linesPanel.style.visibility = "visible";
+    
+            } // end of if iconpanel is hidden
+            else {
+                linesPanel.style.visibility = "hidden";
+            } // end if it's visible
+        } // end of if icons are free to click        
     }); // end of linesIcon listener
 } // end of addIconListeners
 
@@ -971,7 +975,7 @@ function addDashesSlidersListener() {
     const dashSlider = document.getElementById("dash-slider"),
           gapSlider = document.getElementById("gap-slider");
           
-    // reset values that seems to gone while styling range      
+    // reset values that seems to have gone while styling range      
     dashSlider.value = 2;
     gapSlider.value = 6;
 
@@ -986,4 +990,16 @@ function addDashesSlidersListener() {
         getDashValues();    
         reDrawDashedLineSample();
     }); // end of gapSlider mouseover listener
-}// end of addDashSlidersListener
+} // end of addDashSlidersListener
+
+
+
+function addPatternListener() {
+    const input = document.getElementById("dash-pattern-input");
+
+    let inputVal = "";
+
+    input.addEventListener("change", () => {
+        
+    }); // end of change listener
+} // end of addPatternListener
