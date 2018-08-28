@@ -944,10 +944,15 @@ function getDashValues() {
     if (tgs[0] === "true") { val = [get("dash-slider").value, get("gap-slider").value].map(Number); }
 
     if (tgs[1] === "true") {
-        val = [];
-    }
+        const inp = get("dash-pattern-input").value;
+     
+        val = inp.substring(1, inp.length - 1)
+              .split(",")
+              .map(Number);
+    } // end of if pattern
+
     toolSettings.dashedLine = val;
-    console.log(val);
+
     return val;
 } // end of setDashValues
 
@@ -1028,7 +1033,10 @@ function addPatternListener() {
         formatted = formatted.substring(1, formatted.length - 1); // get rid of []
         formatted = formatted.match(/\d+/g); // make an array of nums
         formatted = formatted.map((e, i) => i > 0 ? " " + e : e); // add space
-        console.log(formatted);
+   
         input.value = `[${formatted}]`;
+
+        getDashValues();    
+        reDrawDashedLineSample(); 
     }); // end of change Listener
 } // end of addPatternListener
