@@ -996,10 +996,29 @@ function addDashesSlidersListener() {
 
 function addPatternListener() {
     const input = document.getElementById("dash-pattern-input");
+    
+    input.addEventListener("keyup", () => { 
+        let   jumpChars = 0; // if we need to place the cursor position       
+        const validateInput = (txt) => {
+            const trimTxt = (s) => s.replace(/([^(0-9,\s)])/g, e => ""), // exclude any chars except nums comma and space
+                  trimNum = (s) => s.replace(/\d{3}/g, e => e[0] + e[1] + ", " + e[2]);
+            
+            txt = txt.substring(1, txt.length - 1); // get rid of [ ]
 
-    let inputVal = "";
+            jumpChars += txt === trimTxt(txt) ? 0 : -1; // if text trimmed jump position
+            txt = trimTxt(txt);
 
-    input.addEventListener("change", () => {
+            jumpChars += txt === trimNum(txt) ? 0 : 2; // if number trimmed jump position
+            txt = trimNum(txt);
+            console.log(txt, trimNum(txt), jumpChars);
+            return `[${txt}]`;
+        } // end of validateInput
         
+        // put cursor back to its original position, because if validation fails, it jumps to the end
+        let cursorPosition = input.selectionStart === input.selectionEnd ? input.selectionStart : input.selectionEnd;
+
+        input.value = validateInput(input.value);
+        input.selectionStart = input.selectionEnd =  cursorPosition + jumpChars;
+        console.log(cursorPosition, );
     }); // end of change listener
 } // end of addPatternListener
