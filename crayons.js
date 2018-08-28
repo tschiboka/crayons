@@ -1010,7 +1010,7 @@ function addPatternListener() {
 
             jumpChars += txt === trimNum(txt) ? 0 : 2; // if number trimmed jump position
             txt = trimNum(txt);
-            console.log(txt, trimNum(txt), jumpChars);
+            
             return `[${txt}]`;
         } // end of validateInput
         
@@ -1018,7 +1018,17 @@ function addPatternListener() {
         let cursorPosition = input.selectionStart === input.selectionEnd ? input.selectionStart : input.selectionEnd;
 
         input.value = validateInput(input.value);
-        input.selectionStart = input.selectionEnd =  cursorPosition + jumpChars;
-        console.log(cursorPosition, );
-    }); // end of change listener
+        input.selectionStart = input.selectionEnd =  cursorPosition + jumpChars; // place cursor        
+    }); // end of keyup listener
+
+    input.addEventListener("change", () => {
+        // Final validation and formatting when focus is not on input anymore
+        let formatted = input.value;
+
+        formatted = formatted.substring(1, formatted.length - 1); // get rid of []
+        formatted = formatted.match(/\d+/g); // make an array of nums
+        formatted = formatted.map((e, i) => i > 0 ? " " + e : e); // add space
+        console.log(formatted);
+        input.value = `[${formatted}]`;
+    }); // end of change Listener
 } // end of addPatternListener
