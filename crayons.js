@@ -26,6 +26,7 @@ drawLinesIcons();
 addToggleListeners();
 addDashesSlidersListener();
 addPatternListener();
+addLineListeners();
 
 
 
@@ -195,7 +196,7 @@ function addIconListeners() {
 
     shapesIcon.addEventListener("click", () => {
         if (!disableIcons) {
-            console.log(window.getComputedStyle(shapesPanel).visibility);
+           
             // if panel is visible and icon is checked start shape set function
             if (shapesPanel.style.visibility === "visible") {
                 switch(tool) {
@@ -1040,3 +1041,27 @@ function addPatternListener() {
         reDrawDashedLineSample(); 
     }); // end of change Listener
 } // end of addPatternListener
+
+
+
+function addLineListeners() {
+    const options = [...document.getElementsByClassName("lines-option")],
+          checks  = [...document.getElementsByClassName("line-check")];
+
+    // line icons
+    options.forEach(o => {
+        o.addEventListener("click", () => {
+            // find corrisponding check
+            const thisCheck = checks.filter(e => e.id === o.id + "-check")[0];
+            thisCheck.style.visibility = window.getComputedStyle(thisCheck).visibility === "visible" ? "hidden" : "visible";
+        }); // end of line-option click listener
+    }); // end of line-ooption iteration
+    
+   
+    // line checks
+    checks.forEach(ch => {
+        ch.addEventListener("click", () => {
+            ch.style.visibility = window.getComputedStyle(ch).visibility === "visible" ? "hidden" : "visible";
+        }); // end of line-check click listener
+    }); // end of line-check iteration    
+} // end of addLineListeners
