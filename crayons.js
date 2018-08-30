@@ -196,8 +196,8 @@ function addIconListeners() {
 
     shapesIcon.addEventListener("click", () => {
         if (!disableIcons) {
-           
-            // if panel is visible and icon is checked start shape set function
+            shapesPanel.style.visibility = shapesPanel.style.visibility === "visible" ? "hidden" : "visible";
+            // if panel is visible and tool is set start shape set function
             if (shapesPanel.style.visibility === "visible") {
                 switch(tool) {
                     case "triangle": { setTriangle(); break; }
@@ -207,17 +207,8 @@ function addIconListeners() {
                     case "circle": { setCircle(); break; }
                     case "ellipse": { setEllipse(); break; }
                 } // end of switch tool
-            } // end of if visible
-            
-            // if hidden take off all check signes if any visible  
-            if (window.getComputedStyle(shapesPanel).visibility === "hidden") {
-                closeAllPanels();
-                shapesPanel.style.visibility = "visible";
-                ["pencil-icon", "shape-triangle", "shape-square", "shape-rectangle", "shape-rounded-rectangle", "shape-circle", "shape-ellipse"]
-                .forEach(t => document.getElementById(`${t}-check`).style.visibility = "hidden");
-            } // end of if hidden
-            else shapesPanel.style.visibility = "hidden";
-        } // end of if icon click is allowed        
+            } // end of if visible   
+        } // end of if not disabled
     }); // end of shapesIcon listener
     
     linesIcon.addEventListener("click", () => {
@@ -1048,26 +1039,16 @@ function addPatternListener() {
 
 
 function addLineListeners() {
-    const options = [...document.getElementsByClassName("lines-option")],
-          checks  = [...document.getElementsByClassName("line-check")];
+    const options = [...document.getElementsByClassName("lines-option")];          
 
     // line icons
     options.forEach(o => {
         o.addEventListener("click", () => {
             // find corrisponding check
-            const thisCheck = checks.filter(e => e.id === o.id + "-check")[0];
-            thisCheck.style.visibility = window.getComputedStyle(thisCheck).visibility === "visible" ? "hidden" : "visible";                        
-            checkManager("log", "clear");
+            const thisCheck = document.getElementById(o.id + "-check");            
+            checkManager("set", thisCheck);
         }); // end of line-option click listener
     }); // end of line-ooption iteration
-    
-   
-    // line checks
-    checks.forEach(ch => {
-        ch.addEventListener("click", () => {
-            ch.style.visibility = window.getComputedStyle(ch).visibility === "visible" ? "hidden" : "visible";
-        }); // end of line-check click listener
-    }); // end of line-check iteration    
 } // end of addLineListeners
 
 
@@ -1076,7 +1057,10 @@ function addLineListeners() {
 /*
   This function is responsible for managing the check signs.
   It's argument is the command, and the function returns the current tool, that is checked.
-  
+  commands:
+    clear: clears all check signs
+    log: logs out all checks visibility as true or false
+    set: looks for the next argument and sets its visibility true 
 */
 function checkManager(...commands) {
     const get        = (id) => document.getElementById(id),
@@ -1098,27 +1082,50 @@ function checkManager(...commands) {
           ellipse    = get("shape-ellipse-check"),
           mains      = [pencil, lines, shapes],
           subLines   = [line, arc, bezier, quadratic],
-          subShape   = [triangle, square, rectangle, rounded, circle, ellipse];
+          subShapes  = [triangle, square, rectangle, rounded, circle, ellipse],
+          all        = [...mains, ...subLines, ... subShapes],
+          clearAll   = () => all.map(e => setOff(e)); // sets all hidden
 
       
-    commands.forEach(command => {
+    commands.forEach((command, i) => {        
         switch (command) {
             case "log": {
                 console.log("pencil: " + isOn(pencil));
                 console.log("lines: " + isOn(lines));
                 subLines.map(e => { console.log("    " + e.id.replace(/(lines-|-check)/g, m=>"") + ": " + isOn(e)); });
                 console.log("shapes: " + isOn(shapes    ));
-                subShape.map(e => { console.log("    " + e.id.replace(/(shape-|-check)/g, m=>"") + ": " + isOn(e)); });
+                subShapes.map(e => { console.log("    " + e.id.replace(/(shape-|-check)/g, m=>"") + ": " + isOn(e)); });
                 break;
             } // end of case log
-            case "clear": {
-                const all = [...mains, ...subLines, ... subShape];
-                all.map(e => setOff(e)); // sets all hidden
+            case "clear": {                
+                clearAll();
                 break;
             } // end of clear command
-            default: {throw Error("checkManager function cannot recognise " + command + " as a valid command!")}
+            case "set": {                
+                const checkSign = commands[i + 1];
+
+                if (all.filter(e => checkSign === e).length === 1) { // if next argument is a check element
+                    let itWasOn = !isOn(checkSign);
+                    clearAll();
+                    if(itWasOn) {
+                        setOn(checkSign); // set check visible
+                        if (subLines.includes(checkSign)) setOn(lines); // set parent
+                        if (subShapes.includes(checkSign)) setOn(shapes); 
+                    } // end of set it visible if it was hidden
+                    commands[i + 1] = "";   // set next command "" so it won't throw Error           
+                } // end if next argument is a valid check sign
+                else {                   
+                    throw Error("After set command the next argument needs to be a valid check-sign element!")
+                } // end of else           
+                break;
+            }
+            case "": { break; } // empty command has no any effect and is a valid command
+            default: { throw Error("checkManager function cannot recognise " + command + " as a valid command!")}
         } // end of switch command
-    }); // end of forEach commands
-    
+
+        let active = [pencil, ...subLines, ...subShapes].find(el => isOn(el));
+       
+        if (!active) setOn(pencil); // if no tools selected the default set is pencil hand-drawing
+    }); // end of forEach commands    
     
 } // end of checkManager
