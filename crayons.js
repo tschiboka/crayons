@@ -154,7 +154,7 @@ function addIconListeners() {
 
     pencilIcon.addEventListener("click", () => {
         closeAllPanels();
-        if(!disableIcons) addToolCheck(pencilIcon.id); tool = "draw"; 
+        if(!disableIcons) checkManager("clear", "set", document.getElementById("pencil-icon-check")); 
     }); // end of pencilIcon Listener
 
     pointWidthIcon.addEventListener("click", () => {   
@@ -195,10 +195,11 @@ function addIconListeners() {
     }); // end of dashedIcon listener
 
     shapesIcon.addEventListener("click", () => {
-        if (!disableIcons) {
-            shapesPanel.style.visibility = shapesPanel.style.visibility === "visible" ? "hidden" : "visible";
+        if (!disableIcons) {            
             // if panel is visible and tool is set start shape set function
-            if (shapesPanel.style.visibility === "visible") {
+            if (shapesPanel.style.visibility === "visible") {                
+                closeAllPanels(); 
+
                 switch(tool) {
                     case "triangle": { setTriangle(); break; }
                     case "square": { setSquare(); break; } 
@@ -207,7 +208,12 @@ function addIconListeners() {
                     case "circle": { setCircle(); break; }
                     case "ellipse": { setEllipse(); break; }
                 } // end of switch tool
-            } // end of if visible   
+            } // end of if visible  
+            else {
+                closeAllPanels();   
+                checkManager("clear");             
+                shapesPanel.style.visibility = "visible"; 
+            }
         } // end of if not disabled
     }); // end of shapesIcon listener
     
@@ -215,8 +221,8 @@ function addIconListeners() {
         if (!disableIcons) {
             if (window.getComputedStyle(linesPanel).visibility == "hidden") {
                 closeAllPanels();
-                linesPanel.style.visibility = "visible";
-    
+                checkManager("clear");
+                linesPanel.style.visibility = "visible";    
             } // end of if iconpanel is hidden
             else {
                 switch (tool) {
@@ -250,25 +256,11 @@ function addPointWidthSliderListener() {
 function addShapeListeners() {
     const shapes = document.getElementsByClassName("shape-option"); // get all shapes
 
-    [...shapes].forEach(sh => sh.addEventListener("click",function () { addToolCheck(this.id); })); // add listeners to all
+    [...shapes].forEach(sh => sh.addEventListener("click",function () { 
+        thisCheck = document.getElementById(sh.id + "-check");
+        checkManager("set", thisCheck);
+     })); // add listeners to all
 } // end of addShapeListeners
-
-
-
-function addToolCheck(id) {
-    const toolsIds = ["pencil-icon", "shape-triangle", "shape-square", "shape-rectangle", "shape-rounded-rectangle", "shape-circle", "shape-ellipse"],
-          tools = ["pencil", "triangle", "square", "rectangle", "rounded-rectangle", "circle", "ellipse"];
-
-    // most of tools cancel out each other!
-    toolsIds.forEach(t => document.getElementById(`${t}-check`).style.visibility = "hidden"); // reset all to hidden
-    document.getElementById(`${id}-check`).style.visibility = "visible"; // set actual visible
-
-    // set tool variable
-    tool = tools[toolsIds.findIndex(e => e === id)];
-
-    // if one of the shapes are selected, shape icon is checked
-    document.getElementById("shapes-icon-check").style.visibility = ((/(triangle|square|rectangle|rounded-rectangle|circle|ellipse)/).test(tool)) ? "visible" : "hidden";
-} // end of addToolCheck
 
 
 
@@ -1061,6 +1053,7 @@ function addLineListeners() {
     clear: clears all check signs
     log: logs out all checks visibility as true or false
     set: looks for the next argument and sets its visibility true 
+    clearsubs: clears all sub checks
 */
 function checkManager(...commands) {
     const get        = (id) => document.getElementById(id),
@@ -1101,6 +1094,9 @@ function checkManager(...commands) {
                 clearAll();
                 break;
             } // end of clear command
+            case "clearsubs": {
+                [...subLines, ...subShapes].map(e => setOff(e));
+            } // end of clearsubs
             case "set": {                
                 const checkSign = commands[i + 1];
 
@@ -1126,6 +1122,8 @@ function checkManager(...commands) {
         let active = [pencil, ...subLines, ...subShapes].find(el => isOn(el));
        
         if (!active) setOn(pencil); // if no tools selected the default set is pencil hand-drawing
+        tool = ["draw", "line", "arc", "bezier", "quadratic", "triangle", "square", "rectangle", "rounded-rectangle", "circle", "ellipse"][[pencil, ...subLines, ... subShapes].findIndex(e => isOn(e))];
+        console.log(tool);
     }); // end of forEach commands    
     
 } // end of checkManager
