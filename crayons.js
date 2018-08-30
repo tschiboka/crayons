@@ -1056,8 +1056,8 @@ function addLineListeners() {
         o.addEventListener("click", () => {
             // find corrisponding check
             const thisCheck = checks.filter(e => e.id === o.id + "-check")[0];
-            thisCheck.style.visibility = window.getComputedStyle(thisCheck).visibility === "visible" ? "hidden" : "visible";            
-            checkManager("log");
+            thisCheck.style.visibility = window.getComputedStyle(thisCheck).visibility === "visible" ? "hidden" : "visible";                        
+            checkManager("log", "clear");
         }); // end of line-option click listener
     }); // end of line-ooption iteration
     
@@ -1078,9 +1078,11 @@ function addLineListeners() {
   It's argument is the command, and the function returns the current tool, that is checked.
   
 */
-function checkManager(command) {
+function checkManager(...commands) {
     const get        = (id) => document.getElementById(id),
           isOn       = (el) => window.getComputedStyle(el).visibility === "visible",
+          setOn      = (el) => el.style.visibility = "visible",
+          setOff     = (el) => el.style.visibility = "hidden",
           pencil     = get("pencil-icon-check"),
           lines      = get("lines-icon-check"),
           shapes     = get("shapes-icon-check"),
@@ -1098,14 +1100,25 @@ function checkManager(command) {
           subLines   = [line, arc, bezier, quadratic],
           subShape   = [triangle, square, rectangle, rounded, circle, ellipse];
 
-    switch (command) {
-        case "log": {
-            console.log("pencil: " + isOn(pencil));
-            console.log("lines: " + isOn(lines));
-            subLines.map(e => { console.log("    " + e.id.replace(/(lines-|-check)/g, m=>"") + ": " + isOn(e)); });
-            console.log("shapes: " + isOn(shapes    ));
-            subShape.map(e => { console.log("    " + e.id.replace(/(shape-|-check)/g, m=>"") + ": " + isOn(e)); });
-        } // end of case log
-    } // end of switch command
+      
+    commands.forEach(command => {
+        switch (command) {
+            case "log": {
+                console.log("pencil: " + isOn(pencil));
+                console.log("lines: " + isOn(lines));
+                subLines.map(e => { console.log("    " + e.id.replace(/(lines-|-check)/g, m=>"") + ": " + isOn(e)); });
+                console.log("shapes: " + isOn(shapes    ));
+                subShape.map(e => { console.log("    " + e.id.replace(/(shape-|-check)/g, m=>"") + ": " + isOn(e)); });
+                break;
+            } // end of case log
+            case "clear": {
+                const all = [...mains, ...subLines, ... subShape];
+                all.map(e => setOff(e)); // sets all hidden
+                break;
+            } // end of clear command
+            default: {throw Error("checkManager function cannot recognise " + command + " as a valid command!")}
+        } // end of switch command
+    }); // end of forEach commands
     
-}
+    
+} // end of checkManager
