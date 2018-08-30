@@ -215,7 +215,7 @@ function addIconListeners() {
                 shapesPanel.style.visibility = "visible";
                 ["pencil-icon", "shape-triangle", "shape-square", "shape-rectangle", "shape-rounded-rectangle", "shape-circle", "shape-ellipse"]
                 .forEach(t => document.getElementById(`${t}-check`).style.visibility = "hidden");
-            } // end of if
+            } // end of if hidden
             else shapesPanel.style.visibility = "hidden";
         } // end of if icon click is allowed        
     }); // end of shapesIcon listener
@@ -228,6 +228,9 @@ function addIconListeners() {
     
             } // end of if iconpanel is hidden
             else {
+                switch (tool) {
+                    case "line": { setLine(); break; }
+                } // end of switch tool
                 linesPanel.style.visibility = "hidden";
             } // end if it's visible
         } // end of if icons are free to click        
@@ -1053,7 +1056,8 @@ function addLineListeners() {
         o.addEventListener("click", () => {
             // find corrisponding check
             const thisCheck = checks.filter(e => e.id === o.id + "-check")[0];
-            thisCheck.style.visibility = window.getComputedStyle(thisCheck).visibility === "visible" ? "hidden" : "visible";
+            thisCheck.style.visibility = window.getComputedStyle(thisCheck).visibility === "visible" ? "hidden" : "visible";            
+            checkManager("log");
         }); // end of line-option click listener
     }); // end of line-ooption iteration
     
@@ -1065,3 +1069,43 @@ function addLineListeners() {
         }); // end of line-check click listener
     }); // end of line-check iteration    
 } // end of addLineListeners
+
+
+
+
+/*
+  This function is responsible for managing the check signs.
+  It's argument is the command, and the function returns the current tool, that is checked.
+  
+*/
+function checkManager(command) {
+    const get        = (id) => document.getElementById(id),
+          isOn       = (el) => window.getComputedStyle(el).visibility === "visible",
+          pencil     = get("pencil-icon-check"),
+          lines      = get("lines-icon-check"),
+          shapes     = get("shapes-icon-check"),
+          line       = get("lines-line-check"),
+          arc        = get("lines-arc-check"),
+          bezier     = get("lines-bezier-check"),
+          quadratic  = get("lines-quadratic-check"),
+          triangle   = get("shape-triangle-check"),
+          square     = get("shape-square-check"),
+          rectangle  = get("shape-rectangle-check"), 
+          rounded    = get("shape-rounded-rectangle-check"), 
+          circle     = get("shape-circle-check"), 
+          ellipse    = get("shape-ellipse-check"),
+          mains      = [pencil, lines, shapes],
+          subLines   = [line, arc, bezier, quadratic],
+          subShape   = [triangle, square, rectangle, rounded, circle, ellipse];
+
+    switch (command) {
+        case "log": {
+            console.log("pencil: " + isOn(pencil));
+            console.log("lines: " + isOn(lines));
+            subLines.map(e => { console.log("    " + e.id.replace(/(lines-|-check)/g, m=>"") + ": " + isOn(e)); });
+            console.log("shapes: " + isOn(shapes    ));
+            subShape.map(e => { console.log("    " + e.id.replace(/(shape-|-check)/g, m=>"") + ": " + isOn(e)); });
+        } // end of case log
+    } // end of switch command
+    
+}
