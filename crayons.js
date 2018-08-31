@@ -208,6 +208,7 @@ function addIconListeners() {
                     case "circle": { setCircle(); break; }
                     case "ellipse": { setEllipse(); break; }
                 } // end of switch tool
+                checkManager("clearsubs");
             } // end of if visible  
             else {
                 closeAllPanels();   
@@ -232,6 +233,7 @@ function addIconListeners() {
                     case "cubic":     { setCubic(); break; }
                 } // end of switch tool
                 linesPanel.style.visibility = "hidden";
+                checkManager("clearsubs");
             } // end if it's visible
         } // end of if icons are free to click        
     }); // end of linesIcon listener
@@ -1048,8 +1050,7 @@ function addLineListeners() {
 
 
 /*
-  This function is responsible for managing the check signs.
-  It's argument is the command, and the function returns the current tool, that is checked.
+  This function is responsible for managing the check signs.  
   commands:
     clear: clears all check signs
     log: logs out all checks visibility as true or false
@@ -1097,6 +1098,7 @@ function checkManager(...commands) {
             } // end of clear command
             case "clearsubs": {
                 [...subLines, ...subShapes].map(e => setOff(e));
+                return;
             } // end of clearsubs
             case "set": {                
                 const checkSign = commands[i + 1];
