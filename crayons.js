@@ -226,7 +226,10 @@ function addIconListeners() {
             } // end of if iconpanel is hidden
             else {
                 switch (tool) {
-                    case "line": { setLine(); break; }
+                    case "line":      { setLine(); break; }
+                    case "arc":       { setArc(); break; }
+                    case "quadratic": { setQuadratic(); break; }
+                    case "cubic":     { setCubic(); break; }
                 } // end of switch tool
                 linesPanel.style.visibility = "hidden";
             } // end if it's visible
@@ -439,9 +442,7 @@ function anyShapeDrawing(positionerNum, drawingFunction) {
                     yAdjust.style.top = window.getComputedStyle(positionerToDrag).top; 
                     break;
                 } // end of case rectangle    
-                case "ellipse": {
-                    
-                } // end of case ellipse           
+                       
                 default: {
                     positionerToDrag.style.left  = ((newXY[0] >= -4 && newXY[0] <= 375) ? newXY[0] : left) + "px"; // positions have to be in worktop!
                     positionerToDrag.style.top   = ((newXY[1] >= -4 && newXY[1] <= 295) ? newXY[1] : top ) + "px";
@@ -587,7 +588,7 @@ function setRectangle() {
               rectangleCtx = context || workCanvas.getContext("2d"); // default is workCanvas
         // clear canvas if it's the worktop context        
         if (!context) rectangleCtx.clearRect(0, 0, workCanvas.width, workCanvas. height);  
-        // draw triangle
+        // draw rectangle
         rectangleCtx.beginPath();
         rectangleCtx.moveTo(x1, y1 - (y1 < y2 ? W : -W));  // correction works even if rectangle is "inside out"
         rectangleCtx.lineTo(x2, y2);
@@ -602,7 +603,7 @@ function setRectangle() {
         rectangleCtx.strokeStyle = drawingColor;
         rectangleCtx.setLineDash(toolSettings.dashedLine);
         rectangleCtx.stroke();  
-    } // end of drawSquare
+    } // end of drawRectangle
     
     addPositioner(workTop, 4, [[100,100], [100,200], [280,200], [280,100]]);
     
@@ -637,7 +638,7 @@ function setRoundedRectangle() {
         // clear canvas if it's the worktop context        
         if (!context) roundedRectangleCtx.clearRect(0, 0, workCanvas.width, workCanvas. height);
 
-        // draw triangle
+        // draw rounded rectangle
         roundedRectangleCtx.beginPath();
 
         // CORNER 1 
@@ -677,7 +678,7 @@ function setRoundedRectangle() {
         roundedRectangleCtx.strokeStyle = drawingColor;
         roundedRectangleCtx.setLineDash(toolSettings.dashedLine);
         roundedRectangleCtx.stroke();          
-    } // end of drawSquare
+    } // end of drawRoundedRectangle
     
     addPositioner(workTop, 4, [[100,100], [100,200], [280,200], [280,100]]);
     
@@ -710,7 +711,7 @@ function setCircle() {
         // clear canvas if it's the worktop context        
         if (!context) circleCtx.clearRect(0, 0, workCanvas.width, workCanvas. height);
 
-        // draw triangle
+        // draw circle
         circleCtx.beginPath();        
         circleCtx.arc(x1, y1, D(x1, x2, y1, y2), 0, 2 * Math.PI, true);        
         circleCtx.closePath();
@@ -718,7 +719,7 @@ function setCircle() {
         circleCtx.strokeStyle = drawingColor;
         circleCtx.setLineDash(toolSettings.dashedLine);
         circleCtx.stroke();        
-    } // end of drawTriangle
+    } // end of drawCircle
       
     addPositioner(workTop, 2, [[190,140], [140,150]]);
 
@@ -749,7 +750,7 @@ function setEllipse() {
         // clear canvas if it's the worktop context        
         if (!context) ellipseCtx.clearRect(0, 0, workCanvas.width, workCanvas. height);
 
-        // draw triangle
+        // draw ellipse
         ellipseCtx.beginPath();        
         ellipseCtx.ellipse(x1, y1, Math.max(x1, x3) - Math.min(x1, x3), Math.max(y1, y2) - Math.min(y1, y2), 0, 0, 2 * Math.PI, true);        
         ellipseCtx.closePath();
@@ -757,8 +758,8 @@ function setEllipse() {
         ellipseCtx.strokeStyle = drawingColor;
         ellipseCtx.setLineDash(toolSettings.dashedLine);
         ellipseCtx.stroke();        
-    } // end of drawTriangle
-      
+    } // end of drawEllipse
+
     addPositioner(workTop, 3, [[190,150], [190,100], [290,150]]);
 
     anyShapeDrawing(2, drawEllipse);
@@ -1122,8 +1123,42 @@ function checkManager(...commands) {
         let active = [pencil, ...subLines, ...subShapes].find(el => isOn(el));
        
         if (!active) setOn(pencil); // if no tools selected the default set is pencil hand-drawing
-        tool = ["draw", "line", "arc", "bezier", "quadratic", "triangle", "square", "rectangle", "rounded-rectangle", "circle", "ellipse"][[pencil, ...subLines, ... subShapes].findIndex(e => isOn(e))];
+        tool = ["draw", "line", "arc", "cubic", "quadratic", "triangle", "square", "rectangle", "rounded-rectangle", "circle", "ellipse"][[pencil, ...subLines, ... subShapes].findIndex(e => isOn(e))];
         console.log(tool);
-    }); // end of forEach commands    
-    
+    }); // end of forEach commands  
 } // end of checkManager
+
+
+
+function setLine() {
+    const positioners = document.getElementsByClassName("positioner"),
+    workTop     = document.getElementById("worktop"),
+    workCanvas  = document.getElementById("pseudo-canvas");
+
+    function drawLine(context) {
+        const X1 = positioners[0].style.left,
+              Y1 = positioners[0].style.top,
+              X2 = positioners[1].style.left,
+              Y2 = positioners[1].style.top,
+              // get rid of all px postfixes (+ 4 is to get it centered (positioners width n height is 8px with border))
+              coords = [X1, Y1, X2, Y2].map(e => Number(e.match(/\d+/)) + 4), 
+              [x1, y1, x2, y2] = [...coords], // spread back the numbers
+              lineCtx = context || workCanvas.getContext("2d"); // default is workCanvas              
+        // clear canvas if it's the worktop context        
+        if (!context) lineCtx.clearRect(0, 0, workCanvas.width, workCanvas. height);
+
+        // draw line
+        lineCtx.beginPath();        
+        lineCtx.moveTo(x1, y1);
+        lineCtx.lineTo(x2, y2);
+        lineCtx.closePath();
+        lineCtx.lineWidth = toolSettings.drawingWidth;
+        lineCtx.strokeStyle = drawingColor;
+        lineCtx.setLineDash(toolSettings.dashedLine);
+        lineCtx.stroke();        
+    } // end of drawLine
+
+    addPositioner(workTop, 2, [[140,150], [280,150]]);
+
+    anyShapeDrawing(2, drawLine);
+} // end of setLine
