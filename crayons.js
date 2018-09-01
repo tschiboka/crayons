@@ -1160,7 +1160,45 @@ function setLine() {
         lineCtx.stroke();        
     } // end of drawLine
 
-    addPositioner(workTop, 2, [[140,150], [280,150]]);
+    addPositioner(workTop, 2, [[100,150], [280,150]]);
 
     anyShapeDrawing(2, drawLine);
 } // end of setLine
+
+
+
+function setQuadratic() {
+    const positioners = document.getElementsByClassName("positioner"),
+    workTop     = document.getElementById("worktop"),
+    workCanvas  = document.getElementById("pseudo-canvas");
+
+    function drawQuadratic(context) {
+        const X1 = positioners[0].style.left,
+              Y1 = positioners[0].style.top,
+              X2 = positioners[1].style.left,
+              Y2 = positioners[1].style.top,
+              X3 = positioners[2].style.left,
+              Y3 = positioners[2].style.top,
+              // get rid of all px postfixes (+ 4 is to get it centered (positioners width n height is 8px with border))
+              coords = [X1, Y1, X2, Y2, X3, Y3].map(e => Number(e.match(/\d+/)) + 4), 
+              [x1, y1, x2, y2, x3, y3] = [...coords], // spread back the numbers
+              quadraticCtx = context || workCanvas.getContext("2d"); // default is workCanvas              
+        // clear canvas if it's the worktop context        
+        if (!context) quadraticCtx.clearRect(0, 0, workCanvas.width, workCanvas. height);
+
+        // draw quadratic curve
+        quadraticCtx.beginPath();        
+        quadraticCtx.moveTo(x1, y1);
+        quadraticCtx.quadraticCurveTo(x3, y3, x2, y2);
+        quadraticCtx.moveTo(x3, y3);
+        quadraticCtx.closePath();
+        quadraticCtx.lineWidth = toolSettings.drawingWidth;
+        quadraticCtx.strokeStyle = drawingColor;
+        quadraticCtx.setLineDash(toolSettings.dashedLine);
+        quadraticCtx.stroke();        
+    } // end of drawQuadratic
+
+    addPositioner(workTop, 3, [[100,150], [280,150], [190,100]]);
+
+    anyShapeDrawing(3, drawQuadratic);
+} // end of setQuadratic
