@@ -1227,7 +1227,7 @@ function setCubic() {
         // clear canvas if it's the worktop context        
         if (!context) cubicCtx.clearRect(0, 0, workCanvas.width, workCanvas. height);
 
-        // draw quadratic curve
+        // draw cubic curve
         cubicCtx.beginPath();        
         cubicCtx.moveTo(x1, y1);
         cubicCtx.bezierCurveTo(x2, y2, x3, y3, x4, y4);       
@@ -1237,9 +1237,53 @@ function setCubic() {
         cubicCtx.strokeStyle = drawingColor;
         cubicCtx.setLineDash(toolSettings.dashedLine);
         cubicCtx.stroke();        
-    } // end of drawQuadratic
+    } // end of drawCubic
 
     addPositioner(workTop, 4, [[100,150], [100,50], [280,250], [280, 150]]);
 
     anyShapeDrawing(4, drawCubic);
-} // end of setQuadratic
+} // end of setQubic
+
+
+
+function setArc() {
+    const positioners = document.getElementsByClassName("positioner"),
+    workTop     = document.getElementById("worktop"),
+    workCanvas  = document.getElementById("pseudo-canvas");
+
+    function drawArc(context) {
+        const X1 = positioners[0].style.left,
+              Y1 = positioners[0].style.top,
+              X2 = positioners[1].style.left,
+              Y2 = positioners[1].style.top,
+              X3 = positioners[2].style.left,
+              Y3 = positioners[2].style.top,              
+              // get rid of all px postfixes (+ 4 is to get it centered (positioners width n height is 8px with border))
+              coords = [X1, Y1, X2, Y2, X3, Y3].map(e => Number(e.match(/\d+/)) + 4), 
+              [x1, y1, x2, y2, x3, y3] = [...coords], // spread back the numbers
+              arcCtx = context || workCanvas.getContext("2d"), // default is workCanvas              
+              // calculating distance between pos1 and 2 by pythagorian theorem
+              D = (ax, ay, bx, by) => { // DISTANCE
+                  const A = Math.max(ax, ay) - Math.min(ax, ay), // A and B is always positive
+                        B = Math.max(bx, by) - Math.min(bx, by);
+                  return Math.round(Math.sqrt(Math.pow(A, 2) + Math.pow(B, 2))); 
+              }; 
+        // clear canvas if it's the worktop context        
+        if (!context) arcCtx.clearRect(0, 0, workCanvas.width, workCanvas. height);
+
+        // draw arc curve
+        arcCtx.beginPath();        
+        arcCtx.moveTo(x1, y1);
+        arcCtx.arc(x1, y1, D(x1, x2, y1, y2), 0, 2 * Math.PI, true);       
+        arcCtx.moveTo(x3, y3);
+        arcCtx.closePath();
+        arcCtx.lineWidth = toolSettings.drawingWidth;
+        arcCtx.strokeStyle = drawingColor;
+        arcCtx.setLineDash(toolSettings.dashedLine);
+        arcCtx.stroke();        
+    } // end of drawArc
+
+    addPositioner(workTop, 3, [[180,150], [80,150], [280,150]]);
+
+    anyShapeDrawing(3, drawArc);
+} // end of setArc
