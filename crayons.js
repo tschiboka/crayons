@@ -444,7 +444,10 @@ function anyShapeDrawing(positionerNum, drawingFunction) {
                     yAdjust.style.top = window.getComputedStyle(positionerToDrag).top; 
                     break;
                 } // end of case rectangle    
-                case "arc" : {                    
+                case "arc" : {               
+                    const coordsX = [...positioners].map(e => window.getComputedStyle(e).left),
+                          coordsY = [...positioners].map(e => window.getComputedStyle(e).top);
+                    console.log(coordsX, coordsY);
                     positionerToDrag.style.left  = ((newXY[0] >= -4 && newXY[0] <= 375) ? newXY[0] : left) + "px"; // positions have to be in worktop!
                     positionerToDrag.style.top   = ((newXY[1] >= -4 && newXY[1] <= 295) ? newXY[1] : top ) + "px";
                 }  // end of case arc  
@@ -1274,11 +1277,10 @@ function setArc() {
         // clear canvas if it's the worktop context        
         if (!context) arcCtx.clearRect(0, 0, workCanvas.width, workCanvas. height);
 
-        // calculating arcs angles and distances
-        console.log(x1, y1, x2, y2, x3, y3);
+        // calculating arcs angles and distances        
         const angle1 = Math.atan2(y1 -y2, x1 - x2) - Math.PI,
               angle2 = Math.atan2(y1 -y3, x1 - x3) - Math.PI;
-        console.log(angle1, angle2);
+       
         // draw arc curve
         arcCtx.beginPath();        
         //arcCtx.moveTo(x1, y1);
