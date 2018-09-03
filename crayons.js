@@ -444,36 +444,7 @@ function anyShapeDrawing(positionerNum, drawingFunction) {
                     yAdjust.style.top = window.getComputedStyle(positionerToDrag).top; 
                     break;
                 } // end of case rectangle    
-                case "arc" : {               
-                    /*const coordsX = [...positioners].map(e => +window.getComputedStyle(e).left.match(/\d+/g)[0]), // the positioners coordinates
-                          coordsY = [...positioners].map(e => +window.getComputedStyle(e).top.match(/\d+/g)[0]),
-                          [x1, x2, x3, y1, y2, y3] = [...coordsX, ...coordsY], // destruct values for easier use
-                          angle1  = 180 - Math.atan2(y1 - y2, x1 - x2) * (180 / Math.PI), // the angles from 0deg
-                          angle2  = 180 - Math.atan2(y1 - y3, x1 - x3) * (180 / Math.PI),                          
-                          rad1    = Math.max(x1, x2) - Math.min(x1, x2), // radiuses
-                          rad2    = Math.max(x1, x3) - Math.min(x1, x3),
-                          case2X  = Math.round(x1 + (rad1 * Math.cos(angle1))),
-                          case2Y  = Math.round(y1 + (rad1 * Math.sin(angle1))),
-                          case3X  = Math.round(x1 + (rad2 * Math.cos(angle2))),
-                          case3Y  = Math.round(y1 + (rad2 * Math.sin(angle2))),
-                          activeX = +positionerToDrag.style.left.match(/\d+/g)[0], // the current positioner that is beeng dragged
-                          activeY = +positionerToDrag.style.top.match(/\d+/g)[0],                          
-                          // find out which positioner is being dragged
-                          // returns 1 if central 2 for x2y2 3 x3y3
-                          // when one positioner is dragged, the other can follow the width of circle
-                          positionerBeeingDragged = activeX === x2 && activeY === y2 ? 2 :
-                                                    activeX === x3 && activeY === y3 ? 3 : 1;
-                    if (positionerBeeingDragged == 2) {
-                        console.log("heeey" ,case3X,case3Y);
-                        positioners[2].style.left = case3X + " px";
-                        positioners[2].style.top = case3Y + " px";
-                    } 
-                    
-                    console.log("coords",x1, y1, x2, y2, x3, y3,"radius", rad1, rad2, "Angle", angle1, angle2, positionerBeeingDragged);
-                    console.log("new positions", case2X, case2Y, case3X, case3Y);
-                    */
-
-
+                case "arc" : {
                    const coordsX = [...positioners].map(e => +window.getComputedStyle(e).left.match(/\d+/g)[0]), // the positioners coordinates
                          coordsY = [...positioners].map(e => +window.getComputedStyle(e).top.match(/\d+/g)[0]),
                          activeX = +positionerToDrag.style.left.match(/\d+/g)[0],                                // the current positioner that is beeng dragged
@@ -483,30 +454,32 @@ function anyShapeDrawing(positionerNum, drawingFunction) {
 
                     function findNewPositionerXY(cx, cy, x, y, px, py) {
                         const radius = Math.round(Math.sqrt(Math.pow((cx - x), 2) + Math.pow((cy - y), 2))), // the distance between those points
-                              angle  = Math.round(180 - Math.atan2(y1 - py, x1 - px) * (180 / Math.PI)),     // angle from 0deg
+                              angle  = Math.atan2(cy - py, cx - px) + Math.PI,     // angle from   
                               newPX  = Math.round(cx + (radius * Math.cos(angle))),                          // the new X distance
-                              newPY  = Math.round(cy + (radius * Math.sin(angle)));                          // the new Y distance            
-                        
-                        console.log("center", cx, cy,"positioner", x, y, "radius", radius, "new positions", newPX, newPY);
+                              newPY  = Math.round(cy + (radius * Math.sin(angle)));                               
+                              console.log("CALCULATE", angle);
                         return [newPX, newPY];
-                    } // end of adjustPositioners
-
-                    if (activeX === x2 && activeY === y2) {
-                        const newPositionXY = findNewPositionerXY(x1, y1, x2, y2, x3, y3);
-                        positioners[2].style.left = newPositionXY[0] + "px";
-                        positioners[2].style.top  = newPositionXY[1] + "px";
-                        positioners[2].title = `[${newPositionXY[0]}, ${newPositionXY[1]}]`;
-                    } // end of if poistioner is p2
-                    
-                    if (activeX === x3 && activeY === y3) {
+                    } // end of findNewPositionerXY
+                    if (activeX === x3 && activeY === y3) {                        
                         const newPositionXY = findNewPositionerXY(x1, y1, x3, y3, x2, y2);
                         positioners[1].style.left = newPositionXY[0] + "px";
                         positioners[1].style.top  = newPositionXY[1] + "px";
                         positioners[1].title = `[${newPositionXY[0]}, ${newPositionXY[1]}]`;
-                    } // end of if poistioner is p1
-
-                    /*positionerToDrag.style.left  = ((newXY[0] >= -4 && newXY[0] <= 375) ? newXY[0] : left) + "px"; // positions have to be in worktop!
-                    positionerToDrag.style.top   = ((newXY[1] >= -4 && newXY[1] <= 295) ? newXY[1] : top ) + "px";*/
+                        console.log("positioner 1 : ", newPositionXY[0], newPositionXY[1]);
+                    } // end of if poistioner is p2
+                    else {                        
+                        const newPositionXY = findNewPositionerXY(x1, y1, x2, y2, x3, y3);
+                        positioners[2].style.left = newPositionXY[0] + "px";
+                        positioners[2].style.top  = newPositionXY[1] + "px";
+                        positioners[2].title = `[${newPositionXY[0]}, ${newPositionXY[1]}]`;
+                        console.log("positioner 2 : ", newPositionXY[0], newPositionXY[1]);
+                    } // end of if poistioner is not p2
+                    
+                    
+                    
+                    positionerToDrag.style.left  = ((newXY[0] >= -4 && newXY[0] <= 375) ? newXY[0] : left) + "px"; // positions have to be in worktop!
+                    positionerToDrag.style.top   = ((newXY[1] >= -4 && newXY[1] <= 295) ? newXY[1] : top ) + "px";
+                    break;
                 }  // end of case arc  
                 default: {
                     positionerToDrag.style.left  = ((newXY[0] >= -4 && newXY[0] <= 375) ? newXY[0] : left) + "px"; // positions have to be in worktop!
@@ -518,7 +491,7 @@ function anyShapeDrawing(positionerNum, drawingFunction) {
             positionerToDrag.title = `[${left}, ${top}]`;              // reset title
             
             // set helper div's postion next to the leftMost positioner
-            helper.style.left = (leftmostX - (tool === "rounded-rectangle" ? 90 : 60)) + "px"; // rounded rectangle has wider div
+            helper.style.left = (leftmostX - (tool === "rounded-rectangle" ? 90 : 60)) + "px"; // rounded rectangle has wider helper div
             helper.style.top = leftMostPositionerY;
 
             drawingFunction(); // redraw on mousemove
@@ -1350,7 +1323,7 @@ function setArc() {
         arcCtx.stroke();        
     } // end of drawArc
 
-    addPositioner(workTop, 3, [[180,150], [80,150], [280,150]]);
+    addPositioner(workTop, 3, [[180,150], [80,150], [280,140]]);
 
     anyShapeDrawing(3, drawArc);
 } // end of setArc
