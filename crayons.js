@@ -448,17 +448,27 @@ function anyShapeDrawing(positionerNum, drawingFunction) {
                     const coordsX = [...positioners].map(e => +window.getComputedStyle(e).left.match(/\d+/g)[0]), // the positioners coordinates
                           coordsY = [...positioners].map(e => +window.getComputedStyle(e).top.match(/\d+/g)[0]),
                           [x1, x2, x3, y1, y2, y3] = [...coordsX, ...coordsY], // destruct values for easier use
-                          angle1 = Math.atan2(y1 -y2, x1 - x2) - Math.PI, // the angles from 0deg
-                          angle2 = Math.atan2(y1 -y3, x1 - x3) - Math.PI,
+                          angle1  = Math.atan2(y1 -y2, x1 - x2) - Math.PI, // the angles from 0deg
+                          angle2  = Math.atan2(y1 -y3, x1 - x3) - Math.PI,
+                          rad1    = x2 - x1, // radiuses
+                          rad2    = x3 - x1,
+                          case2X  = Math.round(x1 + rad1 * Math.cos(angle1)),
+                          case2Y  = Math.round(x1 + rad1 * Math.sin(angle1)),
+                          case3X  = Math.round(x1 + rad2 * Math.cos(angle2)),
+                          case3Y  = Math.round(x1 + rad2 * Math.sin(angle2)),
                           activeX = +positionerToDrag.style.left.match(/\d+/g)[0], // the current positioner that is beeng dragged
-                          activeY = +positionerToDrag.style.top.match(/\d+/g)[0],
+                          activeY = +positionerToDrag.style.top.match(/\d+/g)[0],                          
                           // find out which positioner is being dragged
                           // returns 1 if central 2 for x2y2 3 x3y3
                           // when one positioner is dragged, the other can follow the width of circle
                           positionerBeeingDragged = activeX === x2 && activeY === y2 ? 2 :
                                                     activeX === x3 && activeY === y3 ? 3 : 1;
-                    
+                    if (positionerBeeingDragged == 2) {
+                        positioners[1].style.left = case2X;
+                        positioners[1].style.top = case2Y;
+                    } 
                     console.log(x1, y1, x2, y2, x3, y3, angle1, angle2, positionerBeeingDragged);
+                    console.log(case2X, case2Y, case3X, case3Y);
                     positionerToDrag.style.left  = ((newXY[0] >= -4 && newXY[0] <= 375) ? newXY[0] : left) + "px"; // positions have to be in worktop!
                     positionerToDrag.style.top   = ((newXY[1] >= -4 && newXY[1] <= 295) ? newXY[1] : top ) + "px";
                 }  // end of case arc  
