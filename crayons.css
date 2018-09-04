@@ -1,11 +1,12 @@
 :root {
     --backgroundColor: #c8c8ff;
-    --grey: #282c34;
-    --sheet-white: #eee;
+    /*--black: #282c34;*/
+    --black: #000203;    
     --pencil-tip-color: #b1a79e;
     --pencil-tip-reflection: rgba(250,250,250,0.5);
     --icon-color: #1a97e1; 
-    --border: 1px solid rgba(250, 250, 250, 0.1);   
+    --border-color: rgba(104, 201, 233, 0.265);   
+    --border: 1px solid var(--border-color);
 }
 
 body {
@@ -25,7 +26,7 @@ body {
     border: 1px outset black;
     border-radius: 5px;
     box-shadow: 5px 5px 4px rgba(0 ,0 ,0 ,0.9);
-    background: var(--grey);      
+    background: var(--black);      
     height: 320px; 
     left: 50%;
     margin-left: -210px;
@@ -36,8 +37,8 @@ body {
 }
 
 #sheet {
-    border: 1px solid rgba(0, 0, 0, 0.1);    
-    background: var(--sheet-white);    
+    border: 1px solid var(--border);    
+    background: white;    
     cursor: pointer;
     height: 300px;    
     margin-left: 10px;    
@@ -64,7 +65,7 @@ body {
  }
 
 .positioner {
-    background: var(--grey);    
+    background: var(--black);    
     border: 2px solid var(--icon-color);
     border-radius: 50%;    
     height: 5px;    
@@ -75,12 +76,12 @@ body {
 .positioner:hover { border: 3px solid #55f7a6; }
 
 .positioner:active {
-     border: 3px solid var(--grey);
+     border: 3px solid var(--black);
      background: #55f7a6;
 }
 
 #worktop-helper{
-    background: var(--grey);    
+    background: var(--black);    
     border: 1px solid var(--icon-color);
     border-radius: 10px;    
     height: 20px;   
@@ -125,7 +126,7 @@ body {
  }
 
 #worktop-helper-rounded-rectangle{
-    background: var(--grey);    
+    background: var(--black);    
     border: 1px solid var(--icon-color);
     border-radius: 10px;    
     height: 20px;   
@@ -380,7 +381,7 @@ body {
 }
 
 #color-info-container {
-    background: var(--grey);  
+    background: var(--black);  
     border: 1px outset black;
     border-radius: 5px;
     margin-top: 30px;
@@ -395,7 +396,7 @@ body {
 
 #color-display {
     background: black;
-    border: 1px inset black;
+    border: var(--border);
     left: -50px;
     height: 20px;
     position: absolute;
@@ -449,7 +450,7 @@ body {
 }
 
 #tools {
-    border: rgba(250, 250, 250, 0.1) solid 1px;
+    border: var(--border);
     height: 300px;
     left: 395px;
     position: absolute;
@@ -507,7 +508,7 @@ body {
 }
 
 #tool-icons {    
-    border: rgba(250, 250, 250, 0.1) solid 1px;
+    border: var(--border) solid 1px;
     background: rgba(0, 0, 0, 0.1);
     height: 260px;
     left: 1px;
@@ -517,7 +518,9 @@ body {
 }
 
 .tool-icon {
-    background: rgba(0, 0, 0, 0.1);
+    background: var(--black);
+    border-bottom: var(--border);
+    border-top: var(--border);
     height: 50px;
     left: 1px;
     position: absolute;
@@ -537,7 +540,7 @@ body {
 }
 
 #pencil-icon-shape-cut {
-    background:  #20242a;
+    background:  var(--black);
     clip-path: polygon(8% 30%, 15% 0%, 100% 0%, 100% 100%, 15% 100%, 8% 70%);
     -webkit-clip-path: polygon(8% 30%, 15% 0%, 100% 0%, 100% 100%, 15% 100%);
     height: 8px;
@@ -640,9 +643,9 @@ body {
 }
 
 .panel {   
-    background: #24282f;    
-    border: 1px solid rgba(250, 250, 250, 0.1); 
-    color: rgba(250,250,250,0.7);
+    background: var(--black);
+    border: var(--border); 
+    color: rgb(152, 245, 255);
     cursor: default;
     font-family: 'Fira Sans', sans-serif;    
     font-weight: 100;     
@@ -936,7 +939,7 @@ body {
 }
 
 .toggle {
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(50, 50, 50, 0.2);
     border: 2px inset rgba(0 ,0 ,0 ,0.4);
     border-radius: 3px;
     height: 50px;
@@ -945,9 +948,9 @@ body {
 }
 
 .toggle-button {
-    background: #24282f;
+    background: var(--black);
     cursor: pointer;
-    border: 1px outset rgba(0 ,0 ,0 ,0.4);
+    border: var(--border);
     border-radius: 3px;
     height: 23px;
     position: absolute;
@@ -962,18 +965,18 @@ body {
 }
 
 .toggle-button-light-bg {
-    background: rgba(0 ,0 ,0 ,0.8);
-    border: 1px inset rgba(135, 43, 43, 0.4);
+    background: rgba(250 ,250 ,250 ,0.1);
+    border: 1px solid rgba(135, 43, 43, 0.4);
     border-radius: 50%;
     height: 6px;
     position: absolute;
     left: 6px;
-    top: 7px;
+    top: 9px;
     width: 6px;
 }
 
 .toggle-button-light {
-    background: #ff8494;
+    background: #ce283e;
     border: 1px outset rgba(0 ,0 ,0 ,0.4);
     border-radius: 50%;
     height: 4px;
@@ -1120,8 +1123,7 @@ input[type=range]::-moz-range-track {
     background: linear-gradient(to bottom, #e8c62e 0%,#c47eea 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     background-clip: text;
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: -1px -1px 2px black;
+    -webkit-text-fill-color: transparent;  
 }
 
 #dash-value-display {    
@@ -1207,8 +1209,7 @@ input[type=range]::-moz-range-track {
     color: var(--icon-color);    
     font-size: 40px;
     height: 40px;
-    position: absolute;
-    text-shadow: -1px -1px 1px  black;
+    position: absolute;    
     top: 40px;        
     width: 20px; 
 }
@@ -1218,7 +1219,8 @@ input[type=range]::-moz-range-track {
 #polygon-arrow-up { right: 15px; }
 
 .polygon-arrow:hover {
-    text-shadow: 2px 2px 2px  black;
+    transform: scale(1.1);
+    -webkit-transform: scale(1.2);
 }
 
 .polygon-inactive-num {

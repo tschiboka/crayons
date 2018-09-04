@@ -954,7 +954,7 @@ function addToggleListeners() {
                 if (otherToggle.dataset.on === "true") {
                     otherToggle.style.webkitAnimation = otherToggle.style.animation = "0.2s toggleOff linear";                
                     otherToggle.style.top = "26px";
-                    otherLight.style.background = "#ff8494";
+                    otherLight.style.background = "#ce283e";
                     otherToggle.dataset.on = "false";
                 } // end of if other toggle is on                               
             } //  end of if current toggle is on
@@ -962,7 +962,7 @@ function addToggleListeners() {
             else {                
                 toggle.style.webkitAnimation = toggle.style.animation = "0.2s toggleOff linear";                
                 toggle.style.top = "26px";
-                light.style.background = "#ff8494";
+                light.style.background = "#ce283e";
             } // end of if current toggle is off               
             
             getDashValues();
@@ -1422,10 +1422,12 @@ function addPolygonSettingsListeners() {
           nextNum   = document.getElementById("polygon-next-num");
 
     polyOn.value = "0";  // set off as default
-    offText.style.color = "#a94b4b";
+    offText.style.color = "#ce283e";
 
     polyOn.addEventListener("change", () => {
         onText.style.color = offText.style.color = "rgba(133, 167, 171, 0.544)"; // reset colors
-        polyOn.value === "0" ? offText.style.color = "#a94b4b" : onText.style.color = "#0ee2ad";
+        polyOn.value === "0" ? offText.style.color = "#ce283e" : onText.style.color = "#0ee2ad";
     }); // end of poly slider listener
+
+    arrowDown.addEventListener("click", () => {});
 } // end of addPolygonSettingsListeners
