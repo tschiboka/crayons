@@ -247,7 +247,12 @@ function addIconListeners() {
     polygonIcon.addEventListener("click", () => {
         if (window.getComputedStyle(polygonPanel).visibility == "hidden") {
             polygonPanel.style.visibility = "visible";
+            document.getElementById("polygon-on").value = "0"; // reset to off
         } // end of if icon is hidden
+        else {            
+            polygonPanel.style.visibility = "hidden";            
+            if (document.getElementById("polygon-on").value === "1") setPolygon();
+        } // end of if polygon icon is visible
     }); // end of polygonIcon listener
 } // end of addIconListeners
 
@@ -1325,7 +1330,6 @@ function setArc() {
        
         // draw arc curve
         arcCtx.beginPath();        
-        //arcCtx.moveTo(x1, y1);
         arcCtx.arc(x1, y1, D(x1, x2, y1, y2), angle1, angle2, true);       
         arcCtx.moveTo(x3, y3);
         arcCtx.closePath();
@@ -1412,7 +1416,7 @@ function drawPolygonIcon() {
 
 
 function addPolygonSettingsListeners() {
-    function movePoligonCarousel(num) {
+    function movePolygonCarousel(num) {
         const prevNum   = document.getElementById("polygon-prev-num"),
               actNum    = document.getElementById("polygon-actual-num"),
               nextNum   = document.getElementById("polygon-next-num");
@@ -1429,7 +1433,7 @@ function addPolygonSettingsListeners() {
         // set html
         prevNum.innerHTML = actual-1;
         actNum.innerHTML = actual;
-        nextNum.innerHTML = actual+1;        
+        nextNum.innerHTML = actual+1;         
     } // end of movePoligonCarousel
 
     const onText    = document.getElementById("polygon-on-text"),
@@ -1447,10 +1451,62 @@ function addPolygonSettingsListeners() {
     }); // end of poly slider listener
 
     arrowDown.addEventListener("click", () => {
-        movePoligonCarousel(-1);
+        movePolygonCarousel(-1);
     }); // end of arrowDown eventlistener
 
     arrowUp.addEventListener("click", () => {
-        movePoligonCarousel(-1);
+        movePolygonCarousel(-1);
     }); // end of arrowUp eventlistener    
 } // end of addPolygonSettingsListeners
+
+
+
+
+
+function setPolygon() {
+    const positioners = document.getElementsByClassName("positioner"),
+          workTop     = document.getElementById("worktop"),
+          workCanvas  = document.getElementById("pseudo-canvas"),
+          edges       = Number(document.getElementById("polygon-actual-num").innerHTML);
+    
+    function drawPolygon(context) {
+        const polyCtx = context || workCanvas.getContext("2d");
+        // clear canvas if it's the worktop context        
+        if (!context) polyCtx.clearRect(0, 0, workCanvas.width, workCanvas. height);
+        
+        // draw polygon
+        
+        polyCtx.beginPath();                
+        for (let i = 0; i < edges; i++) {   
+            console.log(i);         
+            let x = Number(positioners[i].style.left.match(/\d+/)) + 4,
+                y = Number(positioners[i].style.top.match(/\d+/)) + 4,
+                a = 0,
+                b = 0;
+                
+
+            polyCtx.moveTo(x, y);
+            if (i === edges - 1) {                
+                a = Number(positioners[0].style.left.match(/\d+/)) + 4;
+                b = Number(positioners[0].style.top.match(/\d+/)) + 4;
+            }
+            else {
+                a = Number(positioners[i + 1].style.left.match(/\d+/)) + 4;
+                b = Number(positioners[i + 1].style.top.match(/\d+/)) + 4;
+            }
+            polyCtx.lineTo(a, b);
+        } // end of for
+        polyCtx.closePath();        
+        polyCtx.lineWidth = toolSettings.drawingWidth;
+        polyCtx.strokeStyle = drawingColor;
+        polyCtx.setLineDash(toolSettings.dashedLine);
+        polyCtx.stroke();        
+    } // end of drawPolygon
+        
+    switch(edges) {
+        case 5: { addPositioner(workTop, 5, [[40,120], [180,20], [340,120], [280,280], [80,280]]); break; }
+    } // end of switch edges
+    //addPositioner(workTop, 3, [[180,150], [80,150], [280,140]]);
+
+    anyShapeDrawing(edges, drawPolygon);
+} // end of setPolygon
