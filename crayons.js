@@ -11,6 +11,7 @@ var drawingColor = "black",                           // default drawing color
         dashedLine   : [],                            // if the drawing line is dashed
     },        
     disableIcons = false;                             // if positioners are placed, you cannot click on tool icons
+    carouselAt  = 0;                                 // Where is the tools carousel is currently. 0 is the starting position 
 
 
 
@@ -1341,7 +1342,31 @@ function addArrowIconsListener() {
     arrowDown.addEventListener("click", () => moveToolIcons(-1));
 
     function moveToolIcons(num) {
-        const tools = document.querySelectorAll("#tool-icons > *");
-        console.log(tools);
+        const tools    = [...document.querySelectorAll("#tool-icons > *")],              
+              y        = [0, 52, 104, 156, 208]; // the y coordinates of the first 5 icons
+
+        carouselAt += num; // increment / decrement the global value
+
+        // keep caruosel in range
+        if (carouselAt < 0) carouselAt = tools.length - 1; 
+
+        if (carouselAt > tools.length - 1) carouselAt = 0;
+
+        // fill up an array with the relevant index numbers
+        const sequence       = Array(tools.length).fill().map((e, i) => i), // fill array like [0, 1, 2, 3]...
+              repeatSeq      = [...sequence, ...sequence],                  // put two of those together
+              startFrom      = repeatSeq.findIndex(e => e === carouselAt),  // find first instance of carousel index
+              onDisplay      = repeatSeq.splice(startFrom, 5),              // cut a segment of the sequence
+              toolsOnDisplay = Array(5).fill().map((e,i) => tools[onDisplay[i]]); // an aray of tool HTML elements
+        
+        tools.map(e => e.style.visibility = "hidden");  // hide all tools
+
+        toolsOnDisplay.map((icon, i) => {
+            icon.style.visibility = "visible";    // set visibility back
+            icon.style.top = y[i] + "px";         // with the correct top positions
+            console.log(icon, icon.style.top);
+        });
+        
+        
     } // end of moveToolIcons
 } // end of addArrowIconsListener
