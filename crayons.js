@@ -27,6 +27,8 @@ addToggleListeners();
 addDashesSlidersListener();
 addPatternListener();
 addLineListeners();
+addArrowIconsListener();
+
 
 
 
@@ -135,7 +137,6 @@ function drawOnCanvas() {
     } // end of if lastMouseEvent
     lastDrawEventCoordinates = [canvasX, canvasY]; // feed last update
 } // end of drawOnCanvas
-
 
 
 function addIconListeners() {
@@ -1327,3 +1328,20 @@ function setArc() {
 
     anyShapeDrawing(3, drawArc);
 } // end of setArc
+
+
+
+
+function addArrowIconsListener() {
+    const arrowUp   = document.getElementById("arrow-up"),
+          arrowDown = document.getElementById("arrow-down");
+
+    arrowUp.addEventListener("click", () => moveToolIcons(1));
+
+    arrowDown.addEventListener("click", () => moveToolIcons(-1));
+
+    function moveToolIcons(num) {
+        const tools = document.querySelectorAll("#tool-icons > *");
+        console.log(tools);
+    } // end of moveToolIcons
+} // end of addArrowIconsListener
