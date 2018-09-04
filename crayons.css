@@ -1203,6 +1203,48 @@ input[type=range]::-moz-range-track {
 
 #polygon-on-text { right: 20px; }
 
+.polygon-arrow {
+    color: var(--icon-color);
+    font-size: 40px;
+    height: 40px;
+    position: absolute;
+    text-shadow: -1px -1px 1px  black;
+    top: 40px;        
+    width: 20px; 
+}
+
+#polygon-arrow-down { left: 15px; }
+
+#polygon-arrow-up { right: 15px; }
+
+.polygon-arrow:hover {
+    text-shadow: 2px 2px 2px  black;
+}
+
+.polygon-inactive-num {
+    color: rgba(250,250,250,0.3);
+    font-size: 20px;
+    height: 30px;
+    position: absolute;    
+    top: 50px;        
+    width: 10px;
+}
+
+.polygon-active-num {
+    font-size: 30px;
+    height: 30px;
+    left: 62px;
+    position: absolute;    
+    top: 45px;        
+    width: 20px;
+}
+
+#polygon-prev-num { left: 40px; }
+
+#polygon-next-num { right: 40px; }
+
+
+
 @media only screen and (max-width: 600px) {
     body {
         background: green;
