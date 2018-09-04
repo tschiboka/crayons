@@ -16,38 +16,54 @@
     <body>
         <div id="container">        
             <div id="color-info-container"></div>
+
             <div id="window-box">
+                
             <div id="sheet">
                 <div><input type="color" name="color-picker" id="color-selector-dialog-box"></div>
+
                 <canvas id="canvas" width="380" height="300"></canvas>    
+
                 <canvas id="pseudo-canvas" width="380" height="300"></canvas>
+
                 <div id="worktop">
                     <div id="worktop-helper">
                         <div id="worktop-helper-check">&#10003;</div>
+
                         <div id="worktop-helper-close">&times;</div>
                     </div>    
+
                     <div id="worktop-helper-rounded-rectangle">
                         <div id="worktop-helper-rounded-rectangle-check">&#10003;</div>
+
                         <div id="worktop-helper-rounded-rectangle-arrow-left" class="helper-arrow">&lt;</div>
+
                         <div id="worktop-helper-rounded-rectangle-number">10</div>
+
                         <div id="worktop-helper-rounded-rectangle-arrow-right" class="helper-arrow">&gt;</div>
+
                         <div id="worktop-helper-rounded-rectangle-close">&times;</div>
                     </div>                
-                </div>         
+                </div>  
+
                 <div id="point-width-panel" class="panel">
-                    <div id="point-width-panel-text">
-                        Set pencils point width
-                    </div>
+                    <div id="point-width-panel-text">Set pencils point width</div>
+
                     <div id="point-width-slider-box">
                         <input id="point-width-slider" type="range" min="1" max="20" value="4" />
                     </div>
+
                     <div id="point-width-display">XY</div>
                 </div>
+
                 <div id="dashed-panel" class="panel">
-                    <div id="dashed-panel-text">Dashed line</div>                     
+                    <div id="dashed-panel-text">Dashed line</div>   
+
                     <canvas id="dashed-line-sample" width="200" height="45"></canvas>
+
                     <div id="dash-and-gap-settings">    
                         <div class="dash-setting-text">Dash and gap settings</div>
+
                         <div id="dash-and-gap-toggle" class="toggle">                            
                             <div id="dash-and-gap-toggle-button" class="toggle-button" data-on="false">
                                 <div class="toggle-button-light-bg">
@@ -55,17 +71,22 @@
                                 </div>
                             </div>                            
                         </div>
+
                         <div id="dash-slider-box" class="slider">
                             <input id="dash-slider" type="range" min="1" max="50" value="2" />
                         </div>   
+
                         <div id="dash-value-display" class="gradient-clip-color">2</div>
+
                         <div id="gap-slider-box" class="slider">
                             <input id="gap-slider" type="range" min="1" max="50" value="6" />
                         </div>  
+                        
                         <div id="gap-value-display" class="gradient-clip-color">6</div>                 
                     </div>
                     <div id="dash-pattern-settings">
-                    <div class="dash-setting-text">Pattern settings</div>
+                        <div class="dash-setting-text">Pattern settings</div>
+
                         <div id="dash-pattern-toggle" class="toggle">                            
                             <div id="dash-pattern-toggle-button" class="toggle-button" data-on="false">
                                 <div class="toggle-button-light-bg">
@@ -73,76 +94,107 @@
                                 </div>                           
                             </div>
                         </div> 
-                        <input id="dash-pattern-input" type="text" placeholder="eg.: [5, 10, 2, 8]" />                         
+
+                        <input id="dash-pattern-input" type="text" placeholder="eg.: [5, 10, 2, 8]" />   
+
                     </div>
                 </div>
+
                 <div id="shapes-panel" class="panel">
-                    <div id="shapes-panel-text">
-                        Select a shape                        
-                    </div>
+                    <div id="shapes-panel-text">Select a shape</div>
+
                     <div id="shape-triangle" class="shape-option">
                         <div id="triangle-icon" class="icon shape-selector"></div>
+                        
                         <div id="shape-triangle-check" class="check">&#10003;</div>
                     </div>
+
                     <div id="shape-square" class="shape-option">
                         <div id="square-icon" class="icon shape-selector"></div>
+
                         <div id="shape-square-check" class="check">&#10003;</div>
                     </div>
+
                     <div id="shape-rectangle" class="shape-option">
                         <div id="rectangle-icon" class="icon shape-selector"></div>
+
                         <div id="shape-rectangle-check" class="check">&#10003;</div>
                     </div>
+
                     <div id="shape-rounded-rectangle" class="shape-option">
                         <div id="rounded-rectangle-icon" class="icon shape-selector"></div>
+
                         <div id="shape-rounded-rectangle-check" class="check">&#10003;</div>
                     </div>
+
                     <div id="shape-circle" class="shape-option">
                         <div id="circle-icon" class="icon shape-selector"></div>
                         <div id="shape-circle-check" class="check">&#10003;</div>
                     </div>
+
                     <div id="shape-ellipse" class="shape-option">
                         <div id="ellipse-icon" class="icon shape-selector"></div>
+                        
                         <div id="shape-ellipse-check" class="check">&#10003;</div>
                     </div>                    
                 </div>
+
                 <div id="lines-panel" class="panel">
                     <div id="lines-panel-text">Select a line type</div>
+
                     <div id="lines-line" class="lines-option">
                         <div>
                             <canvas id="line-icon" class="icon" width="100" height="100" title="line"></canvas>
+
                             <div id="lines-line-check" class="check line-check">&#10003;</div>
                         </div>
                     </div>
+
                     <div id="lines-arc" class="lines-option">
                         <div>
                             <canvas id="arc-icon" class="icon" width="100" height="100" title="arc"></canvas>
+
                             <div id="lines-arc-check" class="check line-check">&#10003;</div>
                         </div>
-                    </div>    
+                    </div> 
+
                     <div id="lines-quadratic" class="lines-option">
                         <div>
                             <canvas id="quadratic-icon" class="icon" width="100" height="100" title="quadratic-bezier-curve"></canvas>
+
                             <div id="lines-quadratic-check" class="check line-check">&#10003;</div>
                         </div>
                     </div>
+
                     <div id="lines-bezier" class="lines-option">
                         <div>
                             <canvas id="bezier-icon" class="icon" width="100" height="100" title="cubic-bezier-curve"></canvas>
+
                             <div id="lines-bezier-check" class="check line-check">&#10003;</div>
                         </div>
-                    </div>
+                    </div>                    
                 </div>
+
                 <div id="polygon-panel" class="panel">
                     <div id="polygon-panel-text">Select the number of points the polygon has.</div>
+
                     <div id="polygon-panel-settings">
                         <div id="polygon-off-text" class="polygon-beveled-text">OFF</div>
+
                         <div id="polygon-on-box" class="slider">                            
-                            <input id="polygon-on" type="range" min="0" max="1" value="0"></div>                            
-                        <div id="polygon-on-text" class="polygon-beveled-text">ON</div>  
-                        <div id="polygon-arrow-down" class="polygon-arrow">&lt;</div>                     
+                            <input id="polygon-on" type="range" min="0" max="1" value="0">
+                        </div>   
+
+                        <div id="polygon-on-text" class="polygon-beveled-text">ON</div> 
+
+                        <div id="polygon-arrow-down" class="polygon-arrow">&lt;</div>  
+
                         <div id="polygon-arrow-up" class="polygon-arrow">&gt;</div>  
+
                         <div id="polygon-prev-num" class="polygon-inactive-num">4</div>    
+
                         <div id="polygon-actual-num" class="polygon-active-num gradient-clip-color">5</div>                   
+
                         <div id="polygon-next-num" class="polygon-inactive-num">6</div>                                  
                     </div> 
                 </div>
@@ -151,213 +203,344 @@
                 <div id="frame-and-arrows">
                     <div id="arrow-up" class="arrow icon">
                         <div class="arrow-line1"></div>
+
                         <div class="arrow-line2"></div>
                     </div>
+
                     <div id="arrow-down" class="arrow icon">
                         <div class="arrow-line1"></div>
+
                         <div class="arrow-line2"></div>
                     </div>
+
                     <div id=tool-icons>
                         <div id="pencil-icon" class="icon tool-icon" title="pencil-tool">
                             <div id="pencil-icon-shape"></div>
+
                             <div id="pencil-icon-shape-cut"></div>
+
                             <div id="pencil-icon-check" class="check">&#10003;</div>
                         </div>
                         <div id="point-width-icon" class="icon tool-icon" title="point-width">
                             <div id="point-width-icon-left-ver-line"></div>
+
                             <div id="point-width-icon-right-ver-line"></div>
+
                             <div id="point-width-icon-hor-line"></div>
+
                             <div id="point-width-icon-arrow-left" class="point-width-icon-arrow">
                                 <div id="point-width-icon-arrow-part1" class="point-width-icon-arrow-part"></div>
+
                                 <div id="point-width-icon-arrow-part2" class="point-width-icon-arrow-part"></div>
                             </div>
+
                             <div id="point-width-icon-arrow-right" class="point-width-icon-arrow">
                                     <div id="point-width-icon-arrow-part1" class="point-width-icon-arrow-part"></div>
+
                                     <div id="point-width-icon-arrow-part2" class="point-width-icon-arrow-part"></div>
                             </div>
+
                             <div id="point-width-icon-circle"></div>
-                        </div>  
+                        </div>
+
                         <div id="dashed-icon" class="icon tool-icon" title="dashed-lines">
                             <canvas id="dashed-icon-canvas" width="95" height="50"></canvas>
-                        </div>                      
+                        </div> 
+
                         <div id="lines-icon" class="icon tool-icon" title="lines">
                             <canvas id="lines-icon-canvas" width="95" height="50"></canvas>
+
                             <div id="lines-icon-check" class="check">&#10003;</div>
-                        </div>                        
+                        </div> 
+
                         <div id="shapes-icon" class="icon tool-icon" title="shapes">
                             <div id="shapes-icon-circle"></div>
+
                             <div id="shapes-icon-square"></div>
+
                             <div id="shapes-icon-triangle"></div>
+
                             <div id="shapes-icon-check" class="check">&#10003;</div>
                         </div>
+
                         <div id="polygon-icon" class="icon tool-icon" title="polygon">
                             <canvas id="polygon-icon-canvas" width="95" height="50"></canvas>
                         </div>
+
                         <div id="other icon">
                             
                         </div>
                     </div>
                 </div>                
-            </div>                   
+            </div>   
+
             <div id="pencil-red" title="red" class="pencil">                
-                <div class="pencil-tip"></div>   
+                <div class="pencil-tip"></div>  
+
                 <div class="pencil-lead pencil-color-red"></div> 
-                <div class="pencil-tip-reflection"></div>     
+
+                <div class="pencil-tip-reflection"></div>   
+
                 <div class="pencil-shaft">
                     <div class="pencil-side-top pencil-color-red"></div>
+
                     <div class="pencil-side-middle pencil-color-red">&nbsp;T</div>
+
                     <div class="pencil-side-bottom pencil-color-red"></div>
+
                     <div class="pencil-bright-side"></div>
+
                     <div class="pencil-dark-side"></div>                                   
                 </div>
-            </div>  
+            </div> 
+
             <div id="pencil-pink" class="pencil">
                 <div class="pencil-tip"></div>   
+
                 <div class="pencil-lead pencil-color-pink"></div> 
+
                 <div class="pencil-tip-reflection"></div>     
+
                 <div class="pencil-shaft">
                     <div class="pencil-side-top pencil-color-pink"></div>
+
                     <div class="pencil-side-middle pencil-color-pink">&nbsp;S</div>
+
                     <div class="pencil-side-bottom pencil-color-pink"></div>
+
                     <div class="pencil-bright-side"></div>
+
                     <div class="pencil-dark-side"></div>                   
                 </div>
             </div> 
+
             <div id="pencil-orange" class="pencil">
                 <div class="pencil-tip"></div>   
+
                 <div class="pencil-lead pencil-color-orange"></div> 
+
                 <div class="pencil-tip-reflection"></div>     
+
                 <div class="pencil-shaft">
                     <div class="pencil-side-top pencil-color-orange"></div>
+
                     <div class="pencil-side-middle pencil-color-orange">&nbsp;C</div>
+
                     <div class="pencil-side-bottom pencil-color-orange"></div>
+
                     <div class="pencil-bright-side"></div>
+
                     <div class="pencil-dark-side"></div>                   
                 </div>
             </div>   
+
             <div id="pencil-yellow" class="pencil">
                 <div class="pencil-tip"></div>   
+
                 <div class="pencil-lead pencil-color-yellow"></div> 
+
                 <div class="pencil-tip-reflection"></div>     
+
                 <div class="pencil-shaft">
                     <div class="pencil-side-top pencil-color-yellow"></div>
+
                     <div class="pencil-side-middle pencil-color-yellow">&nbsp;H</div>
+
                     <div class="pencil-side-bottom pencil-color-yellow"></div>
+                    
                     <div class="pencil-bright-side"></div>
+
                     <div class="pencil-dark-side"></div>                   
                 </div>
             </div>      
+
             <div id="pencil-purple" class="pencil">
                 <div class="pencil-tip"></div>   
+
                 <div class="pencil-lead pencil-color-purple"></div> 
+
                 <div class="pencil-tip-reflection"></div>     
+
                 <div class="pencil-shaft">
                     <div class="pencil-side-top pencil-color-purple"></div>
+
                     <div class="pencil-side-middle pencil-color-purple">&nbsp;I</div>
+
                     <div class="pencil-side-bottom pencil-color-purple"></div>
+
                     <div class="pencil-bright-side"></div>
+
                     <div class="pencil-dark-side"></div>                   
                 </div>
             </div>     
+
             <div id="pencil-green" class="pencil">
                 <div class="pencil-tip"></div>   
+
                 <div class="pencil-lead pencil-color-green"></div> 
+
                 <div class="pencil-tip-reflection"></div>     
+
                 <div class="pencil-shaft">
                     <div class="pencil-side-top pencil-color-green"></div>
+
                     <div class="pencil-side-middle pencil-color-green">&nbsp;B</div>
+
                     <div class="pencil-side-bottom pencil-color-green"></div>
+
                     <div class="pencil-bright-side"></div>
+
                     <div class="pencil-dark-side"></div>                   
                 </div>
-            </div>            
+            </div>        
+
             <div id="pencil-blue" class="pencil">
-                <div class="pencil-tip"></div>   
+                <div class="pencil-tip"></div>  
+
                 <div class="pencil-lead pencil-color-blue"></div> 
+
                 <div class="pencil-tip-reflection"></div>     
+
                 <div class="pencil-shaft">
                     <div class="pencil-side-top pencil-color-blue"></div>
+
                     <div class="pencil-side-middle pencil-color-blue">&nbsp;O</div>
+
                     <div class="pencil-side-bottom pencil-color-blue"></div>
+
                     <div class="pencil-bright-side"></div>
+
                     <div class="pencil-dark-side"></div>                   
                 </div>
             </div>   
+
             <div id="pencil-brown" class="pencil">
                 <div class="pencil-tip"></div>   
+
                 <div class="pencil-lead pencil-color-brown"></div> 
+
                 <div class="pencil-tip-reflection"></div>     
+
                 <div class="pencil-shaft">
                     <div class="pencil-side-top pencil-color-brown"></div>
+
                     <div class="pencil-side-middle pencil-color-brown">&nbsp;K</div>
+
                     <div class="pencil-side-bottom pencil-color-brown"></div>
+
                     <div class="pencil-bright-side"></div>
+
                     <div class="pencil-dark-side"></div>                   
                 </div>
             </div> 
+
             <div id="pencil-white" class="pencil">
                 <div class="pencil-tip"></div>   
+
                 <div class="pencil-lead pencil-color-white"></div> 
+
                 <div class="pencil-tip-reflection"></div>     
+
                 <div class="pencil-shaft">
                     <div class="pencil-side-top pencil-color-white"></div>
+
                     <div class="pencil-side-middle pencil-color-white">&nbsp;A</div>
+
                     <div class="pencil-side-bottom pencil-color-white"></div>
+
                     <div class="pencil-bright-side"></div>
+
                     <div class="pencil-dark-side"></div>                   
                 </div>
             </div> 
+
             <div id="pencil-gray" class="pencil">
                 <div class="pencil-tip"></div>   
+
                 <div class="pencil-lead pencil-color-gray"></div> 
+
                 <div class="pencil-tip-reflection"></div>     
+
                 <div class="pencil-shaft">
                     <div class="pencil-side-top pencil-color-gray"></div>
+
                     <div class="pencil-side-middle pencil-color-gray">&nbsp;&#58;&#41;</div>
+
                     <div class="pencil-side-bottom pencil-color-gray"></div>
+
                     <div class="pencil-bright-side"></div>
+
                     <div class="pencil-dark-side"></div>                   
                 </div>
             </div>
+
             <div id="pencil-black" class="pencil">
                 <div class="pencil-tip"></div>   
+
                 <div class="pencil-lead pencil-color-black"></div> 
-                <div class="pencil-tip-reflection"></div>     
+
+                <div class="pencil-tip-reflection"></div>    
+
                 <div class="pencil-shaft">
                     <div class="pencil-side-top pencil-color-black"></div>
+
                     <div class="pencil-side-middle pencil-color-black"></div>
+
                     <div class="pencil-side-bottom pencil-color-black"></div>
+
                     <div class="pencil-bright-side"></div>
+
                     <div class="pencil-dark-side"></div>                   
                 </div>
             </div>
+
             <!-- It's just a work-around! Needed a fake layer because of z-index, pencils were not reached by mouseover -->
-            <div id="red-pencil-pseudo"    class="pencil-pseudo" title="red"></div>      
-            <div id="pink-pencil-pseudo"   class="pencil-pseudo" title="pink"></div>      
-            <div id="orange-pencil-pseudo" class="pencil-pseudo" title="orange"></div>      
-            <div id="yellow-pencil-pseudo" class="pencil-pseudo" title="yellow"></div>      
-            <div id="purple-pencil-pseudo" class="pencil-pseudo" title="purple"></div>      
+            <div id="red-pencil-pseudo"    class="pencil-pseudo" title="red"></div>    
+
+            <div id="pink-pencil-pseudo"   class="pencil-pseudo" title="pink"></div>     
+
+            <div id="orange-pencil-pseudo" class="pencil-pseudo" title="orange"></div>     
+
+            <div id="yellow-pencil-pseudo" class="pencil-pseudo" title="yellow"></div>     
+
+            <div id="purple-pencil-pseudo" class="pencil-pseudo" title="purple"></div>     
+
             <div id="green-pencil-pseudo"  class="pencil-pseudo" title="green"></div>      
-            <div id="blue-pencil-pseudo"   class="pencil-pseudo" title="blue"></div>      
+
+            <div id="blue-pencil-pseudo"   class="pencil-pseudo" title="blue"></div>     
+
             <div id="brown-pencil-pseudo"  class="pencil-pseudo" title="brown"></div>      
-            <div id="white-pencil-pseudo"  class="pencil-pseudo" title="white"></div>      
-            <div id="gray-pencil-pseudo"   class="pencil-pseudo" title="gray"></div>      
+
+            <div id="white-pencil-pseudo"  class="pencil-pseudo" title="white"></div>     
+
+            <div id="gray-pencil-pseudo"   class="pencil-pseudo" title="gray"></div>     
+
             <div id="black-pencil-pseudo"  class="pencil-pseudo" title="black"></div>  
+
             <div id="color-display"></div> 
+
             <div id="palette-icon" class="icon" title="color palette">
                 <div id=palette-icon-line></div>
+
                 <div id="palette-icon-circle1" class="palette-icon-circle"></div>
+
                 <div id="palette-icon-circle2" class="palette-icon-circle"></div>
+
                 <div id="palette-icon-circle3" class="palette-icon-circle"></div>
+
                 <div id="palette-icon-circle4" class="palette-icon-circle"></div>
+
                 <div id="palette-icon-circle5" class="palette-icon-circle"></div>
+
                 <div id="palette-icon-circle6" class="palette-icon-circle"></div>            
             </div>  
-            </div>            
+
+            </div> 
+
         </div>        
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->        
-    <script src="crayons.js" async defer></script>
+    <script src="crayons.js" async defer></script>    
     </body>
 </html>

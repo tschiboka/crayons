@@ -30,6 +30,7 @@ addPatternListener();
 addLineListeners();
 addArrowIconsListener();
 drawPolygonIcon();
+addPolygonSettingsListeners();
 
 
 
@@ -1410,3 +1411,21 @@ function drawPolygonIcon() {
 
 
 
+function addPolygonSettingsListeners() {
+    const onText    = document.getElementById("polygon-on-text"),
+          offText   = document.getElementById("polygon-off-text"),
+          polyOn    = document.getElementById("polygon-on"),
+          arrowDown = document.getElementById("polygon-arrow-down"),
+          arrowUp   = document.getElementById("polygon-arrow-up"),
+          prevNum   = document.getElementById("polygon-prev-num"),
+          actNum    = document.getElementById("polygon-actual-num"),
+          nextNum   = document.getElementById("polygon-next-num");
+
+    polyOn.value = "0";  // set off as default
+    offText.style.color = "#a94b4b";
+
+    polyOn.addEventListener("change", () => {
+        onText.style.color = offText.style.color = "rgba(133, 167, 171, 0.544)"; // reset colors
+        polyOn.value === "0" ? offText.style.color = "#a94b4b" : onText.style.color = "#0ee2ad";
+    }); // end of poly slider listener
+} // end of addPolygonSettingsListeners

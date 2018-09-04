@@ -1204,7 +1204,7 @@ input[type=range]::-moz-range-track {
 #polygon-on-text { right: 20px; }
 
 .polygon-arrow {
-    color: var(--icon-color);
+    color: var(--icon-color);    
     font-size: 40px;
     height: 40px;
     position: absolute;
