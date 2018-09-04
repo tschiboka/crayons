@@ -151,7 +151,9 @@ function addIconListeners() {
           shapesPanel     = document.getElementById("shapes-panel"), 
           linesIcon       = document.getElementById("lines-icon"), 
           linesPanel      = document.getElementById("lines-panel"),
-          allToolsPanels  = [pointWidthPanel, dashedPanel, linesPanel, shapesPanel],
+          polygonIcon     = document.getElementById("polygon-icon"),
+          polygonPanel    = document.getElementById("polygon-panel"),
+          allToolsPanels  = [pointWidthPanel, dashedPanel, linesPanel, shapesPanel, polygonPanel],
           closeAllPanels  = () => allToolsPanels.forEach(e => e.style.visibility = "hidden");          
 
 
@@ -240,6 +242,12 @@ function addIconListeners() {
             } // end if it's visible
         } // end of if icons are free to click        
     }); // end of linesIcon listener
+
+    polygonIcon.addEventListener("click", () => {
+        if (window.getComputedStyle(polygonPanel).visibility == "hidden") {
+            polygonPanel.style.visibility = "visible";
+        } // end of if icon is hidden
+    }); // end of polygonIcon listener
 } // end of addIconListeners
 
 
@@ -1344,7 +1352,8 @@ function addArrowIconsListener() {
     arrowDown.addEventListener("click", () => moveToolIcons(-1));
 
     toolIcons.addEventListener("wheel", (e) => {
-        moveToolIcons(e.deltaY < 0 ? -1 : 1);        
+        e.preventDefault();                      // prevent page scrolling while cursor is on tools
+        moveToolIcons(e.deltaY < 0 ? -1 : 1);    // scroll tools according wheel scroll direction     
     }); // end of wheel listener
 
     function moveToolIcons(num) {
@@ -1397,3 +1406,7 @@ function drawPolygonIcon() {
     polyCtx.lineWidth = 3;
     polyCtx.stroke();    
 } // end of drawPolygonIcon
+
+
+
+

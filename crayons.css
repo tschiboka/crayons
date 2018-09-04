@@ -1165,8 +1165,22 @@ input[type=range]::-moz-range-track {
 
 #pencil-icon-check { visibility: visible; }
 
+#polygon-panel-text {
+    height: 30px;
+    left: 30px;        
+    position: absolute;
+    top: 30px;        
+    width: 380px;
+}
 
-
+#polygon-panel-settings {
+    border: var(--border);
+    height: 80px;
+    left: 150px;        
+    position: absolute;
+    top: 1500px;        
+    width: 1000px;
+}
 
 @media only screen and (max-width: 600px) {
     body {
