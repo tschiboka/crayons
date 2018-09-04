@@ -1412,14 +1412,31 @@ function drawPolygonIcon() {
 
 
 function addPolygonSettingsListeners() {
+    function movePoligonCarousel(num) {
+        const prevNum   = document.getElementById("polygon-prev-num"),
+              actNum    = document.getElementById("polygon-actual-num"),
+              nextNum   = document.getElementById("polygon-next-num");
+        let   actual    = Number(actNum.innerHTML);
+
+        // set new number
+        actual = num === 1 ? ++actual : --actual;
+        
+        // set ranges
+        if (actual > 9) { actual = 5}
+
+        if (actual < 5) { actual = 9}
+        
+        // set html
+        prevNum.innerHTML = actual-1;
+        actNum.innerHTML = actual;
+        nextNum.innerHTML = actual+1;        
+    } // end of movePoligonCarousel
+
     const onText    = document.getElementById("polygon-on-text"),
           offText   = document.getElementById("polygon-off-text"),
           polyOn    = document.getElementById("polygon-on"),
           arrowDown = document.getElementById("polygon-arrow-down"),
-          arrowUp   = document.getElementById("polygon-arrow-up"),
-          prevNum   = document.getElementById("polygon-prev-num"),
-          actNum    = document.getElementById("polygon-actual-num"),
-          nextNum   = document.getElementById("polygon-next-num");
+          arrowUp   = document.getElementById("polygon-arrow-up");          
 
     polyOn.value = "0";  // set off as default
     offText.style.color = "#ce283e";
@@ -1429,5 +1446,11 @@ function addPolygonSettingsListeners() {
         polyOn.value === "0" ? offText.style.color = "#ce283e" : onText.style.color = "#0ee2ad";
     }); // end of poly slider listener
 
-    arrowDown.addEventListener("click", () => {});
+    arrowDown.addEventListener("click", () => {
+        movePoligonCarousel(-1);
+    }); // end of arrowDown eventlistener
+
+    arrowUp.addEventListener("click", () => {
+        movePoligonCarousel(-1);
+    }); // end of arrowUp eventlistener    
 } // end of addPolygonSettingsListeners
