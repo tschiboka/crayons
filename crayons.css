@@ -1175,12 +1175,33 @@ input[type=range]::-moz-range-track {
 
 #polygon-panel-settings {
     border: var(--border);
-    height: 80px;
-    left: 150px;        
+    height: 100px;
+    left: 120px;        
     position: absolute;
-    top: 1500px;        
-    width: 1000px;
+    top: 100px;        
+    width: 140px;
 }
+
+#polygon-on-box { 
+    left: 50px;
+    position: absolute;
+    top: 10px;
+    width: 40px; 
+}
+
+.polygon-beveled-text {
+    color: rgba(133, 167, 171, 0.544);
+    font-size: 14px;
+    height: 20px;
+    position: absolute;
+    text-shadow: -2px -2px 2px  black;
+    top: 10px;        
+    width: 20px; 
+}
+
+#polygon-off-text { left: 20px; }
+
+#polygon-on-text { right: 20px; }
 
 @media only screen and (max-width: 600px) {
     body {
