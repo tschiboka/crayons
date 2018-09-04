@@ -633,7 +633,7 @@ body {
 #dashed-icon { top: 104px; }
 #lines-icon { top: 156px; }
 #shapes-icon { top: 208px; }
-
+#polygon-icon { top: -1000px; }
 
 .tool-icon:first-child {
     top: 5px;
@@ -1164,6 +1164,9 @@ input[type=range]::-moz-range-track {
 
 
 #pencil-icon-check { visibility: visible; }
+
+
+
 
 @media only screen and (max-width: 600px) {
     body {

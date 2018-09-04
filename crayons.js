@@ -11,7 +11,7 @@ var drawingColor = "black",                           // default drawing color
         dashedLine   : [],                            // if the drawing line is dashed
     },        
     disableIcons = false;                             // if positioners are placed, you cannot click on tool icons
-    carouselAt  = 0;                                 // Where is the tools carousel is currently. 0 is the starting position 
+    carouselAt  = 0;                                  // Where is the tools carousel is currently. 0 is the starting position 
 
 
 
@@ -29,6 +29,7 @@ addDashesSlidersListener();
 addPatternListener();
 addLineListeners();
 addArrowIconsListener();
+drawPolygonIcon();
 
 
 
@@ -1343,8 +1344,7 @@ function addArrowIconsListener() {
     arrowDown.addEventListener("click", () => moveToolIcons(-1));
 
     toolIcons.addEventListener("wheel", (e) => {
-        moveToolIcons(e.deltaY < 0 ? -1 : 1);
-        console.log(e.deltaY);
+        moveToolIcons(e.deltaY < 0 ? -1 : 1);        
     }); // end of wheel listener
 
     function moveToolIcons(num) {
@@ -1369,9 +1369,31 @@ function addArrowIconsListener() {
 
         toolsOnDisplay.map((icon, i) => {
             icon.style.visibility = "visible";    // set visibility back
-            icon.style.top = y[i] + "px";         // with the correct top positions
-            console.log(icon, icon.style.top);
+            icon.style.top = y[i] + "px";         // with the correct top positions            
         }); // end of toolsOnDisplay iteration        
         
     } // end of moveToolIcons
 } // end of addArrowIconsListener
+
+
+
+
+function drawPolygonIcon() {
+    const polyCtx = document.getElementById("polygon-icon-canvas").getContext("2d");
+
+    polyCtx.beginPath();
+    polyCtx.moveTo(46, 5);
+    polyCtx.lineTo(71, 16);
+    polyCtx.moveTo(70, 15);
+    polyCtx.lineTo(64, 46);
+    polyCtx.moveTo(65, 45);
+    polyCtx.lineTo(28, 45);
+    polyCtx.moveTo(29, 46);
+    polyCtx.lineTo(25, 15);
+    polyCtx.moveTo(24, 16);
+    polyCtx.lineTo(48, 5);
+    polyCtx.closePath();
+    polyCtx.strokeStyle = "#1a97e1";
+    polyCtx.lineWidth = 3;
+    polyCtx.stroke();    
+} // end of drawPolygonIcon
