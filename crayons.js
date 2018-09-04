@@ -1335,11 +1335,17 @@ function setArc() {
 
 function addArrowIconsListener() {
     const arrowUp   = document.getElementById("arrow-up"),
-          arrowDown = document.getElementById("arrow-down");
+          arrowDown = document.getElementById("arrow-down"),
+          toolIcons = document.getElementById("tool-icons");
 
     arrowUp.addEventListener("click", () => moveToolIcons(1));
 
     arrowDown.addEventListener("click", () => moveToolIcons(-1));
+
+    toolIcons.addEventListener("wheel", (e) => {
+        moveToolIcons(e.deltaY < 0 ? -1 : 1);
+        console.log(e.deltaY);
+    }); // end of wheel listener
 
     function moveToolIcons(num) {
         const tools    = [...document.querySelectorAll("#tool-icons > *")],              
@@ -1365,8 +1371,7 @@ function addArrowIconsListener() {
             icon.style.visibility = "visible";    // set visibility back
             icon.style.top = y[i] + "px";         // with the correct top positions
             console.log(icon, icon.style.top);
-        });
-        
+        }); // end of toolsOnDisplay iteration        
         
     } // end of moveToolIcons
 } // end of addArrowIconsListener
