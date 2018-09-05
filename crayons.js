@@ -245,14 +245,17 @@ function addIconListeners() {
     }); // end of linesIcon listener
 
     polygonIcon.addEventListener("click", () => {
-        if (window.getComputedStyle(polygonPanel).visibility == "hidden") {
-            polygonPanel.style.visibility = "visible";
-            document.getElementById("polygon-on").value = "0"; // reset to off
-        } // end of if icon is hidden
-        else {            
-            polygonPanel.style.visibility = "hidden";            
-            if (document.getElementById("polygon-on").value === "1") setPolygon();
-        } // end of if polygon icon is visible
+        if (!disableIcons) {
+            if (window.getComputedStyle(polygonPanel).visibility == "hidden") {
+                closeAllPanels();
+                polygonPanel.style.visibility = "visible";
+                document.getElementById("polygon-on").value = "0"; // reset to off
+            } // end of if icon is hidden
+            else {            
+                polygonPanel.style.visibility = "hidden";            
+                if (document.getElementById("polygon-on").value === "1") setPolygon();
+            } // end of if polygon icon is visible
+        } // end of tools are not disabled       
     }); // end of polygonIcon listener
 } // end of addIconListeners
 
@@ -1455,7 +1458,7 @@ function addPolygonSettingsListeners() {
     }); // end of arrowDown eventlistener
 
     arrowUp.addEventListener("click", () => {
-        movePolygonCarousel(-1);
+        movePolygonCarousel(1);
     }); // end of arrowUp eventlistener    
 } // end of addPolygonSettingsListeners
 
@@ -1505,6 +1508,7 @@ function setPolygon() {
         
     switch(edges) {
         case 5: { addPositioner(workTop, 5, [[40,120], [180,20], [340,120], [280,280], [80,280]]); break; }
+        case 6: { addPositioner(workTop, 6, [[60,95], [135,20], [285,20], [280,280], [80,280], [0,0]]); break; }
     } // end of switch edges
     //addPositioner(workTop, 3, [[180,150], [80,150], [280,140]]);
 
