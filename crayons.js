@@ -1402,14 +1402,14 @@ function drawPolygonIcon() {
 
     polyCtx.beginPath();
     polyCtx.moveTo(46, 5);
-    polyCtx.lineTo(71, 16);
-    polyCtx.moveTo(70, 15);
-    polyCtx.lineTo(64, 46);
-    polyCtx.moveTo(65, 45);
-    polyCtx.lineTo(28, 45);
-    polyCtx.moveTo(29, 46);
-    polyCtx.lineTo(25, 15);
-    polyCtx.moveTo(24, 16);
+    polyCtx.lineTo(71, 20);
+    polyCtx.moveTo(70, 19);
+    polyCtx.lineTo(62, 46);
+    polyCtx.moveTo(63, 45);
+    polyCtx.lineTo(30, 45);
+    polyCtx.moveTo(31, 46);
+    polyCtx.lineTo(25, 19);
+    polyCtx.moveTo(24, 20);
     polyCtx.lineTo(48, 5);
     polyCtx.closePath();
     polyCtx.strokeStyle = "#1a97e1";
@@ -1511,6 +1511,7 @@ function setPolygon() {
     switch(edges) {
         case 5: { addPositioner(workTop, 5, [[40,120], [180,20], [340,120], [280,280], [80,280]]); break; }
         case 6: { addPositioner(workTop, 6, [[115,20], [265,20], [320,150], [265,280], [115,280], [60,150]]); break; }
+        case 7: { addPositioner(workTop, 7, [[60,181], [80,72], [180,20], [285,72], [320,181], [260,280], [130,280]]); break; }
     } // end of switch edges
     //addPositioner(workTop, 3, [[180,150], [80,150], [280,140]]);
 
