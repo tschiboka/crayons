@@ -250,8 +250,10 @@ function addIconListeners() {
                 closeAllPanels();
                 polygonPanel.style.visibility = "visible";
                 document.getElementById("polygon-on").value = "0"; // reset to off
+                document.getElementById("polygon-on-text").style.color =  // set colors back
+                document.getElementById("polygon-off-text").style.color = "rgba(133, 167, 171, 0.544)"; 
             } // end of if icon is hidden
-            else {            
+            else {
                 polygonPanel.style.visibility = "hidden";            
                 if (document.getElementById("polygon-on").value === "1") setPolygon();
             } // end of if polygon icon is visible
@@ -1508,7 +1510,7 @@ function setPolygon() {
         
     switch(edges) {
         case 5: { addPositioner(workTop, 5, [[40,120], [180,20], [340,120], [280,280], [80,280]]); break; }
-        case 6: { addPositioner(workTop, 6, [[60,95], [135,20], [285,20], [280,280], [80,280], [0,0]]); break; }
+        case 6: { addPositioner(workTop, 6, [[115,20], [265,20], [320,150], [265,280], [115,280], [60,150]]); break; }
     } // end of switch edges
     //addPositioner(workTop, 3, [[180,150], [80,150], [280,140]]);
 
