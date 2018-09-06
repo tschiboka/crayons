@@ -250,8 +250,8 @@ function addIconListeners() {
                 closeAllPanels();
                 polygonPanel.style.visibility = "visible";
                 document.getElementById("polygon-on").value = "0"; // reset to off
-                document.getElementById("polygon-on-text").style.color =  // set colors back
-                document.getElementById("polygon-off-text").style.color = "rgba(133, 167, 171, 0.544)"; 
+                document.getElementById("polygon-on-text").style.color =  "rgba(133, 167, 171, 0.5)"; // set colors back
+                document.getElementById("polygon-off-text").style.color = "#ce283e"; 
             } // end of if icon is hidden
             else {
                 polygonPanel.style.visibility = "hidden";            
