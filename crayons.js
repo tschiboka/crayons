@@ -1428,17 +1428,18 @@ function addPolygonSettingsListeners() {
         let   actual    = Number(actNum.innerHTML);
 
         // set new number
-        actual = num === 1 ? ++actual : --actual;
-        
-        // set ranges
-        if (actual > 9) { actual = 5}
+        actual = num === 1 ? ++actual : --actual; 
 
-        if (actual < 5) { actual = 9}
+        // set ranges
+        if (actual > 8) { actual = 5;}
+
+        if (actual < 5) { actual = 8}
         
-        // set html
-        prevNum.innerHTML = actual-1;
+        // set html        
         actNum.innerHTML = actual;
-        nextNum.innerHTML = actual+1;         
+        actual !== 5 ? prevNum.innerHTML = actual-1 : prevNum.innerHTML = 8;
+        actual !== 8 ? nextNum.innerHTML = actual+1 : nextNum.innerHTML = 5; 
+                
     } // end of movePoligonCarousel
 
     const onText    = document.getElementById("polygon-on-text"),
@@ -1512,7 +1513,7 @@ function setPolygon() {
         case 5: { addPositioner(workTop, 5, [[40,120], [180,20], [340,120], [280,280], [80,280]]); break; }
         case 6: { addPositioner(workTop, 6, [[115,20], [265,20], [320,150], [265,280], [115,280], [60,150]]); break; }
         case 7: { addPositioner(workTop, 7, [[60,181], [80,72], [180,20], [285,72], [320,181], [260,280], [130,280]]); break; }
-        case 8: { addPositioner(workTop, 8, [[110,20], [270,20], [320,90], [320,210], [270,280], [110,280], [60,210], [60,90]]); break; }
+        case 8: { addPositioner(workTop, 8, [[110,20], [270,20], [320,90], [320,210], [270,280], [110,280], [60,210], [60,90]]); break; }        
     } // end of switch edges
     //addPositioner(workTop, 3, [[180,150], [80,150], [280,140]]);
 
