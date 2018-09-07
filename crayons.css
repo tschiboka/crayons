@@ -46,6 +46,13 @@ body {
     width: 380px;    
 }
 
+#grid-canvas {
+    position: absolute;
+    left: 11px;
+    top: 11px;
+    visibility: hidden;
+}
+
 #pseudo-canvas {
     background: rgba(93, 92, 113, 0.4);
     left: 11px;

@@ -154,6 +154,7 @@ function addIconListeners() {
           linesPanel      = document.getElementById("lines-panel"),
           polygonIcon     = document.getElementById("polygon-icon"),
           polygonPanel    = document.getElementById("polygon-panel"),
+          gridIcon        = document.getElementById("grid-icon"),
           allToolsPanels  = [pointWidthPanel, dashedPanel, linesPanel, shapesPanel, polygonPanel],
           closeAllPanels  = () => allToolsPanels.forEach(e => e.style.visibility = "hidden");          
 
@@ -259,6 +260,15 @@ function addIconListeners() {
             } // end of if polygon icon is visible
         } // end of tools are not disabled       
     }); // end of polygonIcon listener
+
+    gridIcon.addEventListener("click", () => {
+        if (window.getComputedStyle("grid-canvas").style.visibility === "hidden") {
+            document.getElementById("grid-canvas").visibility = "visible";
+        }// end of if grid is hidden
+        else {
+            document.getElementById("grid-canvas").visibility = "hidden";
+        } // end of if grid is visible
+    });
 } // end of addIconListeners
 
 
