@@ -24,7 +24,7 @@ addIconListeners();
 addShapeListeners();
 drawDashIcon();
 drawLinesIcons();
-drawGridIcon();
+drawGridIconAndGrid();
 addToggleListeners();
 addDashesSlidersListener();
 addPatternListener();
@@ -264,11 +264,11 @@ function addIconListeners() {
 
     gridIcon.addEventListener("click", () => {
         if (window.getComputedStyle(document.getElementById("grid-canvas")).visibility === "hidden") {
-            document.getElementById("grid-canvas").visibility = "visible";
+            document.getElementById("grid-canvas").style.visibility = "visible";            
         }// end of if grid is hidden
         else {
-            document.getElementById("grid-canvas").visibility = "hidden";
-        } // end of if grid is visible
+            document.getElementById("grid-canvas").style.visibility = "hidden";
+        } // end of if grid is visible        
     }); // end of grid icon listener
 } // end of addIconListeners
 
@@ -1535,24 +1535,44 @@ function setPolygon() {
 
 
 
-function drawGridIcon() {
-    const grid    = document.getElementById("grid-icon-canvas"),
-          gridCtx = grid.getContext("2d");
+function drawGridIconAndGrid() {
+    const gridI    = document.getElementById("grid-icon-canvas"),
+          gridICtx = gridI.getContext("2d"),
+          grid     = document.getElementById("grid-canvas"),
+          gridCtx  = grid.getContext("2d");
 
     
     // vertical lines
     for (let i = 7; i < 97; i += 10) {
-        gridCtx.moveTo(i, 0);
-        gridCtx.lineTo(i, 50);
+        gridICtx.moveTo(i, 0);
+        gridICtx.lineTo(i, 50);
     } 
 
     // horizontal lines
     for (let i = 10; i < 50; i += 10) {
-        gridCtx.moveTo(0, i);
-        gridCtx.lineTo(95, i);
+        gridICtx.moveTo(0, i);
+        gridICtx.lineTo(95, i);
     } 
 
-    gridCtx.strokeStyle = "#1a97e1";
+    gridICtx.strokeStyle = "#1a97e1";
+    gridICtx.lineWidth = 1;
+    gridICtx.stroke();
+
+    // draw grid
+    
+    // vertical lines
+    for (let i = 0; i < 380; i += 10) {
+        gridCtx.moveTo(i, 0);
+        gridCtx.lineTo(i, 300);
+    } 
+
+    // horizontal lines
+    for (let i = 10; i < 300; i += 10) {
+        gridCtx.moveTo(0, i);
+        gridCtx.lineTo(380, i);
+    } 
+
+    gridCtx.strokeStyle = "gray";
     gridCtx.lineWidth = 1;
     gridCtx.stroke();
 } // end of drawgridIcon
