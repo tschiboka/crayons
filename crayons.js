@@ -1395,14 +1395,14 @@ function addArrowIconsListener() {
               onDisplay      = repeatSeq.splice(startFrom, 5),              // cut a segment of the sequence
               toolsOnDisplay = Array(5).fill().map((e,i) => tools[onDisplay[i]]); // an aray of tool HTML elements
         
-        tools.map(e => e.style.visibility = "hidden");  // hide all tools
+        tools.map(e => { e.style.visibility = "hidden"; e.style.top = "-1000px; "} );  // hide all tools
 
         toolsOnDisplay.map((icon, i) => {
             icon.style.visibility = "visible";    // set visibility back
             icon.style.top = y[i] + "px";         // with the correct top positions            
         }); // end of toolsOnDisplay iteration        
         
-    } // end of moveToolIcons
+    } // end of moveToolIcons    
 } // end of addArrowIconsListener
 
 

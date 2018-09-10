@@ -643,7 +643,9 @@ body {
 #dashed-icon { top: 104px; }
 #lines-icon { top: 156px; }
 #shapes-icon { top: 208px; }
-#polygon-icon { top: -1000px; }
+#polygon-icon { top: -1000px; visibility: hidden; }
+#grid-icon { top: -1000px; visibility: hidden; }
+#code-icon { top: -1000px; visibility: hidden; }
 
 .tool-icon:first-child {
     top: 5px;
@@ -1252,7 +1254,17 @@ input[type=range]::-moz-range-track {
 
 #polygon-next-num { right: 40px; }
 
+#code-icon {
+    color: var(--icon-color);
+    font-size: 30px;
+    background: var(--black);
+    text-align: center;
+    font-weight: bold;
+}
 
+#code-icon-text {    
+    padding-top: 6px;
+}
 
 @media only screen and (max-width: 600px) {
     body {
