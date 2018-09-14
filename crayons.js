@@ -652,19 +652,19 @@ function setSquare() {
 
         chunkOfCode = `#// draw triangle#`+
         `squareCtx.beginPath();#`+
-        `squareCtx.moveTo(x1, y1 - (y1 < y2 ? W : -W));#`+
-        squareCtx.lineTo(x2, y2);#
-        squareCtx.moveTo(x2 - (x2 < x3 ? W : -W), y2);#
-        squareCtx.lineTo(x3, y3);#
-        squareCtx.moveTo(x3, y3 + (y3 > y1 ? W : -W));#
-        squareCtx.lineTo(x4, y4);#
-        squareCtx.moveTo(x4 + (x4 > x2 ? W : -W), y4);#
-        squareCtx.lineTo(x1, y1);#
-        squareCtx.closePath();#
-        squareCtx.lineWidth = toolSettings.drawingWidth;#
-        squareCtx.strokeStyle = drawingColor;#
-        squareCtx.setLineDash(toolSettings.dashedLine);#
-        squareCtx.stroke();#
+        `squareCtx.moveTo(${x1}, ${y1 - (y1 < y2 ? W : -W)});#`+
+        `squareCtx.lineTo(${x2}, ${y2});#`+
+        `squareCtx.moveTo(${x2 - (x2 < x3 ? W : -W)}, ${y2});#`+
+        `squareCtx.lineTo(${x3}, ${y3});#`+
+        `squareCtx.moveTo(${x3}, ${y3 + (y3 > y1 ? W : -W)});#`+
+        `squareCtx.lineTo(${x4}, ${y4});#`+
+        `squareCtx.moveTo(${x4 + (x4 > x2 ? W : -W)}, ${y4});#`+
+        `squareCtx.lineTo(${x1}, ${y1});#`+
+        `squareCtx.closePath();#`+
+        `squareCtx.lineWidth = ${toolSettings.drawingWidth};#`+
+        `squareCtx.strokeStyle = ${drawingColor};#`+
+        `squareCtx.setLineDash(${toolSettings.dashedLine});#`+
+        `squareCtx.stroke();#`;
 
     } // end of drawSquare
 
