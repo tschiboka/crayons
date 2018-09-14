@@ -10,8 +10,10 @@ var drawingColor = "black",                           // default drawing color
         drawingWidth : "4",                           // the sharpness of the pencil    
         dashedLine   : [],                            // if the drawing line is dashed
     },        
-    disableIcons = false;                             // if positioners are placed, you cannot click on tool icons
-    carouselAt  = 0;                                  // Where is the tools carousel is currently. 0 is the starting position 
+    disableIcons = false,                             // if positioners are placed, you cannot click on tool icons
+    code         = [],                                // the code the program generates, while drawing
+    chunkOfCode  = "",                                // the code of the current piece of drawing
+    carouselAt   = 0;                                 // Where is the tools carousel is currently. 0 is the starting position 
 
 
 
@@ -377,7 +379,11 @@ function anyShapeDrawing(positionerNum, drawingFunction) {
     
            
     // helper Yes and No's functionality is the same for all the tools
-    helperYes.addEventListener("click", () => { drawingFunction(ctx); });
+    helperYes.addEventListener("click", () => { 
+        drawingFunction(ctx);
+        code.push(chunkOfCode.replace(/#/g, e => e = "\n\t")); // push code and format it with # char
+        console.log(code);
+    });
     
     helperNo.addEventListener("click", () => { disableIcons = false; closeWorkTop(); });
 
@@ -578,10 +584,26 @@ function setTriangle() {
         triangleCtx.strokeStyle = drawingColor;
         triangleCtx.setLineDash(toolSettings.dashedLine);
         triangleCtx.stroke();        
+
+        // fill the current code chunk
+        chunkOfCode = `#// draw triangle#`+
+            `ctx.beginPath();#`+
+            `ctx.moveTo(${x1}, ${y1});#`+
+            `ctx.lineTo(${x2}, ${y2});#`+
+            `ctx.moveTo(${x2}, ${y2});#`+
+            `ctx.lineTo(${x3}, ${y3});#`+
+            `ctx.moveTo(${x3}, ${y3});#`+
+            `ctx.lineTo(${x1}, ${y1});#`+
+            `ctx.closePath();#`+
+            `ctx.lineWidth = ${toolSettings.drawingWidth};#`+
+            `ctx.strokeStyle = ${drawingColor};#`+
+            `ctx.setLineDash(${toolSettings.dashedLine});#`+
+            `ctx.stroke();#`;
+
     } // end of drawTriangle
 
     addPositioner(workTop, 3, [[180,50], [50,250], [330,250]]);
-
+    
     anyShapeDrawing(3, drawTriangle);
 } // end of setTriangle
 
@@ -627,6 +649,23 @@ function setSquare() {
         squareCtx.strokeStyle = drawingColor;
         squareCtx.setLineDash(toolSettings.dashedLine);
         squareCtx.stroke();  
+
+        chunkOfCode = `#// draw triangle#`+
+        `squareCtx.beginPath();#`+
+        `squareCtx.moveTo(x1, y1 - (y1 < y2 ? W : -W));#`+
+        squareCtx.lineTo(x2, y2);#
+        squareCtx.moveTo(x2 - (x2 < x3 ? W : -W), y2);#
+        squareCtx.lineTo(x3, y3);#
+        squareCtx.moveTo(x3, y3 + (y3 > y1 ? W : -W));#
+        squareCtx.lineTo(x4, y4);#
+        squareCtx.moveTo(x4 + (x4 > x2 ? W : -W), y4);#
+        squareCtx.lineTo(x1, y1);#
+        squareCtx.closePath();#
+        squareCtx.lineWidth = toolSettings.drawingWidth;#
+        squareCtx.strokeStyle = drawingColor;#
+        squareCtx.setLineDash(toolSettings.dashedLine);#
+        squareCtx.stroke();#
+
     } // end of drawSquare
 
     addPositioner(workTop, 4, [[140,100], [140,200], [240,200], [240,100]]);
