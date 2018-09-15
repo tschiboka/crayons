@@ -552,7 +552,7 @@ function anyShapeDrawing(positionerNum, drawingFunction) {
 
 // function checks if current drawing attributes are the same as the previous ones,
 // and only returns the ones that are different
-function setCodeStyle(contextName, width, color, dash) {
+function setCodeStyle(width, color, dash) {
     const prev       = code[code.length - 1];
     let   appendings = "";
 
@@ -561,24 +561,21 @@ function setCodeStyle(contextName, width, color, dash) {
               prevColor = prev.match(/strokeStyle = (.*?);/g)[0].replace(/strokeStyle = |;/g, e => e = ""), // extract color, can be text or rgb as well as hex
               prevDash  = prev.match(/setLineDash.+;/g)[0].replace(/setLineDash\(|\);/g, e => ""); // extract line dash
 
-        console.log(prevDash, `[${dash}]`, prevDash === `[${dash}]`);
         if (prevWidth != width) {
-            appendings += `${contextName}.lineWidth = ${width};*`;
+            appendings += `ctx.lineWidth = ${width};*`;
         } // end of if width has changed
         if (prevColor != color) {
-            appendings += `${contextName}.strokeStyle = ${color};*`;
+            appendings += `ctx.strokeStyle = ${color};*`;
         } // end of if color has changed
         if (prevDash !== `[${dash}]`) {    
-            appendings += `${contextName}.setLineDash([${dash}]);*`;
+            appendings += `ctx.setLineDash([${dash}]);*`;
         } // end of if dashes have changed
     } // end of if this is not the first canvas code
     else {
-        console.log("No previouse code");
-        appendings += `${contextName}.lineWidth = ${width};*`;
-        appendings += `${contextName}.strokeStyle = ${color};*`;
-        appendings += `${contextName}.setLineDash([${dash}]);*`;
+        appendings += `ctx.lineWidth = ${width};*`;
+        appendings += `ctx.strokeStyle = ${color};*`;
+        appendings += `ctx.setLineDash([${dash}]);*`;
     } // end of if code is still empty 
-    console.log("Append : ", appendings);
     return appendings;
 } // end of setCodeStyle
 
@@ -632,11 +629,7 @@ function setTriangle() {
             `ctx.lineTo(${x1}, ${y1});*`+
             `ctx.closePath();*`+
             `${setCodeStyle("triangleCtx",toolSettings.drawingWidth, drawingColor, toolSettings.dashedLine)}`+
-            `ctx.stroke();*`;
-
-            console.log(drawingColor);
-        setCodeStyle("triangleCtx",toolSettings.drawingWidth, drawingColor, toolSettings.dashedLine);
-
+            `ctx.stroke();*`;         
 
     } // end of drawTriangle
 
