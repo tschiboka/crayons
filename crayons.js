@@ -158,6 +158,8 @@ function addIconListeners() {
           polygonIcon     = document.getElementById("polygon-icon"),
           polygonPanel    = document.getElementById("polygon-panel"),
           gridIcon        = document.getElementById("grid-icon"),
+          codeIcon        = document.getElementById("code-icon"),
+          codePanel       = document.getElementById("code-panel"),
           allToolsPanels  = [pointWidthPanel, dashedPanel, linesPanel, shapesPanel, polygonPanel],
           closeAllPanels  = () => allToolsPanels.forEach(e => e.style.visibility = "hidden");          
 
@@ -272,6 +274,15 @@ function addIconListeners() {
             document.getElementById("grid-canvas").style.visibility = "hidden";
         } // end of if grid is visible        
     }); // end of grid icon listener
+
+    codeIcon.addEventListener("click", () => {
+        if (window.getComputedStyle(codePanel).visibility === "hidden") {
+            codePanel.style.visibility = "visible";
+        } // end of if hidden
+        else {
+            codePanel.style.visibility = "hidden";
+        } // end of if visible
+    }); // end of codeIcon eventListener
 } // end of addIconListeners
 
 
@@ -628,7 +639,7 @@ function setTriangle() {
             `ctx.moveTo(${x3}, ${y3});*`+
             `ctx.lineTo(${x1}, ${y1});*`+
             `ctx.closePath();*`+
-            `${setCodeStyle("triangleCtx",toolSettings.drawingWidth, drawingColor, toolSettings.dashedLine)}`+
+            `${setCodeStyle(toolSettings.drawingWidth, drawingColor, toolSettings.dashedLine)}`+
             `ctx.stroke();*`;         
 
     } // end of drawTriangle
@@ -682,18 +693,18 @@ function setSquare() {
         squareCtx.stroke();  
 
         chunkOfCode = `**// draw square*`+
-        `squareCtx.beginPath();`+
-        `squareCtx.moveTo(${x1}, ${y1 - (y1 < y2 ? W : -W)});`+
-        `squareCtx.lineTo(${x2}, ${y2});`+
-        `squareCtx.moveTo(${x2 - (x2 < x3 ? W : -W)}, ${y2});`+
-        `squareCtx.lineTo(${x3}, ${y3});`+
-        `squareCtx.moveTo(${x3}, ${y3 + (y3 > y1 ? W : -W)});`+
-        `squareCtx.lineTo(${x4}, ${y4});`+
-        `squareCtx.moveTo(${x4 + (x4 > x2 ? W : -W)}, ${y4});`+
-        `squareCtx.lineTo(${x1}, ${y1});`+
-        `squareCtx.closePath();`+
-        `${setCodeStyle("squareCtx",toolSettings.drawingWidth, drawingColor, toolSettings.dashedLine)}`+
-        `squareCtx.stroke();`;
+        `ctx.beginPath();`+
+        `ctx.moveTo(${x1}, ${y1 - (y1 < y2 ? W : -W)});`+
+        `ctx.lineTo(${x2}, ${y2});`+
+        `ctx.moveTo(${x2 - (x2 < x3 ? W : -W)}, ${y2});`+
+        `ctx.lineTo(${x3}, ${y3});`+
+        `ctx.moveTo(${x3}, ${y3 + (y3 > y1 ? W : -W)});`+
+        `ctx.lineTo(${x4}, ${y4});`+
+        `ctx.moveTo(${x4 + (x4 > x2 ? W : -W)}, ${y4});`+
+        `ctx.lineTo(${x1}, ${y1});`+
+        `ctx.closePath();`+
+        `${setCodeStyle(toolSettings.drawingWidth, drawingColor, toolSettings.dashedLine)}`+
+        `ctx.stroke();`;
 
     } // end of drawSquare
 
