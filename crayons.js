@@ -295,17 +295,25 @@ function showCode() {
     // return void if no code has been generated yet by the program
     if (!code.length) return void(0);
 
-    const textPanel = document.getElementById("code-panel-code-text");
-    let   lines     = code.join("").split("\n"); // split the whole code into lines
+    const textPanel = document.getElementById("code-panel-text");
+    let   lines     = code.join("").split("\n"); // split the whole code into lines    
 
-    
+    // Syntax highlighting
+    lines = lines.map(line => {
+        let elem = line;
+        elem = elem.split("(").join("<span class='code-purple'>(</span>"); // color ( purple
+        elem = elem.split(")").join("<span class='code-purple'>)</span>"); // color ) purple
 
+        console.log(elem);
+        return elem;
+    });
+
+    console.log(lines);
     lines = lines.map(line => line + "<br />"); // put break after each line
 
     // join all lines together
     lines = lines.join("");
-    console.log("LINES2",lines);
-    
+        
     textPanel.innerHTML = lines;
 } // end of showCode
 

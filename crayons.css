@@ -1272,7 +1272,7 @@ input[type=range]::-moz-range-track {
     padding-left: 5px;
 }
 
-#code-panel-code-text {
+#code-panel-text {
     position: relative;
     padding-left: 2em;
     width: 90%;
@@ -1281,6 +1281,10 @@ input[type=range]::-moz-range-track {
     font-size: 12px;
     text-align: left;
     overflow-y: scroll;
+}
+
+.code-purple {
+    color: #e760ee;
 }
 
 @media only screen and (max-width: 600px) {
