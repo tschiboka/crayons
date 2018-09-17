@@ -160,7 +160,7 @@ function addIconListeners() {
           gridIcon        = document.getElementById("grid-icon"),
           codeIcon        = document.getElementById("code-icon"),
           codePanel       = document.getElementById("code-panel"),
-          allToolsPanels  = [pointWidthPanel, dashedPanel, linesPanel, shapesPanel, polygonPanel],
+          allToolsPanels  = [pointWidthPanel, dashedPanel, linesPanel, shapesPanel, polygonPanel, codePanel],
           closeAllPanels  = () => allToolsPanels.forEach(e => e.style.visibility = "hidden");          
 
 
@@ -277,13 +277,38 @@ function addIconListeners() {
 
     codeIcon.addEventListener("click", () => {
         if (window.getComputedStyle(codePanel).visibility === "hidden") {
+            closeAllPanels();
             codePanel.style.visibility = "visible";
+            showCode();
         } // end of if hidden
         else {
             codePanel.style.visibility = "hidden";
         } // end of if visible
     }); // end of codeIcon eventListener
 } // end of addIconListeners
+
+
+
+
+// This function is responsible of rendering the code to the code-panel and syntax highlighting
+function showCode() {
+    // return void if no code has been generated yet by the program
+    if (!code.length) return void(0);
+
+    const textPanel = document.getElementById("code-panel-code-text");
+    let   lines     = code.join("").split("\n"); // split the whole code into lines
+
+    
+
+    lines = lines.map(line => line + "<br />"); // put break after each line
+
+    // join all lines together
+    lines = lines.join("");
+    console.log("LINES2",lines);
+    
+    textPanel.innerHTML = lines;
+} // end of showCode
+
 
 
 
@@ -392,7 +417,7 @@ function anyShapeDrawing(positionerNum, drawingFunction) {
     // helper Yes and No's functionality is the same for all the tools
     helperYes.addEventListener("click", () => { 
         drawingFunction(ctx);
-        code.push(chunkOfCode.replace(/\*/g, e => e = "\n\t")); // push code and format it with * char
+        code.push(chunkOfCode.replace(/\*/g, e => e = "\n")); // push code and format it with * char
         console.log(JSON.stringify(code));
     });
     

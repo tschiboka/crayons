@@ -1266,6 +1266,20 @@ input[type=range]::-moz-range-track {
     padding-top: 6px;
 }
 
+#code-panel {
+    padding-left : 2em;
+    color: rgb(193, 217, 240);
+    font-size: 12px;
+}
+
+#code-panel-code-text {
+    position: relative;
+    width: 300px;
+    height: 270px;
+    border: 1px solid red;
+
+}
+
 @media only screen and (max-width: 600px) {
     body {
         background: green;
