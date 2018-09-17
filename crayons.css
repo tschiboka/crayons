@@ -1295,6 +1295,14 @@ input[type=range]::-moz-range-track {
     color: #f7d979;
 }
 
+.code-green {
+    color: #90fd9b;
+}
+
+.code-blue {
+    color: #7771c0;
+}
+
 @media only screen and (max-width: 600px) {
     body {
         background: green;

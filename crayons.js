@@ -309,9 +309,11 @@ function showCode() {
         elem = elem.split(")").join("<span class='code-purple'>)</span>"); // color ) purple
         elem = elem.split("[").join("<span class='code-yellow'>[</span>"); // color [ yellow
         elem = elem.split("]").join("<span class='code-yellow'>]</span>"); // color ] yellow
+        elem = elem.replace(/\d+/g, e => "<span class='code-green'>" + e + "</span>"); // color digits green
+        elem = elem.replace(/\.[a-zA-Z]+/g, e => "<span class='code-blue'>" + e + "</span>"); // color words blue
+        
+        
 
-
-        console.log(elem);
         return elem;
     });
 
