@@ -301,6 +301,10 @@ function showCode() {
     // Syntax highlighting
     lines = lines.map(line => {
         let elem = line;
+
+        if (elem[0] === elem[1] && elem[0] === "/") {
+            elem = "<span class='code-grey'>" + elem + "</span>"; // color comment grey
+        } // end of if line is a comment
         elem = elem.split("(").join("<span class='code-purple'>(</span>"); // color ( purple
         elem = elem.split(")").join("<span class='code-purple'>)</span>"); // color ) purple
 
