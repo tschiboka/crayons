@@ -307,6 +307,9 @@ function showCode() {
         } // end of if line is a comment
         elem = elem.split("(").join("<span class='code-purple'>(</span>"); // color ( purple
         elem = elem.split(")").join("<span class='code-purple'>)</span>"); // color ) purple
+        elem = elem.split("[").join("<span class='code-yellow'>[</span>"); // color [ yellow
+        elem = elem.split("]").join("<span class='code-yellow'>]</span>"); // color ] yellow
+
 
         console.log(elem);
         return elem;
