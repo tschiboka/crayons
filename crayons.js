@@ -305,24 +305,24 @@ function showCode() {
         if (elem[0] === elem[1] && elem[0] === "/") {
             elem = "<span class='code-grey'>" + elem + "</span>"; // color comment grey
         } // end of if line is a comment
+
         elem = elem.split("(").join("<span class='code-purple'>(</span>"); // color ( purple
         elem = elem.split(")").join("<span class='code-purple'>)</span>"); // color ) purple
         elem = elem.split("[").join("<span class='code-yellow'>[</span>"); // color [ yellow
         elem = elem.split("]").join("<span class='code-yellow'>]</span>"); // color ] yellow
         elem = elem.replace(/\d+/g, e => "<span class='code-green'>" + e + "</span>"); // color digits green
-        elem = elem.replace(/\.[a-zA-Z]+/g, e => "<span class='code-blue'>" + e + "</span>"); // color words blue
-        
-        
+        elem = elem.replace(/\.[a-zA-Z]+/g, e => "<span class='code-blue'>" + e + "</span>"); // color methods blue
+        elem = elem.replace(/ctx/g, e => "<span class='code-red'>" + e + "</span>"); // color ctx red
 
         return elem;
-    });
+    }); // end of syntax highlighting
 
-    console.log(lines);
     lines = lines.map(line => line + "<br />"); // put break after each line
 
     // join all lines together
     lines = lines.join("");
-        
+
+    // render lines to the panel 
     textPanel.innerHTML = lines;
 } // end of showCode
 
