@@ -965,7 +965,14 @@ function setCircle() {
         circleCtx.lineWidth = toolSettings.drawingWidth;
         circleCtx.strokeStyle = drawingColor;
         circleCtx.setLineDash(toolSettings.dashedLine);
-        circleCtx.stroke();        
+        circleCtx.stroke();  
+        
+        chunkOfCode = `\n\n// draw circle\n`+
+        `ctx.beginPath();\n`+        
+        `ctx.arc(${x1}, ${y1}, ${D(x1, x2, y1, y2)}, 0, 2 * Math.PI, true);\n`+        
+        `ctx.closePath();\n`+
+        `${setCodeStyle(toolSettings.drawingWidth, drawingColor, toolSettings.dashedLine)}`+
+        `ctx.stroke();\n`;  
     } // end of drawCircle
       
     addPositioner(workTop, 2, [[190,140], [140,150]]);
