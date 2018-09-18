@@ -1556,8 +1556,8 @@ function setArc() {
         if (!context) arcCtx.clearRect(0, 0, workCanvas.width, workCanvas. height);
 
         // calculating arcs angles and distances        
-        const angle1 = Math.atan2(y1 -y2, x1 - x2) - Math.PI,
-              angle2 = Math.atan2(y1 -y3, x1 - x3) - Math.PI;
+        const angle1 = (Math.atan2(y1 -y2, x1 - x2) - Math.PI).toFixed(2),
+              angle2 = (Math.atan2(y1 -y3, x1 - x3) - Math.PI).toFixed(2);
        
         // draw arc curve
         arcCtx.beginPath();        
@@ -1568,6 +1568,14 @@ function setArc() {
         arcCtx.strokeStyle = drawingColor;
         arcCtx.setLineDash(toolSettings.dashedLine);
         arcCtx.stroke();        
+
+        chunkOfCode = `\n\n// draw arc curve\n`+
+        `ctx.beginPath();\n`+        
+        `ctx.arc(${x1}, ${y1}, ${D(x1, x2, y1, y2)}, ${angle1}, ${angle2}, true);\n`+
+        `ctx.moveTo(x3, y3);\n`+
+        `ctx.closePath();\n`+
+        `${setCodeStyle(toolSettings.drawingWidth, drawingColor, toolSettings.dashedLine)}`+ 
+        `ctx.stroke();\n`;
     } // end of drawArc
 
     addPositioner(workTop, 3, [[180,150], [80,150], [280,140]]);
