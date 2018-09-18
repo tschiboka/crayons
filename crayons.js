@@ -118,19 +118,34 @@ function addMouseUpDownListener() {
 
 
 
-function drawOnCanvas() {    
+function drawOnCanvas() {
+    // stop repeating fill style unnecessary
+    let allPrevColors;
+    if (!code.length) {
+        allPrevColors = [`fillStyle = ${drawingColor};\n`]; // prime it!
+    } // end of if code is an empty array
+    else {
+        allPrevColors = code.map(block =>                  // run through blocks
+            (block.match(/fillStyle = (.*?);/g)||[""])[0]) // if its strokestyle match it, if theres not return ""
+            .filter(line => line !== "");                  // get rid of ""-s 
+
+    } // if code has elements
+
+    const prevColor = allPrevColors[allPrevColors.length - 1] // get the last color setting
+        .replace(/fillStyle = |;/g, e => e = "");             // extract anything between = and ;
+    
     // draw circle on canvas
     ctx.beginPath();
     ctx.arc(canvasX, canvasY, toolSettings.drawingWidth / 2, 0, Math.PI * 2);
     ctx.closePath();
     ctx.fillStyle = drawingColor;
     ctx.fill();        
-
+    
     chunkOfCode = `\n\n// draw circle on canvas\n`+
     `ctx.beginPath()\n;`+
     `ctx.arc(${canvasX}, ${canvasY}, ${toolSettings.drawingWidth / 2}, 0, Math.PI * 2);\n`+
     `ctx.closePath();\n`+
-    `ctx.fillStyle = ${drawingColor};\n`+
+    (drawingColor === prevColor ? `` : `ctx.fillStyle = ${drawingColor};\n`)+
     `ctx.fill();`;
 
     // if mouse has history (not false), connect the current circle with the previous one
