@@ -742,18 +742,18 @@ function setSquare() {
         squareCtx.stroke();  
 
         chunkOfCode = `**// draw square*`+
-        `ctx.beginPath();`+
-        `ctx.moveTo(${x1}, ${y1 - (y1 < y2 ? W : -W)});`+
-        `ctx.lineTo(${x2}, ${y2});`+
-        `ctx.moveTo(${x2 - (x2 < x3 ? W : -W)}, ${y2});`+
-        `ctx.lineTo(${x3}, ${y3});`+
-        `ctx.moveTo(${x3}, ${y3 + (y3 > y1 ? W : -W)});`+
-        `ctx.lineTo(${x4}, ${y4});`+
-        `ctx.moveTo(${x4 + (x4 > x2 ? W : -W)}, ${y4});`+
-        `ctx.lineTo(${x1}, ${y1});`+
-        `ctx.closePath();`+
+        `ctx.beginPath();*`+
+        `ctx.moveTo(${x1}, ${y1 - (y1 < y2 ? W : -W)});*`+
+        `ctx.lineTo(${x2}, ${y2});*`+
+        `ctx.moveTo(${x2 - (x2 < x3 ? W : -W)}, ${y2});*`+
+        `ctx.lineTo(${x3}, ${y3});*`+
+        `ctx.moveTo(${x3}, ${y3 + (y3 > y1 ? W : -W)});*`+
+        `ctx.lineTo(${x4}, ${y4});*`+
+        `ctx.moveTo(${x4 + (x4 > x2 ? W : -W)}, ${y4});*`+
+        `ctx.lineTo(${x1}, ${y1});*`+
+        `ctx.closePath();*`+
         `${setCodeStyle(toolSettings.drawingWidth, drawingColor, toolSettings.dashedLine)}`+
-        `ctx.stroke();`;
+        `ctx.stroke();*`;
 
     } // end of drawSquare
 
@@ -802,6 +802,21 @@ function setRectangle() {
         rectangleCtx.strokeStyle = drawingColor;
         rectangleCtx.setLineDash(toolSettings.dashedLine);
         rectangleCtx.stroke();  
+
+        chunkOfCode = `**// draw rectangle*`+
+        `ctx.beginPath();*`+
+        `ctx.moveTo(${x1}, ${y1 - (y1 < y2 ? W : -W)});*`+  
+        `ctx.lineTo(${x2}, ${y2});*`+
+        `ctx.moveTo(${x2 - (x2 < x3 ? W : -W)}, ${y2});*`+ 
+        `ctx.lineTo(${x3}, ${y3});*`+
+        `ctx.moveTo(${x3}, ${y3 + (y3 > y1 ? W : -W)});*`+  
+        `ctx.lineTo(${x4}, ${y4});*`+
+        `ctx.moveTo(${x4 + (x4 > x2 ? W : -W)}, ${y4});*`+  
+        `ctx.lineTo(${x1}, ${y1});*`+
+        `ctx.closePath();*`+
+        `${setCodeStyle(toolSettings.drawingWidth, drawingColor, toolSettings.dashedLine)}`+
+        `ctx.stroke();*`;  
+
     } // end of drawRectangle
     
     addPositioner(workTop, 4, [[100,100], [100,200], [280,200], [280,100]]);
