@@ -1011,7 +1011,14 @@ function setEllipse() {
         ellipseCtx.lineWidth = toolSettings.drawingWidth;
         ellipseCtx.strokeStyle = drawingColor;
         ellipseCtx.setLineDash(toolSettings.dashedLine);
-        ellipseCtx.stroke();        
+        ellipseCtx.stroke();   
+        
+        chunkOfCode = `\n\n// draw ellipse\n`+
+        `ctx.beginPath();\n`+        
+        `ctx.ellipse(${x1}, ${y1}, ${Math.max(x1, x3) - Math.min(x1, x3)}, ${Math.max(y1, y2) - Math.min(y1, y2)}, 0, 0, 2 * Math.PI, true);\n`+        
+        `ctx.closePath();\n`+
+        `${setCodeStyle(toolSettings.drawingWidth, drawingColor, toolSettings.dashedLine)}`+
+        `ctx.stroke();\n`;  
     } // end of drawEllipse
 
     addPositioner(workTop, 3, [[190,150], [190,100], [290,150]]);
@@ -1409,6 +1416,14 @@ function setLine() {
         lineCtx.strokeStyle = drawingColor;
         lineCtx.setLineDash(toolSettings.dashedLine);
         lineCtx.stroke();        
+
+        chunkOfCode = `\n\n// draw line\n`+
+        `ctx.beginPath();\n`+        
+        `ctx.moveTo(${x1}, ${y1});\n`+
+        `ctx.lineTo(${x2}, ${y2});\n`+
+        `ctx.closePath();\n`+   
+        `${setCodeStyle(toolSettings.drawingWidth, drawingColor, toolSettings.dashedLine)}`+     
+        `ctx.stroke();\n`
     } // end of drawLine
 
     addPositioner(workTop, 2, [[100,150], [280,150]]);
