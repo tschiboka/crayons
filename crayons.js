@@ -126,6 +126,13 @@ function drawOnCanvas() {
     ctx.fillStyle = drawingColor;
     ctx.fill();        
 
+    chunkOfCode = `\n\n// draw circle on canvas\n`+
+    `ctx.beginPath()\n;`+
+    `ctx.arc(${canvasX}, ${canvasY}, ${toolSettings.drawingWidth / 2}, 0, Math.PI * 2);\n`+
+    `ctx.closePath();\n`+
+    `ctx.fillStyle = ${drawingColor};\n`+
+    `ctx.fill();`;
+
     // if mouse has history (not false), connect the current circle with the previous one
     if (lastDrawEventCoordinates) {
         // draws a single line
@@ -137,9 +144,19 @@ function drawOnCanvas() {
             ctx.lineWidth = toolSettings.drawingWidth;
             ctx.strokeStyle = drawingColor;
             ctx.stroke();
+
+            chunkOfCode += `\n\n// draw line\n`+
+            `ctx.beginPath();\n`+
+            `ctx.moveTo(${X1}, ${Y1});\n`+
+            `ctx.lineTo(${X2}, ${Y2});\n`+
+            `ctx.closePath();\n`+
+            `${setCodeStyle(toolSettings.drawingWidth, drawingColor, toolSettings.dashedLine)}`+
+            `ctx.stroke();\n`
             }; // end of connectDots            
         
         connectDots(lastDrawEventCoordinates[0], lastDrawEventCoordinates[1], canvasX, canvasY);
+
+        code.push(chunkOfCode);
     } // end of if lastMouseEvent
     lastDrawEventCoordinates = [canvasX, canvasY]; // feed last update
 } // end of drawOnCanvas
