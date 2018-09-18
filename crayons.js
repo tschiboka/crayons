@@ -434,8 +434,7 @@ function anyShapeDrawing(positionerNum, drawingFunction) {
     // helper Yes and No's functionality is the same for all the tools
     helperYes.addEventListener("click", () => { 
         drawingFunction(ctx);
-        code.push(chunkOfCode.replace(/\*/g, e => e = "\n")); // push code and format it with * char
-        console.log(JSON.stringify(code));
+        code.push(chunkOfCode.replace(/\*/g, e => e = "\n")); // push code and format it with * char        
     });
     
     helperNo.addEventListener("click", () => { disableIcons = false; closeWorkTop(); });
@@ -548,8 +547,7 @@ function anyShapeDrawing(positionerNum, drawingFunction) {
                         const radius = Math.round(Math.sqrt(Math.pow((cx - x), 2) + Math.pow((cy - y), 2))), // the distance between those points
                               angle  = Math.atan2(cy - py, cx - px) + Math.PI,     // angle from   
                               newPX  = Math.round(cx + (radius * Math.cos(angle))),                          // the new X distance
-                              newPY  = Math.round(cy + (radius * Math.sin(angle)));                               
-                              console.log("CALCULATE", angle);
+                              newPY  = Math.round(cy + (radius * Math.sin(angle)));                                                             
                         return [newPX, newPY];
                     } // end of findNewPositionerXY
                     if (activeX === x3 && activeY === y3) {                        
@@ -557,14 +555,12 @@ function anyShapeDrawing(positionerNum, drawingFunction) {
                         positioners[1].style.left = newPositionXY[0] + "px";
                         positioners[1].style.top  = newPositionXY[1] + "px";
                         positioners[1].title = `[${newPositionXY[0]}, ${newPositionXY[1]}]`;
-                        console.log("positioner 1 : ", newPositionXY[0], newPositionXY[1]);
                     } // end of if poistioner is p2
                     else {                        
                         const newPositionXY = findNewPositionerXY(x1, y1, x2, y2, x3, y3);
                         positioners[2].style.left = newPositionXY[0] + "px";
                         positioners[2].style.top  = newPositionXY[1] + "px";
                         positioners[2].title = `[${newPositionXY[0]}, ${newPositionXY[1]}]`;
-                        console.log("positioner 2 : ", newPositionXY[0], newPositionXY[1]);
                     } // end of if poistioner is not p2
                     
                     
@@ -606,23 +602,35 @@ function anyShapeDrawing(positionerNum, drawingFunction) {
 // function checks if current drawing attributes are the same as the previous ones,
 // and only returns the ones that are different
 function setCodeStyle(width, color, dash) {
-    const prev       = code[code.length - 1];
-    let   appendings = "";
+    const prev       = code[code.length - 1]; // the last code block added to code
+    let   appendings = ""; // the string of code the function returs, if one of the parameters are not matching
 
     if (prev) {
-        const prevWidth = prev.match(/(lineWidth = )\d+/g)[0].match(/\d+/)[0], // find linewidth and extract it
-              prevColor = prev.match(/strokeStyle = (.*?);/g)[0].replace(/strokeStyle = |;/g, e => e = ""), // extract color, can be text or rgb as well as hex
-              prevDash  = prev.match(/setLineDash.+;/g)[0].replace(/setLineDash\(|\);/g, e => ""); // extract line dash
+        const allPrevWidths = code.map(block => block.match(/(lineWidth = )\d+/g)),    // find all linewidths and extract them
+              prevWidth     = allPrevWidths[allPrevWidths.length - 1],                 // get the last width setting
+              allPrevColors = code.map(block =>                                        // run through blocks
+                                  (block.match(/strokeStyle = (.*?);/g)||[""])[0])     // if its strokestyle match it, if theres not return ""
+                                  .filter(line => line !== ""),                        // get rid of ""-s 
+              prevColor     = allPrevColors[allPrevColors.length - 1]                  // get the last color setting
+                                  .replace(/strokeStyle = |;/g, e => e = ""),          // extract anything between = and ;
+              allPrevDashes = code.map(block =>                                        // run through blocks
+                                  (block.match(/setLineDash.+;/g)||[""])[0])           // if its dash match it, if theres not return ""
+                                  .filter(line => line !== ""),                        // get rid of ""-s
+              prevDash      = allPrevDashes[allPrevDashes.length - 1]                  // fetch last dash settings
+                                  .replace(/setLineDash\(|\);/g, e => "");             // extract lineDash value
+
 
         if (prevWidth != width) {
             appendings += `ctx.lineWidth = ${width};*`;
         } // end of if width has changed
+
         if (prevColor != color) {
             appendings += `ctx.strokeStyle = ${color};*`;
         } // end of if color has changed
+
         if (prevDash !== `[${dash}]`) {    
             appendings += `ctx.setLineDash([${dash}]);*`;
-        } // end of if dashes have changed
+        } // end of if dashes have changed 
     } // end of if this is not the first canvas code
     else {
         appendings += `ctx.lineWidth = ${width};*`;
@@ -668,7 +676,6 @@ function setTriangle() {
         triangleCtx.lineWidth = toolSettings.drawingWidth;
         triangleCtx.strokeStyle = drawingColor;
         triangleCtx.setLineDash(toolSettings.dashedLine);
-        console.log("dashed-line", toolSettings.dashedLine);
         triangleCtx.stroke();        
 
         // fill the current code chunk
@@ -1316,7 +1323,6 @@ function checkManager(...commands) {
        
         if (!active) setOn(pencil); // if no tools selected the default set is pencil hand-drawing
         tool = ["draw", "line", "arc", "cubic", "quadratic", "triangle", "square", "rectangle", "rounded-rectangle", "circle", "ellipse"][[pencil, ...subLines, ... subShapes].findIndex(e => isOn(e))];
-        console.log(tool);
     }); // end of forEach commands  
 } // end of checkManager
 
@@ -1615,8 +1621,7 @@ function setPolygon() {
         // draw polygon
         
         polyCtx.beginPath();                
-        for (let i = 0; i < edges; i++) {   
-            console.log(i);         
+        for (let i = 0; i < edges; i++) {           
             let x = Number(positioners[i].style.left.match(/\d+/)) + 4,
                 y = Number(positioners[i].style.top.match(/\d+/)) + 4,
                 a = 0,
