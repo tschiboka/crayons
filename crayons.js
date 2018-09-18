@@ -1461,7 +1461,16 @@ function setQuadratic() {
         quadraticCtx.lineWidth = toolSettings.drawingWidth;
         quadraticCtx.strokeStyle = drawingColor;
         quadraticCtx.setLineDash(toolSettings.dashedLine);
-        quadraticCtx.stroke();        
+        quadraticCtx.stroke();      
+        
+        chunkOfCode = `\n\n// draw quadratic curve\n`+
+        `ctx.beginPath();\n`+        
+        `ctx.moveTo(${x1}, ${y1});\n`+
+        `ctx.quadraticCurveTo(${x3}, ${y3}, ${x2}, ${y2});\n`+
+        `ctx.moveTo(${x3}, ${y3});\n`+
+        `ctx.closePath();\n`+
+        `${setCodeStyle(toolSettings.drawingWidth, drawingColor, toolSettings.dashedLine)}`+ 
+        `ctx.stroke();\n`;
     } // end of drawQuadratic
 
     addPositioner(workTop, 3, [[100,150], [280,150], [190,100]]);
@@ -1502,7 +1511,16 @@ function setCubic() {
         cubicCtx.lineWidth = toolSettings.drawingWidth;
         cubicCtx.strokeStyle = drawingColor;
         cubicCtx.setLineDash(toolSettings.dashedLine);
-        cubicCtx.stroke();        
+        cubicCtx.stroke();       
+        
+        chunkOfCode = `\n\n// draw cubic curve\n`+
+        `ctx.beginPath();\n`+        
+        `ctx.moveTo(${x1}, ${y1});\n`+
+        `ctx.bezierCurveTo(${x2}, ${y2}, ${x3}, ${y3}, ${x4}, ${y4});\n`+       
+        `ctx.moveTo(${x4}, ${y4});\n`+
+        `ctx.closePath();\n`+
+        `${setCodeStyle(toolSettings.drawingWidth, drawingColor, toolSettings.dashedLine)}`+ 
+        `ctx.stroke();\n`;
     } // end of drawCubic
 
     addPositioner(workTop, 4, [[100,150], [100,50], [280,250], [280, 150]]);
