@@ -1747,6 +1747,7 @@ function setPolygon() {
         if (!context) polyCtx.clearRect(0, 0, workCanvas.width, workCanvas. height);
         
         // draw polygon
+        chunkOfCode = `\n\n// draw polygon\nctx.beginPath();\n`;
         
         polyCtx.beginPath();                
         for (let i = 0; i < edges; i++) {           
@@ -1757,6 +1758,7 @@ function setPolygon() {
                 
 
             polyCtx.moveTo(x, y);
+            chunkOfCode += `ctx.moveTo(${x}, ${y});\n`;
             if (i === edges - 1) {                
                 a = Number(positioners[0].style.left.match(/\d+/)) + 4;
                 b = Number(positioners[0].style.top.match(/\d+/)) + 4;
@@ -1766,12 +1768,17 @@ function setPolygon() {
                 b = Number(positioners[i + 1].style.top.match(/\d+/)) + 4;
             }
             polyCtx.lineTo(a, b);
+            chunkOfCode += `ctx.lineTo(${a}, ${b});\n`;
         } // end of for
         polyCtx.closePath();        
         polyCtx.lineWidth = toolSettings.drawingWidth;
         polyCtx.strokeStyle = drawingColor;
         polyCtx.setLineDash(toolSettings.dashedLine);
         polyCtx.stroke();        
+
+        chunkOfCode += `ctx.closePath();\n`+
+        `${setCodeStyle(toolSettings.drawingWidth, drawingColor, toolSettings.dashedLine)}`+ 
+        `ctx.stroke();\n`
     } // end of drawPolygon
         
     switch(edges) {
