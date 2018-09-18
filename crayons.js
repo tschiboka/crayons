@@ -434,7 +434,7 @@ function anyShapeDrawing(positionerNum, drawingFunction) {
     // helper Yes and No's functionality is the same for all the tools
     helperYes.addEventListener("click", () => { 
         drawingFunction(ctx);
-        code.push(chunkOfCode.replace(/\*/g, e => e = "\n")); // push code and format it with * char        
+        code.push(chunkOfCode); // push code when drawing is confirmed       
     });
     
     helperNo.addEventListener("click", () => { disableIcons = false; closeWorkTop(); });
@@ -621,21 +621,21 @@ function setCodeStyle(width, color, dash) {
 
 
         if (prevWidth != width) {
-            appendings += `ctx.lineWidth = ${width};*`;
+            appendings += `ctx.lineWidth = ${width};\n`;
         } // end of if width has changed
 
         if (prevColor != color) {
-            appendings += `ctx.strokeStyle = ${color};*`;
+            appendings += `ctx.strokeStyle = ${color};\n`;
         } // end of if color has changed
 
         if (prevDash !== `[${dash}]`) {    
-            appendings += `ctx.setLineDash([${dash}]);*`;
+            appendings += `ctx.setLineDash([${dash}]);\n`;
         } // end of if dashes have changed 
     } // end of if this is not the first canvas code
     else {
-        appendings += `ctx.lineWidth = ${width};*`;
-        appendings += `ctx.strokeStyle = ${color};*`;
-        appendings += `ctx.setLineDash([${dash}]);*`;
+        appendings += `ctx.lineWidth = ${width};\n`;
+        appendings += `ctx.strokeStyle = ${color};\n`;
+        appendings += `ctx.setLineDash([${dash}]);\n`;
     } // end of if code is still empty 
     return appendings;
 } // end of setCodeStyle
@@ -679,18 +679,17 @@ function setTriangle() {
         triangleCtx.stroke();        
 
         // fill the current code chunk
-        chunkOfCode = `**// draw triangle*`+
-            `ctx.beginPath();*`+
-            `ctx.moveTo(${x1}, ${y1});*`+
-            `ctx.lineTo(${x2}, ${y2});*`+
-            `ctx.moveTo(${x2}, ${y2});*`+
-            `ctx.lineTo(${x3}, ${y3});*`+
-            `ctx.moveTo(${x3}, ${y3});*`+
-            `ctx.lineTo(${x1}, ${y1});*`+
-            `ctx.closePath();*`+
+        chunkOfCode = `\n\n// draw triangle\n`+
+            `ctx.beginPath();\n`+
+            `ctx.moveTo(${x1}, ${y1});\n`+
+            `ctx.lineTo(${x2}, ${y2});\n`+
+            `ctx.moveTo(${x2}, ${y2});\n`+
+            `ctx.lineTo(${x3}, ${y3});\n`+
+            `ctx.moveTo(${x3}, ${y3});\n`+
+            `ctx.lineTo(${x1}, ${y1});\n`+
+            `ctx.closePath();\n`+
             `${setCodeStyle(toolSettings.drawingWidth, drawingColor, toolSettings.dashedLine)}`+
-            `ctx.stroke();*`;         
-
+            `ctx.stroke();\n`;
     } // end of drawTriangle
 
     addPositioner(workTop, 3, [[180,50], [50,250], [330,250]]);
@@ -741,19 +740,19 @@ function setSquare() {
         squareCtx.setLineDash(toolSettings.dashedLine);
         squareCtx.stroke();  
 
-        chunkOfCode = `**// draw square*`+
-        `ctx.beginPath();*`+
-        `ctx.moveTo(${x1}, ${y1 - (y1 < y2 ? W : -W)});*`+
-        `ctx.lineTo(${x2}, ${y2});*`+
-        `ctx.moveTo(${x2 - (x2 < x3 ? W : -W)}, ${y2});*`+
-        `ctx.lineTo(${x3}, ${y3});*`+
-        `ctx.moveTo(${x3}, ${y3 + (y3 > y1 ? W : -W)});*`+
-        `ctx.lineTo(${x4}, ${y4});*`+
-        `ctx.moveTo(${x4 + (x4 > x2 ? W : -W)}, ${y4});*`+
-        `ctx.lineTo(${x1}, ${y1});*`+
-        `ctx.closePath();*`+
+        chunkOfCode = `\n\n// draw square\n`+
+        `ctx.beginPath();\n`+
+        `ctx.moveTo(${x1}, ${y1 - (y1 < y2 ? W : -W)});\n`+
+        `ctx.lineTo(${x2}, ${y2});\n`+
+        `ctx.moveTo(${x2 - (x2 < x3 ? W : -W)}, ${y2});\n`+
+        `ctx.lineTo(${x3}, ${y3});\n`+
+        `ctx.moveTo(${x3}, ${y3 + (y3 > y1 ? W : -W)});\n`+
+        `ctx.lineTo(${x4}, ${y4});\n`+
+        `ctx.moveTo(${x4 + (x4 > x2 ? W : -W)}, ${y4});\n`+
+        `ctx.lineTo(${x1}, ${y1});\n`+
+        `ctx.closePath();\n`+
         `${setCodeStyle(toolSettings.drawingWidth, drawingColor, toolSettings.dashedLine)}`+
-        `ctx.stroke();*`;
+        `ctx.stroke();\n`;
 
     } // end of drawSquare
 
@@ -803,19 +802,19 @@ function setRectangle() {
         rectangleCtx.setLineDash(toolSettings.dashedLine);
         rectangleCtx.stroke();  
 
-        chunkOfCode = `**// draw rectangle*`+
-        `ctx.beginPath();*`+
-        `ctx.moveTo(${x1}, ${y1 - (y1 < y2 ? W : -W)});*`+  
-        `ctx.lineTo(${x2}, ${y2});*`+
-        `ctx.moveTo(${x2 - (x2 < x3 ? W : -W)}, ${y2});*`+ 
-        `ctx.lineTo(${x3}, ${y3});*`+
-        `ctx.moveTo(${x3}, ${y3 + (y3 > y1 ? W : -W)});*`+  
-        `ctx.lineTo(${x4}, ${y4});*`+
-        `ctx.moveTo(${x4 + (x4 > x2 ? W : -W)}, ${y4});*`+  
-        `ctx.lineTo(${x1}, ${y1});*`+
-        `ctx.closePath();*`+
+        chunkOfCode = `\n\n// draw rectangle\n`+
+        `ctx.beginPath();\n`+
+        `ctx.moveTo(${x1}, ${y1 - (y1 < y2 ? W : -W)});\n`+  
+        `ctx.lineTo(${x2}, ${y2});\n`+
+        `ctx.moveTo(${x2 - (x2 < x3 ? W : -W)}, ${y2});\n`+ 
+        `ctx.lineTo(${x3}, ${y3});\n`+
+        `ctx.moveTo(${x3}, ${y3 + (y3 > y1 ? W : -W)});\n`+  
+        `ctx.lineTo(${x4}, ${y4});\n`+
+        `ctx.moveTo(${x4 + (x4 > x2 ? W : -W)}, ${y4});\n`+  
+        `ctx.lineTo(${x1}, ${y1});\n`+
+        `ctx.closePath();\n`+
         `${setCodeStyle(toolSettings.drawingWidth, drawingColor, toolSettings.dashedLine)}`+
-        `ctx.stroke();*`;  
+        `ctx.stroke();\n`;  
 
     } // end of drawRectangle
     
@@ -891,7 +890,41 @@ function setRoundedRectangle() {
         roundedRectangleCtx.lineWidth = toolSettings.drawingWidth;
         roundedRectangleCtx.strokeStyle = drawingColor;
         roundedRectangleCtx.setLineDash(toolSettings.dashedLine);
-        roundedRectangleCtx.stroke();          
+        roundedRectangleCtx.stroke();   
+        
+
+        // set code for translation, the very same logic as the drawing was
+        chunkOfCode = `\n\n// draw rounded rectangle\n`+
+        `ctx.beginPath();\n`;
+        
+        if (!SEL[0]) {                                                                            
+            chunkOfCode += R >= 0 ? `ctx.arc(${x1 + R}, ${y1 + R}, ${R}, Math.PI, Math.PI * 1.5, false);\n`    
+                                  : `ctx.arc(${x1}, ${y1}, ${Math.abs(R)}, 0, Math.PI * 0.5, false);\n`;      
+        } // corner 1 code
+        chunkOfCode += `ctx.moveTo(${x1}, ${y1 + (!SEL[0] ? Math.abs(R) : 0) - W(y1<y2)});\n`+
+        `ctx.lineTo(${x2}, ${y2 - (!SEL[1] ? Math.abs(R) : 0)});\n`;
+        if (!SEL[1]) {                                     
+            chunkOfCode += R >= 0 ? `ctx.arc(${x2 + R}, ${y2 - R}, ${R}, Math.PI, Math.PI * 0.5, true);\n`     
+                                  : `ctx.arc(${x2}, ${y2}, ${Math.abs(R)}, Math.PI * 1.5, 0, false);\n`;       
+        } // corner 2 code
+        chunkOfCode += `ctx.moveTo(${x2 + (!SEL[1] ? Math.abs(R) : 0) - W(x2<x3)}, ${y2});\n`+
+        `ctx.lineTo(${x3 - (!SEL[2] ? Math.abs(R) : 0)}, ${y3});\n`;              
+        if (!SEL[2]) {                                                                 
+            chunkOfCode += R >= 0 ? `ctx.arc(${x3 - R}, ${y3 - R}, ${R}, Math.PI * 0.5, 0, true);\n`
+                                  : `ctx.arc(${x3}, ${y3}, ${Math.abs(R)}, Math.PI, Math.PI * 1.5 , false);\n`; 
+        } // corner 3 code
+        chunkOfCode += `ctx.moveTo(${x3}, ${y3 - (!SEL[2] ? Math.abs(R) : 0) + W(y3>y4)});\n`+ 
+        `ctx.lineTo(${x4}, ${y4 + (!SEL[3] ? Math.abs(R) : 0)});\n`;        
+        if (!SEL[3]) { 
+            chunkOfCode += R >= 0 ? `ctx.arc(${x4 - R}, ${y4 + R}, ${R}, Math.PI * 0, Math.PI * 1.5, true);\n`
+                                  : `ctx.arc(${x4}, ${y4}, ${Math.abs(R)}, Math.PI * 0.5, Math.PI, false);\n`;          
+        } // corner 4 code
+        chunkOfCode += ``+
+        `ctx.moveTo(${x4 - (!SEL[3] ? Math.abs(R) : 0) + W(x4>x1)}, ${y4});\n`+
+        `ctx.lineTo(${x1 + (!SEL[0] ? Math.abs(R) : 0) - W(x1<x4)}, ${y1});\n`+
+        `ctx.closePath();\n`+
+        `${setCodeStyle(toolSettings.drawingWidth, drawingColor, toolSettings.dashedLine)}`+
+        `ctx.stroke();\n`  
     } // end of drawRoundedRectangle
     
     addPositioner(workTop, 4, [[100,100], [100,200], [280,200], [280,100]]);
