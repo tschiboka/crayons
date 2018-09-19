@@ -1837,3 +1837,6 @@ function drawGridIconAndGrid() {
     gridCtx.lineWidth = 1;
     gridCtx.stroke();
 } // end of drawgridIcon
+
+
+// just for fun
