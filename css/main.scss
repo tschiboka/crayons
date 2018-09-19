@@ -1,3 +1,5 @@
+
+
 $border: 1px solid var(--border-color);
 
 $colors: (
@@ -11,3 +13,29 @@ $colors: (
     @return map-get($colors, $color-name);
 }
 
+body {
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    background-color: color(bg);
+
+    #container {    
+        display: block;
+        margin: auto;
+        margin-top: 5%;     
+    }
+
+    #window-box {
+        position: absolute;    
+        height: 320px; 
+        width: 500px;    
+        left: 50%;
+        top: 0;             
+        margin-left: -210px;
+        margin-top: 5%;
+        border: 1px outset black;
+        border-radius: 5px;
+        box-shadow: 5px 5px 4px rgba(0 ,0 ,0 ,0.9);
+        background: var(--black);      
+    }
+}
