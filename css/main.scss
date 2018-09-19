@@ -1,0 +1,13 @@
+$border: 1px solid var(--border-color);
+
+$colors: (
+    bg: #c8c8ff,
+    dark: #000203,
+    icon: #1a97e1,
+    border: rgba(104, 201, 233, 0.25)
+);
+
+@function color($color-name) {
+    @return map-get($colors, $color-name);
+}
+
